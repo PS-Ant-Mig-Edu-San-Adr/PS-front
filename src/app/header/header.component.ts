@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventEmitter, Output } from '@angular/core';
 import { LoginService } from '../login/login.component.service';
 import { RegisterService } from '../register/register.component.service';
 
@@ -15,8 +14,6 @@ import { RegisterService } from '../register/register.component.service';
 })
 export class HeaderComponent {
 
-  @Output() openLogin = new EventEmitter<void>();
-  @Output() openRegister = new EventEmitter<void>();
   constructor(private loginService: LoginService, private registerService: RegisterService) {}
   isLoggedIn: boolean = false;
   
@@ -33,23 +30,16 @@ export class HeaderComponent {
     });
   }
 
-  
+  login() {
+    this.loginService.openLoginPopup();
+  }
 
+  register() {
+    this.registerService.openRegisterPopup();
+  }
 
-    login() {
-      // Lógica para el botón de login
-      console.log('Login clicked');
-      this.openLogin.emit();
-    }
-  
-    register() {
-      // Lógica para el botón de register
-      console.log('Register clicked');
-      this.openRegister.emit();
-    }
-
-    isUserLoggedIn(): boolean {
-      return this.isLoggedIn;
-    }
+  isUserLoggedIn(): boolean {
+    return this.isLoggedIn;
+  }
 
 }

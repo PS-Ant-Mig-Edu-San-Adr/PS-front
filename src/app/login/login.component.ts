@@ -24,7 +24,7 @@ export class LoginComponent{
   }
 
   openRegisterPopup() {
-    this.closeLoginPopup();
+    this.loginService.closeLoginPopup();
     this.registerService.openRegisterPopup();
   }
 }
