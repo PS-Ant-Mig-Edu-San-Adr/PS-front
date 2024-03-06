@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SharedService } from './sharedPopups.service';
+import { SharedPopupsService } from './sharedPopups.service';
 
 describe('SharedService', () => {
-  let service: SharedService;
+  let service: SharedPopupsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SharedService);
+    service = TestBed.inject(SharedPopupsService);
   });
 
   it('should be created', () => {
