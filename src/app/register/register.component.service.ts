@@ -4,28 +4,28 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class RegisterService {
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   isOpen$ = this.isOpenSubject.asObservable();
 
-  private loginStatusSubject = new BehaviorSubject<boolean>(false);
-  loginStatus$ = this.loginStatusSubject.asObservable();
+  private registerStatusSubject = new BehaviorSubject<boolean>(false);
+  registerStatus$ = this.registerStatusSubject.asObservable();
 
-  openLoginPopup() {
+  openRegisterPopup() {
     this.isOpenSubject.next(true);
   }
 
-  closeLoginPopup() {
+  closeRegisterPopup() {
     this.isOpenSubject.next(false);
   }
 
-  login() {
+  register() {
     const isLoginSuccessful = true;
-    console.log('Login successful: ', isLoginSuccessful);
-    this.loginStatusSubject.next(isLoginSuccessful);
+    console.log('Register successful: ', isLoginSuccessful);
+    this.registerStatusSubject.next(isLoginSuccessful);
 
     if (isLoginSuccessful) {
-      this.closeLoginPopup();
+      this.closeRegisterPopup();
     }
   }
 }

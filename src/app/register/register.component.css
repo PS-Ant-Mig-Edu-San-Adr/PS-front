@@ -5,9 +5,14 @@
     max-width: 350px;
     padding: 20px 30px;
     border-radius: 20px;
-    position: relative;
-    background-color: var(--mainColorDarker);
+    background-color: #8a705d;
     color: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: default;
+    z-index: 9999; 
 }
 
 

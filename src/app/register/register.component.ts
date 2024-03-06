@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RegisterService } from './register.component.service';
 
 @Component({
   selector: 'app-register',
@@ -9,4 +10,13 @@ import { Component } from '@angular/core';
 })
 export class RegisterComponent {
 
+  constructor(private registerService: RegisterService) {}
+
+  closeLoginPopup() {
+    this.registerService.closeRegisterPopup();
+  }
+
+  checkLogin() {
+    this.registerService.register();
+  }
 }

@@ -1,6 +1,6 @@
 
 <div class="form-container-login">
-    <button class="close-button-login">X</button>
+    <button (click)="closeLoginPopup()" class="close-button-login">X</button>
     <p class="title-login">¡Bienvenido de nuevo!</p>
     <div class="form-login">
         <input type="email" class="input-login" placeholder="Email">
@@ -8,7 +8,7 @@
         <p class="page-link-login">
             <span class="page-link-label-login">¿Olvidaste la contraseña?</span>
         </p>
-        <button class="form-btn-login">Iniciar Sesión</button>
+        <button (click)="checkLogin()" class="form-btn-login">Iniciar Sesión</button>
     </div>
     <p class="sign-up-label-login">
         ¿No tienes cuenta? <span class="sign-up-link-login">Registrarse</span>
