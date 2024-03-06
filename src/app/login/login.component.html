@@ -5,13 +5,10 @@
     <div class="form-login">
         <input type="email" class="input-login" placeholder="Email">
         <input type="password" class="input-login" placeholder="Contraseña">
-        <p class="page-link-login">
-            <span class="page-link-label-login">¿Olvidaste la contraseña?</span>
-        </p>
         <button (click)="checkLogin()" class="form-btn-login">Iniciar Sesión</button>
     </div>
     <p class="sign-up-label-login">
-        ¿No tienes cuenta? <span class="sign-up-link-login">Registrarse</span>
+        ¿No tienes cuenta? <span (click)="openRegisterPopup()"  class="sign-up-link-login">Registrarse</span>
     </p>
     <div class="buttons-container-login">
         <div class="apple-login-button-login">

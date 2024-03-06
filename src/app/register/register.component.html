@@ -1,5 +1,5 @@
 <div class="form">
-    <button class="close-button">X</button>
+    <button (click)="closeRegisterPopup()" class="close-button">X</button>
     <p class="title">¡Regístrate!</p>
     <p class="message">Regístrate y obtén acceso a nuestra plataforma.</p>
         <div class="flex">
@@ -27,6 +27,6 @@
         <input class="input" type="password" placeholder="" required="">
         <span>Confirmar contraseña</span>
     </label>
-    <button class="submit">Enviar</button>
-    <p class="signin">¿Ya tienes una cuenta? <a>Iniciar sesión</a> </p>
+    <button (click)="checkRegister()" class="submit">Enviar</button>
+    <p class="signin">¿Ya tienes una cuenta? <a (click)="openLoginPopup()">Iniciar sesión</a> </p>
 </div>

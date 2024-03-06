@@ -20,11 +20,11 @@ export class RegisterService {
   }
 
   register() {
-    const isLoginSuccessful = true;
-    console.log('Register successful: ', isLoginSuccessful);
-    this.registerStatusSubject.next(isLoginSuccessful);
+    const isRegisterSuccessful = true;
+    console.log('Register successful: ', isRegisterSuccessful);
+    this.registerStatusSubject.next(isRegisterSuccessful);
 
-    if (isLoginSuccessful) {
+    if (isRegisterSuccessful) {
       this.closeRegisterPopup();
     }
   }

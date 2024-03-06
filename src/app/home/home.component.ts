@@ -23,10 +23,22 @@ export class HomeComponent{
   constructor(public loginService: LoginService, public registerService: RegisterService) {}
 
   handleOpenLoginEvent = () => {
+    const wrapperContainer = document.getElementById('wrapper-container');
+
+    if (wrapperContainer) {
+      wrapperContainer.style.filter = 'blur(5px)';
+      wrapperContainer.style.pointerEvents = 'none';
+    }
+
     this.loginService.openLoginPopup();
   }
 
   handleOpenRegisterEvent = () => {
+    const wrapperContainer = document.getElementById('wrapper-container');
+    if (wrapperContainer) {
+      wrapperContainer.style.filter = 'blur(5px)';
+      wrapperContainer.style.pointerEvents = 'none';
+    }
     this.registerService.openRegisterPopup();
   }
 }
