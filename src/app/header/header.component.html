@@ -1,0 +1,22 @@
+<header class="header-container">
+    <div class="left-container">
+      <h1>TIMIFY</h1>
+      <nav>
+        <a href="">Calendario</a>
+        <a href="">Horarios</a>
+        <a href="">Organizaciones</a>
+      </nav>
+    </div>
+    
+    <!-- Modo: Usuario loggeado -->
+    <div *ngIf="isUserLoggedIn()" class="profile-container">
+      <img src="https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=1380&t=st=1709673019~exp=1709673619~hmac=9d504ec5aa5c1cd54b6b670aa754df8dd5c68099f78b9fd2241712c0eabd41f0" alt="Logo">
+    </div>
+    
+    <!-- Modo: Usuario no loggeado -->
+    <div *ngIf="!isUserLoggedIn()" class="buttonsLoggin">
+      <button (click)="login()">Login</button>
+      <button (click)="register()">Register</button>
+    </div>
+  </header>
+  

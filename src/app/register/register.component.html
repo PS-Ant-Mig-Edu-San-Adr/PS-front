@@ -1,0 +1,35 @@
+<head>
+    <link rel="stylesheet" href="../src/css/register.css">
+</head>
+<div class="form">
+    <button class="close-button" onclick="hideRegister()">X</button>
+    <p class="title">¡Regístrate!</p>
+    <p class="message">Regístrate y obtén acceso a nuestra plataforma.</p>
+        <div class="flex">
+        <label>
+            <input class="input" type="text" placeholder="" required="">
+            <span>Nombre</span>
+        </label>
+
+        <label>
+            <input class="input" type="text" placeholder="" required="">
+            <span>Apellidos</span>
+        </label>
+    </div>  
+            
+    <label>
+        <input class="input" type="email" placeholder="" required="">
+        <span>Email</span>
+    </label> 
+        
+    <label>
+        <input class="input" type="password" placeholder="" required="">
+        <span>Contraseña</span>
+    </label>
+    <label>
+        <input class="input" type="password" placeholder="" required="">
+        <span>Confirmar contraseña</span>
+    </label>
+    <button class="submit" onclick="successLogin()">Enviar</button>
+    <p class="signin">¿Ya tienes una cuenta? <a onclick="hideRegister(), showLogin()">Iniciar sesión</a> </p>
+</div>

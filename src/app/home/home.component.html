@@ -1,0 +1,13 @@
+<div>
+    <div class="popups">
+        <ng-container *ngIf="loginService.isOpen$ | async">
+            <app-login></app-login>
+        </ng-container>
+    </div>
+    <div class="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+        <app-header (openLogin)="handleOpenLoginEvent()"></app-header>
+        <div class="home-content">
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
