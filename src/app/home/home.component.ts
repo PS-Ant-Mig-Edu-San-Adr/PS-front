@@ -1,6 +1,6 @@
 // home.component.ts
 import { Component, OnInit } from '@angular/core';
-import { SharedPopupsService } from '../sharedPopups.service';
+import { SharedPopupsService } from '../generalServices/sharedPopups.service';
 import { HeaderComponent } from '../header/header.component';
 import { LoginComponent } from '../login/login.component';
 import { FooterComponent } from '../footer/footer.component';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Renderer2, ElementRef } from '@angular/core';
-import { LoginService } from './login/login.component.service';
-import { RegisterService } from './register/register.component.service';
+import { LoginService } from '../login/login.component.service';
+import { RegisterService } from '../register/register.component.service';
 
 @Injectable({
   providedIn: 'root',

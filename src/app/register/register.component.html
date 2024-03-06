@@ -4,27 +4,32 @@
     <p class="message">Regístrate y obtén acceso a nuestra plataforma.</p>
         <div class="flex">
         <label>
-            <input class="input" type="text" placeholder="" required="">
+            <input id="first-name" class="input" type="text" placeholder="" required="">
             <span>Nombre</span>
         </label>
 
         <label>
-            <input class="input" type="text" placeholder="" required="">
+            <input id="last-name" class="input" type="text" placeholder="" required="">
             <span>Apellidos</span>
         </label>
     </div>  
+
+    <label>
+        <input id="username" class="input" type="text" placeholder="" required="">
+        <span>Usuario</span>
+    </label> 
             
     <label>
-        <input class="input" type="email" placeholder="" required="">
+        <input id="email" class="input" type="email" placeholder="" required="">
         <span>Email</span>
     </label> 
         
     <label>
-        <input class="input" type="password" placeholder="" required="">
+        <input id="password" class="input" type="password" placeholder="" required="">
         <span>Contraseña</span>
     </label>
     <label>
-        <input class="input" type="password" placeholder="" required="">
+        <input id="confirm-password" class="input" type="password" placeholder="" required="">
         <span>Confirmar contraseña</span>
     </label>
     <button (click)="checkRegister()" class="submit">Enviar</button>
