@@ -1,0 +1,60 @@
+<div>
+    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
+    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+        <app-header></app-header>
+
+        <div class="admin-container">
+            <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
+            <div class="admin-organizations-content-container">
+                <app-admin-buttons></app-admin-buttons>
+                <div class="admin-content">
+                    <div class="header-admin-organizations-container">
+                        <div class="filter">
+                            <p><strong>ORGANIZACIONES</strong></p>
+                            <select name="" id=""></select>
+                        </div>
+                        <button>AÑADIR GRUPO</button>
+                    </div>
+                    <div class="event-description">
+                        <div class="event-data">
+                            <p>Titulo</p>
+                            <input type="text" name="" id=""  placeholder="ej.: Producción de Software">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                        <div class="event-data">
+                            <p>Descripción</p>
+                            <input type="text" name="" id=""  placeholder="ej.: ...">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                        <div class="event-data">
+                            <p>Correo electrónico</p>
+                            <input type="email" name="" id=""  placeholder="ej.:pepito@gmail.com">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                        <div class="event-data">
+                            <p>Dominio</p>
+                            <input type="url" name="" id=""  placeholder="ej.:timify.es">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                        <div class="event-data">
+                            <p>Contacto</p>
+                            <input type="text" name="" id=""  placeholder="ej.: +XX XXXXXXXXX">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                        <div class="event-data">
+                            <p>Privacidad</p>
+                            <input type="text" name="" id=""  placeholder="ej.: privado">
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button>AÑADIR GRUPO</button>
+                        <button>ENVIAR</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
