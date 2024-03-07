@@ -1,0 +1,29 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1
+}
+
+.admin-container h1 {
+    color: var(--mainColor);
+    font-size: xx-large;
+    align-self: center;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.admin-add-event-content-container {
+    align-self: center;
+    width: 80%;
+    border: 1px solid  #ccc;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 24px;
+}
+
+.event-filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

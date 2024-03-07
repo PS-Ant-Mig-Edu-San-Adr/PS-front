@@ -1,0 +1,31 @@
+<div>
+    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
+    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+        <app-header></app-header>
+
+        <div class="admin-container">
+            <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
+            <div class="admin-add-event-content-container">
+                <app-admin-buttons></app-admin-buttons>
+                <div class="admin-content">
+                    <div class="event-filter">
+                        <div class="filter">
+                            <p>ORGANIZACIONES</p>
+                            <select name="" id=""></select>
+                        </div>
+                        <div class="filter">
+                            <p>ACTIVIDADES</p>
+                            <select name="" id=""></select>
+                        </div>
+                        <div class="filter">
+                            <p>GRUPOS</p>
+                            <select name="" id=""></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 footer {
-    background-color: #504136;
-    color: white;
+    background-color: var(--mainColor);
+    color: var(--mainTextWhite);
     padding: 50px 20px;
 }
 
