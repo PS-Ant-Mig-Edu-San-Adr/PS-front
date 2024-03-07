@@ -13,17 +13,85 @@
 }
 
 .admin-add-event-content-container {
-    align-self: center;
-    width: 80%;
-    border: 1px solid  #ccc;
     border-radius: 20px;
     display: flex;
     flex-direction: row;
     margin-bottom: 24px;
+    align-items: flex-start;
+}
+
+.admin-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
 }
 
 .event-filter {
     display: flex;
+    margin-top: 16px;
+    position: relative;
+}
+
+.event-filter > *:nth-child(3) {
+    position: absolute;
+    right: 0;
+}
+
+.event-filter > *:nth-child(2) {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.filter {
+    text-align: center;
+    margin-right: 5%;
+}
+
+.filter select {
+    margin-top: 8px;
+    width: 200px;
+    height: 30px;
+}
+
+.event-description {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 48px;
+}
+
+.event-data  {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 30%; 
+    align-items: center;
+}
+
+.event-data p {
+    font-size: large;
+}
+
+.event-data input,select {
+    width: 50%;
+    height: 40px;
+}
+
+.buttons {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    justify-content: flex-end;
+    padding: 25px 20px;
+}
+
+.buttons button{
+    color: white;
+    background-color: var(--mainColor);
+    padding: 15px 20px;
+    width: 10%;
 }

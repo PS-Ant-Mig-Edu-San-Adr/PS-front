@@ -9,6 +9,5 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'organizations',  component: OrganizationsComponent},
   { path: 'schedules',  component: SchedulesComponent},
-  { path: 'organizations',  component: OrganizationsComponent},
   { path: 'admin', component: AdminAddEventComponent}
 ];
