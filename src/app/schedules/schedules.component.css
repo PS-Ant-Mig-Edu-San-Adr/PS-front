@@ -1,0 +1,27 @@
+.schedules-content{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.schedules-selector{
+    display: flex;
+    flex-direction: row;
+    padding: 30px 20px;
+    justify-content: flex-end;
+    gap: 50px;
+    align-items: center;
+}
+
+.schedules-selector h2{
+    font-size: large;
+    font-weight: 800;
+}
+
+.schedules-selector select{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+    min-width: 200px;
+}
