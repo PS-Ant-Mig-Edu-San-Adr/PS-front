@@ -1,0 +1,45 @@
+<div class="calendario">
+    <div class="navegacion">
+        <div class="flecha" (click)="cambiarMes(-1)"><i class="fas fa-arrow-left"></i></div>
+        <span>{{ mesActualNombre }} {{ anoActual }}</span>
+        <div class="flecha" (click)="cambiarMes(1)"><i class="fas fa-arrow-right"></i></div>
+        <div class="selector-vista">
+            <button [class.active]="vistaActual === 'mes'" (click)="cambiarVista('mes')">Vista Mensual</button>
+            <button [class.active]="vistaActual === 'semana'" (click)="cambiarVista('semana')">Vista Semanal</button>
+            <button [class.active]="vistaActual === 'dia'" (click)="cambiarVista('dia')">Vista Diaria</button>
+        </div>
+    </div>
+    <div class="mes">
+
+        <div *ngIf="vistaActual === 'mes'" class="dias-semana">
+            <div *ngFor="let diaSemana of diasSemana">{{ diaSemana }}</div>
+        </div>
+
+        <div *ngIf="vistaActual === 'dia'" class="vista-dia">
+            <div class="titulo-dia">{{ diasSemana[fechaActual.getDay()] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
+            <div class="horas-dia">
+              <div *ngFor="let hora of horas" class="hora-dia">
+                {{ hora }}
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="vistaActual === 'semana'" class="vista-semana">
+            <div class="fila">
+              <div class="celda hora"></div>
+              <div *ngFor="let diaSemana of diasSemana" class="celda">{{ diaSemana }}</div>
+            </div>
+            <div *ngFor="let hora of horas" class="fila">
+              <div class="celda hora">{{ hora }}</div>
+              <div *ngFor="let dia of diasSemana" class="contenido"></div>
+            </div>
+          </div>
+          
+          
+        <div *ngIf="vistaActual === 'mes'" class="dias">
+            <div *ngFor="let dia of diasMes" class="dia">{{ dia }}</div>
+        </div>
+
+    </div>
+</div>
+
