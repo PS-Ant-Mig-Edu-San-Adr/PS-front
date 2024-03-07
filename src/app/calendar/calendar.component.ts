@@ -49,16 +49,21 @@ export class CalendarComponent implements OnInit {
     const eventoInicio = evento.inicio;
     const eventoFin = evento.fin;
     const eventoHora = eventoInicio.getHours();
-  
+    let horaString: string;
+
     switch (vista) {
       case 'dia':
         // Suponiendo que 'hora' está en formato 'HH:00'
-        const [horaString] = tiempo.split(':');
+        horaString = tiempo.split(':');
         return eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoHora;
       case 'semana':
-        // 'diaIndex' corresponde al índice de 'diasSemana', se asume que 'hora' está en formato 'HH:00'
-        const diaSemana = diaIndex !== undefined ? new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), this.diasMes[diaIndex]).getDay() : undefined;
-        return diaSemana !== undefined && eventoInicio.getDay() === diaSemana && eventoHora === parseInt(tiempo, 10);
+        //comprueba si el dia esta en la semana de la fecha actual y si esta entre la hora de inicio y fin del evento
+        horaString = tiempo.split(':');
+        const diasSemana = this.fechaActual.getDay();
+        const primerDiaSemana = this.fechaActual.getDate() - diasSemana;
+        const ultimoDiaSemana = primerDiaSemana + 6;
+        return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10)+1 && eventoInicio.getDay() === diaIndex;
+        
       case 'mes':
         // 'tiempo' es el día del mes
         return eventoInicio.getDate() === tiempo;
