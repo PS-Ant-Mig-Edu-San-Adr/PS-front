@@ -82,3 +82,7 @@ a {
   input, button {
     border: none;
   }
+
+  .classType .fc-header-toolbar{
+    display: none;
+}

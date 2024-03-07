@@ -25,3 +25,11 @@
     background-color: #f4f4f4;
     min-width: 200px;
 }
+
+.calendar-container{
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 150px;
+}

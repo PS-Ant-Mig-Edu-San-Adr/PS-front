@@ -7,11 +7,12 @@ import { LoginService } from '../login/login.component.service';
 import { RegisterService } from '../register/register.component.service';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
+import { CalendarComponent } from '../calendar/calendar.component';
 
 @Component({
   selector: 'app-schedules',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent],
+  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, CalendarComponent],
   providers: [SharedPopupsService],
   templateUrl: './schedules.component.html',
   styleUrl: './schedules.component.css'
