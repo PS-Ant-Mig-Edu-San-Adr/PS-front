@@ -25,6 +25,7 @@
     flex-direction: row;
     width: 100%;
 }
+
 .admin-content {
     display: flex;
     flex-direction: column;
