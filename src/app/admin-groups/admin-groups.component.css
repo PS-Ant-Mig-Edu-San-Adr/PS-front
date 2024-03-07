@@ -12,7 +12,7 @@
     margin-bottom: 24px;
 }
 
-.admin-organizations-content-container {
+.admin-add-event-content-container {
     border-radius: 20px;
     display: flex;
     flex-direction: row;
@@ -26,13 +26,24 @@
     flex-direction: column;
     margin-left: 5%;
     padding: 15px 20px;
-
+    min-height: 100vh;
 }
 
-.header-admin-organizations-container {
+.event-filter {
     display: flex;
     margin-top: 16px;
-    justify-content: space-between;
+    position: relative;
+}
+
+.event-filter > *:nth-child(3) {
+    position: absolute;
+    right: 0;
+}
+
+.event-filter > *:nth-child(2) {
+    position: absolute;
+    left: 0;
+    right: 0;
 }
 
 .filter {
@@ -65,18 +76,20 @@
 .event-data p {
     font-size: large;
 }
-
+.event-data select {
+    width: calc(100% - 20px -  55%);
+}
 .input-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     gap: 20px;
-    width: 40%;
+    width: 70%;
 }
 
 .buttons {
-    margin-top: 40px;
+    margin-top: auto;
     display: flex;
     flex-direction: row;
     gap: 40px;
@@ -99,3 +112,4 @@ button {
 i {
     cursor: pointer;
 }
+

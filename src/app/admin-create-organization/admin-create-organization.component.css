@@ -26,13 +26,12 @@
     flex-direction: column;
     margin-left: 5%;
     padding: 15px 20px;
-
 }
 
-.header-admin-organizations-container {
+.header-admin-create-organizations-container {
     display: flex;
+    justify-content: flex-end;
     margin-top: 16px;
-    justify-content: space-between;
 }
 
 .filter {
@@ -65,14 +64,16 @@
 .event-data p {
     font-size: large;
 }
-
+.event-data select {
+    width: calc(100% - 20px -  55%);
+}
 .input-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     gap: 20px;
-    width: 40%;
+    width: 70%;
 }
 
 .buttons {
