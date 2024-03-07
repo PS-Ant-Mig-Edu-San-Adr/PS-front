@@ -27,6 +27,10 @@
     font-weight: 600;
 }
 
+.left-container nav a {
+    cursor: pointer;
+}
+
 .profile-container {
     width: 80px;
     height: 80px;

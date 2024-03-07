@@ -1,4 +1,3 @@
-// home.component.ts
 import { Component, OnInit } from '@angular/core';
 import { SharedPopupsService } from '../generalServices/sharedPopups.service';
 import { HeaderComponent } from '../header/header.component';
@@ -9,17 +8,15 @@ import { RegisterService } from '../register/register.component.service';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 
-
 @Component({
-  selector: 'app-home',
+  selector: 'app-organizations',
   standalone: true,
   imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent],
   providers: [SharedPopupsService],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  templateUrl: './organizations.component.html',
+  styleUrl: './organizations.component.css'
 })
-
-export class HomeComponent implements OnInit {
+export class OrganizationsComponent implements OnInit {
   constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
 
   ngOnInit() {
