@@ -7,66 +7,70 @@
         <div class="admin-container">
             <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
             <div class="admin-add-event-content-container">
-                <app-admin-buttons></app-admin-buttons>
-                <div class="admin-content">
-                    <div class="event-filter">
-                        <div class="filter">
-                            <p><strong>ORGANIZACIONES</strong></p>
-                            <select name="" id=""></select>
+                <div class="content">
+                    <app-admin-buttons></app-admin-buttons>
+                    <div class="admin-content">
+                        <div class="event-filter">
+                            <div class="filter">
+                                <p><strong>ORGANIZACIONES</strong></p>
+                                <select name="" id=""></select>
+                            </div>
+                            <div class="filter">
+                                <p><strong>ACTIVIDADES</strong></p>
+                                <select name="" id=""></select>
+                            </div>
+                            <div class="filter">
+                                <p><strong>GRUPOS</strong></p>
+                                <select name="" id=""></select>
+                            </div>
                         </div>
-                        <div class="filter">
-                            <p><strong>ACTIVIDADES</strong></p>
-                            <select name="" id=""></select>
+                        <div class="event-description">
+                            <div class="event-data">
+                                <p>Grupos Añadidos</p>
+                                <input type="text" name="" id=""  placeholder="Escriba el id de los grupos">
+                            </div>
+                            <div class="event-data">
+                                <p>Titulo</p>
+                                <input type="text" name="" id=""  placeholder="ej.: Examen Asignatura">
+                            </div>
+                            <div class="event-data">
+                                <p>Descripción</p>
+                                <input type="text" name="" id=""  placeholder="ej.: ...">
+                            </div>
+                            <div class="event-data">
+                                <p>Inicio</p>
+                                <input type="text" name="" id=""  placeholder="ej.:XX/XX/XXXX/XX:XX">
+                            </div>
+                            <div class="event-data">
+                                <p>Final</p>
+                                <input type="text" name="" id=""  placeholder="ej.:XX/XX/XXXX/XX:XX">
+                            </div>
+                            <div class="event-data">
+                                <p>Ubicación</p>
+                                <input type="text" name="" id=""  placeholder="ej.: Facultad de Ingeniería. Lab2-2">
+                            </div>
+                            <div class="event-data">
+                                <p>Notas</p>
+                                <input type="text" name="" id=""  placeholder="ej.: Traer bolígrafo">
+                            </div>
+                            <div class="event-data">
+                                <p>Adjuntar fichero</p>
+                                <div class="input-container">
+                                    <input type="text" name="" id=""  placeholder="ej.: guiaExamen.pdf">
+                                    <i class="fa fa-paperclip"></i>
+                                </div>
+                            </div>
+                            <div class="event-data">
+                                <p>Repetir</p>
+                                <select name="" id="">ej: Semanal</select>
+                            </div>
                         </div>
-                        <div class="filter">
-                            <p><strong>GRUPOS</strong></p>
-                            <select name="" id=""></select>
-                        </div>
-                    </div>
-                    <div class="event-description">
-                        <div class="event-data">
-                            <p>Grupos Añadidos</p>
-                            <input type="text" name="" id=""  placeholder="Escriba el id de los grupos">
-                        </div>
-                        <div class="event-data">
-                            <p>Titulo</p>
-                            <input type="text" name="" id=""  placeholder="ej.: Examen Asignatura">
-                        </div>
-                        <div class="event-data">
-                            <p>Descripción</p>
-                            <input type="text" name="" id=""  placeholder="ej.: ...">
-                        </div>
-                        <div class="event-data">
-                            <p>Inicio</p>
-                            <input type="text" name="" id=""  placeholder="ej.:XX/XX/XXXX/XX:XX">
-                        </div>
-                        <div class="event-data">
-                            <p>Final</p>
-                            <input type="text" name="" id=""  placeholder="ej.:XX/XX/XXXX/XX:XX">
-                        </div>
-                        <div class="event-data">
-                            <p>Ubicación</p>
-                            <input type="text" name="" id=""  placeholder="ej.: Facultad de Ingeniería. Lab2-2">
-                        </div>
-                        <div class="event-data">
-                            <p>Notas</p>
-                            <input type="text" name="" id=""  placeholder="ej.: Traer bolígrafo">
-                        </div>
-                        <div class="event-data">
-                            <p>Adjuntar fichero</p>
-                            <input type="text" name="" id=""  placeholder="ej.: guiaExamen.pdf">
-                        </div>
-                        <div class="event-data">
-                            <p>Repetir</p>
-                            <select name="" id="">ej: Semanal</select>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button>AÑADIR GRUPO</button>
-                        <button>ENVIAR</button>
                     </div>
                 </div>
-                
+                <div class="buttons">
+                    <button>Añadir Grupo</button>
+                    <button>Enviar</button>
+                </div>
             </div>
         </div>
         <app-footer></app-footer>

@@ -15,17 +15,22 @@
 .admin-add-event-content-container {
     border-radius: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-bottom: 24px;
     align-items: flex-start;
 }
 
-.admin-content {
+.content {
+    display: flex;
+    flex-direction: row;
     width: 100%;
+}
+.admin-content {
     display: flex;
     flex-direction: column;
     margin-left: 5%;
     padding: 15px 20px;
+    width: 100%;
 }
 
 .event-filter {
@@ -67,7 +72,7 @@
 .event-data  {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    gap: 100px;
     width: 30%; 
     align-items: center;
 }
@@ -77,8 +82,16 @@
 }
 
 .event-data input,select {
-    width: 50%;
+    width: 60%;
     height: 40px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
 }
 
 .buttons {
@@ -86,14 +99,18 @@
     display: flex;
     flex-direction: row;
     gap: 40px;
+    align-self: self-end;
     justify-content: flex-end;
-
+    padding: 25px 20px;
 }
 
 button {
     color: white;
     background-color: var(--mainColor);
-    width: 15%;
     cursor: pointer;
-    padding: 15px 10px;
+    padding: 15px 20px;
+}
+
+i {
+    cursor: pointer;
 }

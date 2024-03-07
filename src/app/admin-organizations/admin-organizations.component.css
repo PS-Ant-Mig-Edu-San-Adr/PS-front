@@ -15,7 +15,7 @@
 .admin-organizations-content-container {
     border-radius: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-bottom: 24px;
     align-items: flex-start;
 }
@@ -26,7 +26,12 @@
     flex-direction: column;
     margin-left: 5%;
     padding: 15px 20px;
+}
 
+.content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }
 
 .header-admin-organizations-container {
@@ -57,13 +62,18 @@
 .event-data  {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 60%; 
+    gap: 100px;
+    width: 30%; 
     align-items: center;
 }
 
 .event-data p {
     font-size: large;
+}
+
+.event-data input,select {
+    width: 60%;
+    height: 40px;
 }
 
 .input-container {
@@ -72,7 +82,6 @@
     align-items: center;
     justify-content: flex-end;
     gap: 20px;
-    width: 40%;
 }
 
 .buttons {
@@ -80,20 +89,16 @@
     display: flex;
     flex-direction: row;
     gap: 40px;
+    align-self: self-end;
     justify-content: flex-end;
-}
-
-input, select {
-    width: 50%;
-    height: 40px;
+    padding: 25px 20px;
 }
 
 button {
     color: white;
     background-color: var(--mainColor);
-    width: 15%;
     cursor: pointer;
-    padding: 15px 10px;
+    padding: 15px 20px;
 }
 
 i {
