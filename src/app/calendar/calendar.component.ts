@@ -1,6 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
+interface Evento {
+  id: number;
+  titulo: string;
+  inicio: Date;
+  fin: Date;
+  descripcion?: string;
+}
+
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -20,6 +28,15 @@ export class CalendarComponent implements OnInit {
   vistaActual: string = 'mes';
   fechaActual: Date = new Date();
 
+  eventos: Evento[] = [
+    { id: 1, titulo: 'Reunión de equipo', inicio: new Date(2024, 2, 7, 10, 0), fin: new Date(2024, 2, 7, 11, 0), descripcion: 'Reunión semanal del equipo' },
+    { id: 2, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
+    { id: 3, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
+    { id: 4, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
+    { id: 5, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
+    { id: 6, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
+  ];
+
   ngOnInit(): void {
     this.anoActual = this.fechaActual.getFullYear();
     this.mesActual = this.fechaActual.getMonth();
@@ -27,6 +44,29 @@ export class CalendarComponent implements OnInit {
     this.calculateDaysForCalendar();
     this.inicializarHoras();
   }
+
+  seMuestraEvento(evento: Evento, tiempo: any, vista: string, diaIndex?: number): boolean {
+    const eventoInicio = evento.inicio;
+    const eventoFin = evento.fin;
+    const eventoHora = eventoInicio.getHours();
+  
+    switch (vista) {
+      case 'dia':
+        // Suponiendo que 'hora' está en formato 'HH:00'
+        const [horaString] = tiempo.split(':');
+        return eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoHora;
+      case 'semana':
+        // 'diaIndex' corresponde al índice de 'diasSemana', se asume que 'hora' está en formato 'HH:00'
+        const diaSemana = diaIndex !== undefined ? new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth(), this.diasMes[diaIndex]).getDay() : undefined;
+        return diaSemana !== undefined && eventoInicio.getDay() === diaSemana && eventoHora === parseInt(tiempo, 10);
+      case 'mes':
+        // 'tiempo' es el día del mes
+        return eventoInicio.getDate() === tiempo;
+      default:
+        return false;
+    }
+  }
+  
 
   cambiarVista(vista: string): void {
     this.vistaActual = vista;
