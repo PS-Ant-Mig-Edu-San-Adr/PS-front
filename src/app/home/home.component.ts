@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 
 
+
 @Component({
   selector: 'app-home',
   standalone: true,
