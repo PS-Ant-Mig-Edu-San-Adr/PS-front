@@ -1,31 +1,36 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-add-reminder *ngIf="addReminderService.isOpen$| async"></app-add-reminder>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
         <div class="calendar-page-content">
 
             <div class="calendar-selectors">
-                <div class="calendar-organizations">
-                    
+                <div class="calendar-section organizations">
                     <h2>ORGANIZACIONES</h2>
                     <ul>
                         <li *ngFor="let organization of organizations">{{ organization.name }}</li>
                     </ul>
-
+                </div>
+                <hr>
+                <div class="calendar-section activities">
+                    <h2>ACTIVIDADES</h2>
                     <div *ngFor="let organization of organizations">
-                        <h2>ACTIVIDADES</h2>
                         <h3>{{ organization.name }}</h3>
                         <ul>
                             <li *ngFor="let activity of organization.activities">{{ activity }}</li>
                         </ul>
                     </div>
+                </div>
+            </div>
 
                     <div class="calendar-container">
                         <app-calendar></app-calendar>
                     </div>
 
-                    </div>
-                    <app-footer></app-footer>
-                    </div>
-                    </div>
+        </div>
+        <button (click)="addReminder()" style="cursor: pointer;">PETE</button>
+        <app-footer></app-footer>
+    </div>
+</div>

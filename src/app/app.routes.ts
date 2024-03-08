@@ -12,6 +12,7 @@ import { PerfilNotificationsComponent } from "./perfil-notifications/perfil-noti
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { ActivitiesComponent } from './activities/activities.component';
 
+
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

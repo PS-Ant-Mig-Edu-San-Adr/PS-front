@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ApiClientService } from '../generalServices/api-client.js.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegisterService {
 
-  constructor(private apiClientService: ApiClientService) {}
+  constructor(private httpClient: HttpClient) {}
 
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   isOpen$ = this.isOpenSubject.asObservable();
@@ -16,10 +16,15 @@ export class RegisterService {
   registerStatus$ = this.registerStatusSubject.asObservable();
 
   async checkUsername(username: string): Promise<boolean> {
-    var result = await this.apiClientService.checkUsername(username);
-    if (result.status === 200) {
-      return true;
-    } else {
+    try {
+      const result = await this.httpClient.get<any>(`http://localhost:3001/api/check-username/${username}`).toPromise();
+      if (result.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al verificar el nombre de usuario:', error);
       return false;
     }
   }
@@ -33,14 +38,21 @@ export class RegisterService {
   }
 
   register(email: string, password: string, firstName: string, lastName: string, username: string) {
-    this.apiClientService.register(email, password, firstName, lastName, username).then((res) => {
-      if (res.status === 200) {
-        this.registerStatusSubject.next(true);
-        this.closeRegisterPopup();
-      } else {
+    this.httpClient.post<any>('http://localhost:3001/api/register', { email, password, firstName, lastName, username }).subscribe(
+      (res) => {
+        if (res.status === 200) {
+          this.registerStatusSubject.next(true);
+          this.closeRegisterPopup();
+        } else {
+          this.registerStatusSubject.next(false);
+          alert('Error al registrar el usuario: ' + res.details);
+        }
+      },
+      (error) => {
+        console.error('Error al realizar la solicitud de registro:', error);
         this.registerStatusSubject.next(false);
-        alert('Error al registrar el usuario: ' + res.details);
+        alert('Error al realizar la solicitud de registro');
       }
-    });
+    );
   }
 }
