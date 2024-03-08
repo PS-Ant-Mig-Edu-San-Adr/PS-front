@@ -1,6 +1,7 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
 
@@ -19,7 +20,7 @@
                                 <p><strong>ACTIVIDADES</strong></p>
                                 <select name="" id=""></select>
                             </div>
-                            <button>Gestionar Miembros</button>
+                            <button (click)="manageMembers()">Gestionar Miembros</button>
                         </div>
                         <div class="event-description">
                             <div class="event-data">

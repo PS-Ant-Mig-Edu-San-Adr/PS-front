@@ -9,6 +9,7 @@ import { AdminGroupsComponent } from "./admin-groups/admin-groups.component";
 import { AdminActivitiesComponent } from "./admin-activities/admin-activities.component"
 import { PerfilInfoComponent } from "./perfil-info/perfil-info.component"
 import { PerfilNotificationsComponent } from "./perfil-notifications/perfil-notifications.component"
+
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
