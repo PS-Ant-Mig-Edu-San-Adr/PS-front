@@ -30,6 +30,9 @@ export class AdminActivitiesComponent implements  OnInit {
     this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
+    this.sharedService.manageMembersService.isOpen$.subscribe((success: boolean) => {
+      this.sharedService.toggleWrapperContainerStyles(success);
+    });
   }
 
   manageMembers() {

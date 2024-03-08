@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ManageMembersService } from '../manage-members-pop-up/manage-members-pop-up.component.service';
-import e from 'express';
 
 @Component({
   selector: 'app-manage-members-pop-up',

@@ -23,7 +23,7 @@ export const routes: Routes = [
   { path: 'adminGroups', component: AdminGroupsComponent},
   { path: 'adminActivities', component: AdminActivitiesComponent},
   { path: 'perfilInfo', component: PerfilInfoComponent},
-  { path: 'perfilNotifications', component: PerfilNotificationsComponent}
+  { path: 'perfilNotifications', component: PerfilNotificationsComponent},
   { path: 'adminActivities', component: AdminActivitiesComponent},
   { path: 'calendar', component: CalendarPageComponent}
 ];

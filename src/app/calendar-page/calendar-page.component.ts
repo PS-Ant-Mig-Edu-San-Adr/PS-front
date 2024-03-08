@@ -11,11 +11,13 @@ import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 import { CalendarComponent } from '../calendar/calendar.component';
+import { AddReminderService } from '../add-reminder/add-reminder.component.service';
+import { AddReminderComponent } from '../add-reminder/add-reminder.component';
 
 @Component({
   selector: 'app-calendar-page',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, CalendarComponent],
+  imports: [CommonModule, AddReminderComponent, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, CalendarComponent],
   providers: [SharedPopupsService, OrganizationService, ActivityService],
   templateUrl: './calendar-page.component.html',
   styleUrls: ['./calendar-page.component.css']
@@ -28,7 +30,8 @@ export class CalendarPageComponent implements OnInit{
     public loginService: LoginService, 
     public registerService: RegisterService,
     private organizationService: OrganizationService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    public addReminderService: AddReminderService,
   ) {}
 
   ngOnInit() {
@@ -37,6 +40,10 @@ export class CalendarPageComponent implements OnInit{
     });
 
     this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+      this.sharedService.toggleWrapperContainerStyles(success);
+    });
+
+    this.sharedService.addReminderService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
@@ -56,4 +63,9 @@ export class CalendarPageComponent implements OnInit{
     // });
     return organization;
   }
+
+  addReminder() {
+    this.addReminderService.openAddReminderPopup();
+  }
+
 }
