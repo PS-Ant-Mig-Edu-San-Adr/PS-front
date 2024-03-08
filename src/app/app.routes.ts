@@ -7,6 +7,8 @@ import { AdminOrganizationsComponent } from './admin-organizations/admin-organiz
 import {AdminCreateOrganizationComponent} from  "./admin-create-organization/admin-create-organization.component";
 import { AdminGroupsComponent } from "./admin-groups/admin-groups.component";
 import { AdminActivitiesComponent } from "./admin-activities/admin-activities.component"
+import { PerfilInfoComponent } from "./perfil-info/perfil-info.component"
+import { PerfilNotificationsComponent } from "./perfil-notifications/perfil-notifications.component"
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -16,5 +18,7 @@ export const routes: Routes = [
   { path: 'adminOrganizations', component: AdminOrganizationsComponent},
   { path: 'adminCreateOrganization', component: AdminCreateOrganizationComponent },
   { path: 'adminGroups', component: AdminGroupsComponent},
-  { path: 'adminActivities', component: AdminActivitiesComponent}
+  { path: 'adminActivities', component: AdminActivitiesComponent},
+  { path: 'perfilInfo', component: PerfilInfoComponent},
+  { path: 'perfilNotifications', component: PerfilNotificationsComponent}
 ];

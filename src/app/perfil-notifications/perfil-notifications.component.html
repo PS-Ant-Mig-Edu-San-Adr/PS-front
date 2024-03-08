@@ -1,0 +1,53 @@
+<div>
+    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
+    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+        <app-header></app-header>
+        <div class="perfil-container">
+            <app-perfil-buttons></app-perfil-buttons>
+            <div class="perfil-notifications-container">
+                <div class="perfil-notifications-container">
+                    <div class="notification">
+                        <p>Activar notificaciones</p>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <p><strong>Preferencias de notificación</strong></p>
+                    <div class="notification">
+                        <p>Notificaciones de Eventos</p>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification">
+                        <p>Notificaciones de recordatorios</p>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <p><strong>Métodos de notificación</strong></p>
+                    <div class="notification">
+                        <p>Notificación por aplicación</p>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification">
+                        <p>Notificación por Email</p>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div> 
+                <button>Guardar Cambios</button>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>

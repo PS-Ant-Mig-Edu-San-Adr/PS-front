@@ -1,0 +1,25 @@
+.perfil-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+#active {
+    font-weight: bolder;
+    border-right: 4px solid var(--mainColor);
+}
+
+#noactive {
+    font-weight: 400;
+    border-right: none;
+}
+
+.perfil-option {
+    color: var(--mainColor);
+    text-align: center;
+    padding: 25px 30px;
+    background-color: var(--mainColorLighter);
+    justify-content: center;
+    font-size: x-large;
+}

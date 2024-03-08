@@ -1,0 +1,94 @@
+.perfil-container {
+    display: flex;
+    flex: 1;
+    margin-top: 24px;
+}
+
+.perfil-info-container {
+    width: 100%;
+    background-color: #E9E9E9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.perfil-img-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 24px;
+    text-align: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.perfil-img-container img {
+    width: 25%;
+    border-radius: 50%;
+}
+
+.perfil-img-container p {
+    cursor: pointer;
+}
+
+.perfil-data-container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-top: 36px;
+    margin-bottom: 36px;
+}
+
+.inputs-perfil-container {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    align-items: center;
+    margin-bottom: 48px;
+}
+.input-perfil {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    width: 70%;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+input, select{
+    width: 100%; 
+    padding: 10px; /* Aumentar el relleno para una apariencia más espaciada */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 40px; /* Ajustar la altura de los inputs */
+}
+
+p {
+    font-size: x-large;
+}
+
+i {
+    position: absolute;
+    right: 10px; /* Ajusta la posición del ícono a la derecha */
+    top: 50%; /* Centra verticalmente el ícono */
+    transform: translateY(-50%); /* Ajusta la posición vertical del ícono */
+    cursor: pointer;
+    z-index: 1; /* Asegura que el ícono esté encima del input */
+}
+
+button {
+    color: white;
+    background-color: var(--mainColor);
+    cursor: pointer;
+    padding: 10px 15px;
+    font-weight: bold;
+    border-radius: 16px;
+    width: 40%;
+    align-self: center; 
+}
