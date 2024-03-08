@@ -1,0 +1,101 @@
+.perfil-container {
+    display: flex;
+    flex: 1;
+    margin-top: 24px;
+}
+
+.perfil-notifications-container {
+    width: 100%;
+    background-color: #E9E9E9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 35px;
+    gap: 40px;
+}
+
+.notification {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+}
+
+input, select{
+    width: 100%; 
+    padding: 10px; /* Aumentar el relleno para una apariencia más espaciada */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 40px; /* Ajustar la altura de los inputs */
+}
+
+p {
+    font-size: x-large;
+}
+
+i {
+    position: absolute;
+    right: 10px; /* Ajusta la posición del ícono a la derecha */
+    top: 50%; /* Centra verticalmente el ícono */
+    transform: translateY(-50%); /* Ajusta la posición vertical del ícono */
+    cursor: pointer;
+    z-index: 1; /* Asegura que el ícono esté encima del input */
+}
+
+button {
+    color: white;
+    background-color: var(--mainColor);
+    cursor: pointer;
+    padding: 10px 15px;
+    font-weight: bold;
+    border-radius: 16px;
+    width: 40%;
+    align-self: center; 
+}
+
+.slider {
+  background-color: #ffffff2b;
+  border-radius: 100px;
+  padding: 1px;
+  margin: 10px;
+  cursor: pointer;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  align-items: center;
+  position: relative;
+  display: block;
+  width: 45px;
+  height: 25px;
+  box-shadow: rgba(0, 0, 0, 0.62) 0px 0px 5px inset, rgba(0, 0, 0, 0.21) 0px 0px 0px 24px inset,
+        #22cc3f 0px 0px 0px 0px inset, rgba(224, 224, 224, 0.45) 0px 1px 0px 0px;
+}
+
+.slider::after {
+    content: "";
+    display: flex;
+    top: 2.3px;
+    left: 2px;
+    width: 20px; /* Ancho reducido del elemento */
+    height: 20px; /* Altura reducida del elemento */
+    background-color: #e3e3e3;
+    border-radius: 200px;
+    position: absolute;
+    box-shadow: transparent 0px 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 6px 6px;
+    transition: left 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s, background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    will-change: left, background-color;
+}
+
+
+.switch input[type="checkbox"]:checked + .slider {
+  box-shadow: rgba(0, 0, 0, 0.62) 0px 0px 5px inset, #22cc3f 0px 0px 0px 2px inset, #22cc3f 0px 0px 0px 24px inset,
+        rgba(224, 224, 224, 0.45) 0px 1px 0px 0px;
+}
+
+.switch input[type="checkbox"]:checked + .slider::after {
+  left: 24px;
+}
+
+.switch input[type="checkbox"] {
+  display: none;
+}

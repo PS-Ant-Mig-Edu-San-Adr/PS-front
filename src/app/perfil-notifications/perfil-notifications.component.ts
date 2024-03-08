@@ -8,16 +8,16 @@ import { RegisterService } from '../register/register.component.service';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.component'
+
 @Component({
-  selector: 'app-perfil-info',
+  selector: 'app-perfil-notifications',
   standalone: true,
   imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, PerfilButtonsComponent],
   providers: [SharedPopupsService],
-  templateUrl: './perfil-info.component.html',
-  styleUrl: './perfil-info.component.css'
-  
+  templateUrl: './perfil-notifications.component.html',
+  styleUrl: './perfil-notifications.component.css'
 })
-export class PerfilInfoComponent implements OnInit {
+export class PerfilNotificationsComponent implements OnInit {
   constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
 
   ngOnInit() {
