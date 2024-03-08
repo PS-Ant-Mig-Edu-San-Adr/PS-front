@@ -21,8 +21,12 @@
               <div *ngFor="let hora of horas" class="hora-dia">
                 {{ hora }}
                 <ng-container *ngFor="let evento of eventos">
-                  <div class="evento" *ngIf="seMuestraEvento(evento, hora, 'dia')">
+                  <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'dia')">
                     {{ evento.titulo }}
+                    <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
+                      <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
+                      <button><i class="fas fa-pencil-alt"></i></button>
+                    </div>
                   </div>
                 </ng-container>
               </div>
@@ -40,8 +44,12 @@
               <ng-container *ngFor="let dia of diasSemana; let i = index">
                 <div class="contenido">
                   <ng-container *ngFor="let evento of eventos">
-                    <div class="evento" *ngIf="seMuestraEvento(evento, hora, 'semana', i)">
+                    <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', i)">
                       {{ evento.titulo }}
+                      <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
+                        <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
+                        <button><i class="fas fa-pencil-alt"></i></button>
+                      </div>
                     </div>
                   </ng-container>
                 </div>
@@ -56,8 +64,12 @@
             <div *ngFor="let dia of diasMes" class="dia">
               {{ dia }}
               <ng-container *ngFor="let evento of eventos">
-                <div class="evento" *ngIf="seMuestraEvento(evento, dia, 'mes')">
+                <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia, 'mes')">
                   {{ evento.titulo }}
+                  <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
+                    <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
+                    <button><i class="fas fa-pencil-alt"></i></button>
+                  </div>
                 </div>
               </ng-container>
             </div>
