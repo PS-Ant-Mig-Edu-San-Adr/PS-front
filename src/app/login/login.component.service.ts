@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ApiClientService } from '../generalServices/api-client.js.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  constructor(private apiClientService: ApiClientService) {}
+  constructor(private httpClient: HttpClient) {}
+
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   isOpen$ = this.isOpenSubject.asObservable();
 
@@ -22,14 +23,21 @@ export class LoginService {
   }
 
   login(email: string, password: string) {
-    this.apiClientService.login(email, password).then((res) => {
-      if (res.status === 200) {
-        this.loginStatusSubject.next(true);
-        this.closeLoginPopup();
-      } else {
+    this.httpClient.post<any>('http://localhost:3001/api/login', { email, password }).subscribe(
+      (res) => {
+        if (res.status === 200) {
+          this.loginStatusSubject.next(true);
+          this.closeLoginPopup();
+        } else {
+          this.loginStatusSubject.next(false);
+          alert('Error al loggearse: ' + res.details);
+        }
+      },
+      (error) => {
+        console.error('Error al realizar la solicitud de inicio de sesión:', error);
         this.loginStatusSubject.next(false);
-        alert('Error al loggearse: ' + res.details);
+        alert('Error al realizar la solicitud de inicio de sesión');
       }
-    });
+    );
   }
 }
