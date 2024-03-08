@@ -154,15 +154,37 @@
 }
 
 .evento{
-    background-color: #f3f3f3;
-    border: 1px solid #ddd;
+    display: flex;
+    border: 1px solid #000000;
     padding: 10px;
     height: fit-content; 
     margin: 15px 0px;
     font-weight: 700;
     cursor: pointer;
+    justify-content: space-between;
+    color: white;
+}
+
+.evento-buttons {
+    display: none;
+}
+
+.evento:hover .evento-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.evento-buttons button {
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: transparent;
+    color: white;  
 }
   
+.evento-buttons button:hover {
+    background-color: white;
+    color: #000;
+}
 
 @media (max-width: 600px) {
     .mes .dias-semana div, .mes .dias .dia {

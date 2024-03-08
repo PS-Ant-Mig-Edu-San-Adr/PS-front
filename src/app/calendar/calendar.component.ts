@@ -7,6 +7,8 @@ interface Evento {
   inicio: Date;
   fin: Date;
   descripcion?: string;
+  tipo?: string;
+  color?: string;
 }
 
 @Component({
@@ -29,12 +31,9 @@ export class CalendarComponent implements OnInit {
   fechaActual: Date = new Date();
 
   eventos: Evento[] = [
-    { id: 1, titulo: 'Reunión de equipo', inicio: new Date(2024, 2, 7, 10, 0), fin: new Date(2024, 2, 7, 11, 0), descripcion: 'Reunión semanal del equipo' },
-    { id: 2, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
-    { id: 3, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
-    { id: 4, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
-    { id: 5, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
-    { id: 6, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual' },
+    { id: 1, titulo: 'Reunión de equipo', inicio: new Date(2024, 2, 7, 10, 0), fin: new Date(2024, 2, 7, 11, 0), descripcion: 'Reunión semanal del equipo', tipo: 'recordatorio', color: 'red' },
+    { id: 2, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual', tipo: 'evento', color: 'green'},
+    { id: 3, titulo: 'Cita con Juan', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Quedé con juan en la pizzería', tipo: 'recordatorio', color: 'blue'},
   ];
 
   ngOnInit(): void {
@@ -137,6 +136,10 @@ export class CalendarComponent implements OnInit {
     }else{
         this.diasMes = [this.fechaActual.getDate()];
     }
+  }
+
+  eliminarEvento(evento: Evento): void {
+    this.eventos = this.eventos.filter(e => e.id !== evento.id);
   }
 
 }
