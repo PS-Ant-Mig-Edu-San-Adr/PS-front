@@ -6,6 +6,7 @@ import { AdminAddEventComponent } from './admin-add-event/admin-add-event.compon
 import { AdminOrganizationsComponent } from './admin-organizations/admin-organizations.component';
 import {AdminCreateOrganizationComponent} from  "./admin-create-organization/admin-create-organization.component";
 import { AdminGroupsComponent } from "./admin-groups/admin-groups.component";
+import { AdminActivitiesComponent } from "./admin-activities/admin-activities.component"
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'admin', component: AdminAddEventComponent},
   { path: 'adminOrganizations', component: AdminOrganizationsComponent},
   { path: 'adminCreateOrganization', component: AdminCreateOrganizationComponent },
-  { path: 'adminGroups', component: AdminGroupsComponent}
+  { path: 'adminGroups', component: AdminGroupsComponent},
+  { path: 'adminActivities', component: AdminActivitiesComponent}
 ];
