@@ -167,6 +167,7 @@
 
 .evento-buttons {
     display: none;
+    margin-left: 5px;
 }
 
 .evento:hover .evento-buttons {
@@ -182,8 +183,7 @@
 }
   
 .evento-buttons button:hover {
-    background-color: white;
-    color: #000;
+    font-size: large;
 }
 
 @media (max-width: 600px) {

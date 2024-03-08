@@ -9,6 +9,8 @@ import { AdminGroupsComponent } from "./admin-groups/admin-groups.component";
 import { AdminActivitiesComponent } from "./admin-activities/admin-activities.component"
 import { PerfilInfoComponent } from "./perfil-info/perfil-info.component"
 import { PerfilNotificationsComponent } from "./perfil-notifications/perfil-notifications.component"
+import { CalendarPageComponent } from './calendar-page/calendar-page.component';
+
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -22,4 +24,6 @@ export const routes: Routes = [
   { path: 'adminActivities', component: AdminActivitiesComponent},
   { path: 'perfilInfo', component: PerfilInfoComponent},
   { path: 'perfilNotifications', component: PerfilNotificationsComponent}
+  { path: 'adminActivities', component: AdminActivitiesComponent},
+  { path: 'calendar', component: CalendarPageComponent}
 ];

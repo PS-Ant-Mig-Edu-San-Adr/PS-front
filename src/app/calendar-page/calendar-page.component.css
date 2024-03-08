@@ -1,0 +1,18 @@
+.calendar-page-content{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    flex: 1;
+}
+
+.calendar-selectors{
+    flex: 1;
+}
+
+.calendar-container{
+    flex: 4;
+    margin-bottom: 60px;
+}	
