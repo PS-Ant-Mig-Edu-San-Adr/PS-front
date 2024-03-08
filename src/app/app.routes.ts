@@ -7,6 +7,8 @@ import { AdminOrganizationsComponent } from './admin-organizations/admin-organiz
 import {AdminCreateOrganizationComponent} from  "./admin-create-organization/admin-create-organization.component";
 import { AdminGroupsComponent } from "./admin-groups/admin-groups.component";
 import { AdminActivitiesComponent } from "./admin-activities/admin-activities.component"
+import { CalendarPageComponent } from './calendar-page/calendar-page.component';
+
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -16,5 +18,6 @@ export const routes: Routes = [
   { path: 'adminOrganizations', component: AdminOrganizationsComponent},
   { path: 'adminCreateOrganization', component: AdminCreateOrganizationComponent },
   { path: 'adminGroups', component: AdminGroupsComponent},
-  { path: 'adminActivities', component: AdminActivitiesComponent}
+  { path: 'adminActivities', component: AdminActivitiesComponent},
+  { path: 'calendar', component: CalendarPageComponent}
 ];
