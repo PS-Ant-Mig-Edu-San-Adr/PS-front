@@ -11,6 +11,7 @@ import { PerfilInfoComponent } from "./perfil-info/perfil-info.component"
 import { PerfilNotificationsComponent } from "./perfil-notifications/perfil-notifications.component"
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 
+
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
