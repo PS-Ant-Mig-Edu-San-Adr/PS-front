@@ -26,11 +26,10 @@
             </div>
 
             <div class="calendar-container">
-                <app-calendar></app-calendar>
+                <app-calendar (addReminder)="addReminder($event)"></app-calendar>
             </div>
 
         </div>
-        <button (click)="addReminder()" style="cursor: pointer;">PETE</button>
         <app-footer></app-footer>
     </div>
 </div>

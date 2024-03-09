@@ -29,8 +29,6 @@ export class CalendarPageComponent implements OnInit{
     public sharedService: SharedPopupsService, 
     public loginService: LoginService, 
     public registerService: RegisterService,
-    private organizationService: OrganizationService,
-    private activityService: ActivityService,
     public addReminderService: AddReminderService,
   ) {}
 
@@ -64,7 +62,7 @@ export class CalendarPageComponent implements OnInit{
     return organization;
   }
 
-  addReminder() {
+  addReminder(event : any) {
     this.addReminderService.openAddReminderPopup();
   }
 

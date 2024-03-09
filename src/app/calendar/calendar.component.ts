@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Recordatorio } from '../interfaces/interface';
+import { Evento } from '../interfaces/interface';
 import { RecordatorioService } from '../generalServices/recordatorio.service';
+import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { EventosService } from '../generalServices/eventos.service';
 import { LocalStorageService } from 'angular-web-storage';
 import { RegisterService } from '../register/register.component.service';
@@ -19,12 +21,15 @@ import { Subject } from 'rxjs';
 export class CalendarComponent implements OnInit {
 
   private unsubscribe$ = new Subject<void>();
+  @Output() addReminder = new EventEmitter<any>();
+
 
   constructor(private recordatorioService: RecordatorioService, 
     private eventoService: EventosService, 
     private localStorageService: LocalStorageService,
     private registerService: RegisterService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private addReminderService: AddReminderService
     ) { }
 
   diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
@@ -38,7 +43,7 @@ export class CalendarComponent implements OnInit {
   fechaActual: Date = new Date();
   username: string = '';
 
-  eventos: Recordatorio[] = [];
+  eventos: (Recordatorio | Evento)[] = [];
 
   async ngOnInit(): Promise<void> {
     this.anoActual = this.fechaActual.getFullYear();
@@ -66,6 +71,16 @@ export class CalendarComponent implements OnInit {
         this.username = this.localStorageService.get('username');
         this.actualizarEventos();
       });
+
+    this.addReminderService.reminderAdded$.
+      pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.actualizarEventos();
+      });
+  }
+
+  addReminderFunction() {
+    this.addReminder.emit();
   }
 
   async actualizarEventos(): Promise<void> {
@@ -74,7 +89,7 @@ export class CalendarComponent implements OnInit {
     this.eventos = [...eventos, ...recordatorios];
   }
 
-  seMuestraEvento(evento: Recordatorio, tiempo: any, vista: string, diaIndex?: number): boolean {
+  seMuestraEvento(evento: (Recordatorio | Evento), tiempo: any, vista: string, diaIndex?: number): boolean {
     const eventoInicio = evento.fechaInicio;
     const eventoFin = evento.fechaFin;
     const eventoHora = eventoInicio.getHours();
@@ -182,7 +197,6 @@ export class CalendarComponent implements OnInit {
     }else if(evento.tipo === 'recordatorio'){
       this.recordatorioService.deleteRecordatorio(this.username, evento.id);
     }
-    console.log('Evento eliminado:', evento);
     this.eventos = this.eventos.filter(e => e.id !== evento.id);
   }
 }
