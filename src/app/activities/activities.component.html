@@ -1,0 +1,76 @@
+<div>
+    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
+    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+        <app-header></app-header>
+        <div class="activities-page">
+
+            <div class="information">
+                <div class="organization">
+                    <h1>ORGANIZATION NAME</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+
+                <h2>ACTIVITIES</h2>
+
+                <div class="organization-activities">
+                    <div class="activitie">
+                        <div class="activitie-header">
+                            <h3>ACTIVITIE 1</h3>
+                            <p>description...</p>
+                        </div>
+
+                        <div class="activitie-footer">
+                            <h4>MEMBERS: XX</h4>
+                            <h4>GROUPS: XX</h4>
+                            <button>JOIN</button>
+                        </div>
+                        
+                    </div>
+
+                    <div class="activitie">
+                        <div class="activitie-header">
+                            <h3>ACTIVITIE 1</h3>
+                            <p>description...</p>
+                        </div>
+
+                        <div class="activitie-footer">
+                            <h4>MEMBERS: XX</h4>
+                            <h4>GROUPS: XX</h4>
+                            <button>JOIN</button>
+                        </div>
+                        
+                    </div>
+
+                    <div class="activitie">
+                        <div class="activitie-header">
+                            <h3>ACTIVITIE 1</h3>
+                            <p>description...</p>
+                        </div>
+
+                        <div class="activitie-footer">
+                            <h4>MEMBERS: XX</h4>
+                            <h4>GROUPS: XX</h4>
+                            <button>JOIN</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="schedule-button">
+                    <button>Create Schedule</button>
+                </div>
+            </div>
+
+            <div class="users">
+                <h1>USERS</h1>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
