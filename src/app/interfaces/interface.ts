@@ -1,16 +1,16 @@
 export interface Activity {
-    id: number;
+    id: any;
     name: string;
 }
 
 export interface Organization {
-  id: number;
+  id: any;
   name: string;
   activities?: Activity[];
 }
 
 export interface Recordatorio {
-  id: number;
+  id: any;
   titulo: string;
   fechaInicio: Date;
   fechaFin: Date;
@@ -21,7 +21,7 @@ export interface Recordatorio {
 }
 
 export interface Evento {
-  id: number;
+  id: any;
   titulo: string;
   fechaInicio: Date;
   fechaFin: Date;

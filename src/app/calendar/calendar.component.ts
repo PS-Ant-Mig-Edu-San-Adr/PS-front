@@ -149,7 +149,6 @@ export class CalendarComponent implements OnInit {
       this.diasMes = [];
     
       const primerDiaSemana = (primerDiaMes.getDay() + 6) % 7;
-      console.log(primerDiaSemana);
       const ultimoDiaMesAnterior = new Date(this.anoActual, this.mesActual, 0).getDate();
       for (let i = ultimoDiaMesAnterior - primerDiaSemana + 1; i <= ultimoDiaMesAnterior; i++) {
         this.diasMes.push({type: 'otro', value: i});
@@ -177,7 +176,13 @@ export class CalendarComponent implements OnInit {
   }
   
 
-  eliminarEvento(evento: Recordatorio): void {
+  eliminarEvento(evento: any): void {
+    if(evento.tipo === 'evento'){
+      this.eventoService.deleteEvento(this.username, evento.id);
+    }else if(evento.tipo === 'recordatorio'){
+      this.recordatorioService.deleteRecordatorio(this.username, evento.id);
+    }
+    console.log('Evento eliminado:', evento);
     this.eventos = this.eventos.filter(e => e.id !== evento.id);
   }
 }

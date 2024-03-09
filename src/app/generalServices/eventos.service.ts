@@ -13,10 +13,10 @@ export class EventosService {
     try {
       const response: any = await this.httpClient.get(`http://localhost:3001/api/eventos/${username}`).toPromise();
       if (response.status === 200) {
-        console.log('Eventos:', response);
+        console.log('Eventos:', response.eventos);
         // Mapear los resultados para que cumplan con la interfaz Recordatorio
         const eventos: Evento[] = response.eventos.map((recordatorio: any) => ({
-          id: recordatorio.id,
+          id: recordatorio._id,
           titulo: recordatorio.titulo,
           fechaInicio: new Date(recordatorio.fechaInicio),
           fechaFin: new Date(recordatorio.fechaFin),
@@ -32,6 +32,20 @@ export class EventosService {
     } catch (error) {
       console.error('Error al obtener los recordatorios:', error);
       return [];
+    }
+  }
+
+  async deleteEvento(username: string, id: any): Promise<boolean> {
+    try {
+      const response: any = await this.httpClient.delete(`http://localhost:3001/api/eventos/${username}/${id}`).toPromise();
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al eliminar el evento:', error);
+      return false;
     }
   }
 }
