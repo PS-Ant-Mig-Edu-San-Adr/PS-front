@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-
-interface Evento {
-  id: number;
-  titulo: string;
-  inicio: Date;
-  fin: Date;
-  descripcion?: string;
-  tipo?: string;
-  color?: string;
-}
+import { Recordatorio } from '../interfaces/interface';
+import { RecordatorioService } from '../generalServices/recordatorio.service';
+import { EventosService } from '../generalServices/eventos.service';
+import { LocalStorageService } from 'angular-web-storage';
+import { RegisterService } from '../register/register.component.service';
+import { LoginService } from '../login/login.component.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
@@ -20,6 +18,15 @@ interface Evento {
 })
 export class CalendarComponent implements OnInit {
 
+  private unsubscribe$ = new Subject<void>();
+
+  constructor(private recordatorioService: RecordatorioService, 
+    private eventoService: EventosService, 
+    private localStorageService: LocalStorageService,
+    private registerService: RegisterService,
+    private loginService: LoginService
+    ) { }
+
   diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   diasMes: number[] = [];
   horas: string[] = [];
@@ -29,34 +36,55 @@ export class CalendarComponent implements OnInit {
   nombresMeses: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   vistaActual: string = 'mes';
   fechaActual: Date = new Date();
+  username: string = '';
 
-  eventos: Evento[] = [
-    { id: 1, titulo: 'Reunión de equipo', inicio: new Date(2024, 2, 7, 10, 0), fin: new Date(2024, 2, 7, 11, 0), descripcion: 'Reunión semanal del equipo', tipo: 'recordatorio', color: 'red' },
-    { id: 2, titulo: 'Cita con el médico', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Chequeo anual', tipo: 'evento', color: 'green'},
-    { id: 3, titulo: 'Cita con Juan', inicio: new Date(2024, 2, 8, 16, 0), fin: new Date(2024, 2, 8, 16, 30), descripcion: 'Quedé con juan en la pizzería', tipo: 'recordatorio', color: 'blue'},
-  ];
+  eventos: Recordatorio[] = [];
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.anoActual = this.fechaActual.getFullYear();
     this.mesActual = this.fechaActual.getMonth();
     this.mesActualNombre = this.nombresMeses[this.mesActual];
     this.calculateDaysForCalendar();
     this.inicializarHoras();
+  
+    this.username = this.localStorageService.get('username') || '';
+
+    if (this.username !== '') {
+      await this.actualizarEventos();
+    }
+  
+    this.loginService.loginStatus$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.username = this.localStorageService.get('username');
+        this.actualizarEventos();
+      });
+  
+    this.registerService.registerStatus$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.username = this.localStorageService.get('username');
+        this.actualizarEventos();
+      });
   }
 
-  seMuestraEvento(evento: Evento, tiempo: any, vista: string, diaIndex?: number): boolean {
-    const eventoInicio = evento.inicio;
-    const eventoFin = evento.fin;
+  async actualizarEventos(): Promise<void> {
+    const eventos = await this.eventoService.getEventos(this.username);
+    const recordatorios = await this.recordatorioService.getRecordatorios(this.username);
+    this.eventos = [...eventos, ...recordatorios];
+  }
+
+  seMuestraEvento(evento: Recordatorio, tiempo: any, vista: string, diaIndex?: number): boolean {
+    const eventoInicio = evento.fechaInicio;
+    const eventoFin = evento.fechaFin;
     const eventoHora = eventoInicio.getHours();
     let horaString: string;
 
     switch (vista) {
       case 'dia':
-        // Suponiendo que 'hora' está en formato 'HH:00'
         horaString = tiempo.split(':');
         return eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoHora;
       case 'semana':
-        //comprueba si el dia esta en la semana de la fecha actual y si esta entre la hora de inicio y fin del evento
         horaString = tiempo.split(':');
         const diasSemana = this.fechaActual.getDay();
         const primerDiaSemana = this.fechaActual.getDate() - diasSemana;
@@ -64,7 +92,6 @@ export class CalendarComponent implements OnInit {
         return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10)+1 && eventoInicio.getDay() === diaIndex;
         
       case 'mes':
-        // 'tiempo' es el día del mes
         return eventoInicio.getDate() === tiempo;
       default:
         return false;
@@ -138,7 +165,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  eliminarEvento(evento: Evento): void {
+  eliminarEvento(evento: Recordatorio): void {
     this.eventos = this.eventos.filter(e => e.id !== evento.id);
   }
 

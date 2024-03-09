@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { LocalStorageService } from 'angular-web-storage';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegisterService {
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private localStorageService: LocalStorageService) {}
 
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   isOpen$ = this.isOpenSubject.asObservable();
@@ -41,8 +42,9 @@ export class RegisterService {
     this.httpClient.post<any>('http://localhost:3001/api/register', { email, password, firstName, lastName, username }).subscribe(
       (res) => {
         if (res.status === 200) {
-          this.registerStatusSubject.next(true);
           this.closeRegisterPopup();
+          this.localStorageService.set('username', res.user.usuario);
+          this.registerStatusSubject.next(true);
         } else {
           this.registerStatusSubject.next(false);
           alert('Error al registrar el usuario: ' + res.details);

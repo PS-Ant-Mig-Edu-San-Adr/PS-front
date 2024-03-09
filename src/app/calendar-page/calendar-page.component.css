@@ -14,11 +14,16 @@
     align-items: center;
     justify-content: center;
     flex: 1;
+    margin: 60px 0px;
     gap: 20px;
 }
 
 .calendar-section{
     display: flex;
+}
+
+.organizations, .activities{
+    flex: 1;
 }
 
 hr{
