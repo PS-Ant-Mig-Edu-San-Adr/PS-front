@@ -47,11 +47,40 @@
 
 .dia{
     padding: 10px;
+
+}
+
+.dia-container, .hora-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
 }
 
 .otro{
     background-color: #bcbcbc;
     color: #f3f3f3;
+}
+
+.dia-button{
+    opacity: 0;
+    padding: 5px;
+    align-self: flex-end;
+    background-color: transparent   ;
+}
+
+.dia:hover .dia-button, .contenido:hover .dia-button, .hora-dia .dia-button{
+    opacity: 1;
+}
+
+.dia-button:hover {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+}
+
+.dia-button i {
+    background-color: transparent;
 }
 
 .dias-semana{
@@ -80,7 +109,7 @@
 
 .vista-semana {
     display: grid;
-    grid-template-columns: 100px repeat(7, 1fr); /* Ajusta el 100px según el ancho que quieras para la columna de horas */
+    grid-template-columns: 100px repeat(7, 1fr);
   }
   
   .fila {
@@ -159,6 +188,7 @@
 }
 
 .evento{
+    position: relative;
     display: flex;
     border: 1px solid #000000;
     padding: 10px;
@@ -171,13 +201,18 @@
 }
 
 .evento-buttons {
-    display: none;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
     margin-left: 5px;
+    right: 0;
+    gap: 5px;
 }
 
 .evento:hover .evento-buttons {
     display: flex;
-    gap: 5px;
+    opacity: 1;
+    pointer-events: all;
 }
 
 .evento-buttons button {
@@ -186,9 +221,13 @@
     background-color: transparent;
     color: white;  
 }
+
+.evento-buttons button i {
+    padding: 5px;
+}
   
 .evento-buttons button:hover {
-    font-size: large;
+    background-color: rgba(0, 0, 0, 0.366);
 }
 
 @media (max-width: 600px) {

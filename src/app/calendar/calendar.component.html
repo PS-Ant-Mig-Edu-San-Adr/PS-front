@@ -16,55 +16,15 @@
         </div>
 
         <div *ngIf="vistaActual === 'dia'" class="vista-dia">
-            <div class="titulo-dia">{{ fechaActual.getDay() === 0 ? 'Sábado' : diasSemana[fechaActual.getDay() - 1] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
-            <div class="horas-dia">
-              <div *ngFor="let hora of horas" class="hora-dia">
-                {{ hora }}
-                <ng-container *ngFor="let evento of eventos">
-                  <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'dia')">
-                    {{ evento.titulo }}
-                    <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
-                      <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                      <button><i class="fas fa-pencil-alt"></i></button>
-                    </div>
-                  </div>
-                </ng-container>
+          <div class="titulo-dia">{{ fechaActual.getDay() === 0 ? 'Sábado' : diasSemana[fechaActual.getDay() - 1] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
+          <div class="horas-dia">
+            <div *ngFor="let hora of horas" class="hora-dia">
+              <div class="hora-container">
+                <span>{{ hora }}</span>
+                <button class="dia-button"><i class="fas fa-plus"></i></button>
               </div>
-            </div>
-          </div>
-          
-
-          <div *ngIf="vistaActual === 'semana'" class="vista-semana">
-            <div class="fila fila-dias-semana">
-              <div class="celda hora"></div>
-              <div *ngFor="let diaSemana of diasSemana" class="celda dia-semana">{{ diaSemana }}</div>
-            </div>
-            <div *ngFor="let hora of horas" class="fila">
-              <div class="celda hora">{{ hora }}</div>
-              <ng-container *ngFor="let dia of diasSemana; let i = index">
-                <div class="contenido">
-                  <ng-container *ngFor="let evento of eventos">
-                    <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', i)">
-                      {{ evento.titulo }}
-                      <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
-                        <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                        <button><i class="fas fa-pencil-alt"></i></button>
-                      </div>
-                    </div>
-                  </ng-container>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-          
-          
-          
-          
-          <div *ngIf="vistaActual === 'mes'" class="dias">
-            <div *ngFor="let dia of diasMes" [ngClass]="dia.type" class="dia">
-              {{ dia.value }}
               <ng-container *ngFor="let evento of eventos">
-                <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia.value, 'mes')">
+                <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'dia')">
                   {{ evento.titulo }}
                   <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                     <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
@@ -74,6 +34,54 @@
               </ng-container>
             </div>
           </div>
+        </div>
+          
+
+        <div *ngIf="vistaActual === 'semana'" class="vista-semana">
+          <div class="fila fila-dias-semana">
+            <div class="celda hora"></div>
+            <div *ngFor="let diaSemana of diasSemana" class="celda dia-semana">{{ diaSemana }}</div>
+          </div>
+          <div *ngFor="let hora of horas" class="fila">
+            <div class="celda hora">{{ hora }}</div>
+            <ng-container *ngFor="let dia of diasSemana; let i = index">
+              <div class="contenido">
+                <button class="dia-button"><i class="fas fa-plus"></i></button>
+                <ng-container *ngFor="let evento of eventos">
+                  <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', i)">
+                    {{ evento.titulo }}
+                    <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
+                      <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
+                      <button><i class="fas fa-pencil-alt"></i></button>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+          
+          
+          
+          
+        <div *ngIf="vistaActual === 'mes'" class="dias">
+          <div *ngFor="let dia of diasMes" [ngClass]="dia.type" class="dia">
+            <div class="dia-container">
+              <span>{{ dia.value }}</span>
+              <button class="dia-button"><i [ngClass]="dia.type" class="fas fa-plus"></i></button>
+            </div>
+            <ng-container *ngFor="let evento of eventos">
+              <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia.value, 'mes')">
+                {{ evento.titulo }}
+                <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
+                  <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
+                  <button><i class="fas fa-pencil-alt"></i></button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+          
           
 
     </div>

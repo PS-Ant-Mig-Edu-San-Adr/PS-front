@@ -13,7 +13,6 @@ export class EventosService {
     try {
       const response: any = await this.httpClient.get(`http://localhost:3001/api/eventos/${username}`).toPromise();
       if (response.status === 200) {
-        console.log('Eventos:', response.eventos);
         // Mapear los resultados para que cumplan con la interfaz Recordatorio
         const eventos: Evento[] = response.eventos.map((recordatorio: any) => ({
           id: recordatorio._id,
