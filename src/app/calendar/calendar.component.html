@@ -16,7 +16,7 @@
         </div>
 
         <div *ngIf="vistaActual === 'dia'" class="vista-dia">
-            <div class="titulo-dia">{{ diasSemana[fechaActual.getDay()] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
+            <div class="titulo-dia">{{ fechaActual.getDay() === 0 ? 'Sábado' : diasSemana[fechaActual.getDay() - 1] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
             <div class="horas-dia">
               <div *ngFor="let hora of horas" class="hora-dia">
                 {{ hora }}
@@ -61,10 +61,10 @@
           
           
           <div *ngIf="vistaActual === 'mes'" class="dias">
-            <div *ngFor="let dia of diasMes" class="dia">
-              {{ dia }}
+            <div *ngFor="let dia of diasMes" [ngClass]="dia.type" class="dia">
+              {{ dia.value }}
               <ng-container *ngFor="let evento of eventos">
-                <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia, 'mes')">
+                <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia.value, 'mes')">
                   {{ evento.titulo }}
                   <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                     <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>

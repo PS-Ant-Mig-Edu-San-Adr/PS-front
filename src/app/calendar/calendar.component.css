@@ -49,6 +49,11 @@
     padding: 10px;
 }
 
+.otro{
+    background-color: #bcbcbc;
+    color: #f3f3f3;
+}
+
 .dias-semana{
     text-align: center;
 }

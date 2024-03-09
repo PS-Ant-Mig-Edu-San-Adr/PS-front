@@ -27,8 +27,8 @@ export class CalendarComponent implements OnInit {
     private loginService: LoginService
     ) { }
 
-  diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  diasMes: number[] = [];
+  diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  diasMes: any[] = [];
   horas: string[] = [];
   anoActual: number = 0;
   mesActual: number = 0;
@@ -86,13 +86,25 @@ export class CalendarComponent implements OnInit {
         return eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoHora;
       case 'semana':
         horaString = tiempo.split(':');
-        const diasSemana = this.fechaActual.getDay();
-        const primerDiaSemana = this.fechaActual.getDate() - diasSemana;
+        const primerDiaSemana = (this.fechaActual.getDate() - this.fechaActual.getDay())+1;
         const ultimoDiaSemana = primerDiaSemana + 6;
-        return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10)+1 && eventoInicio.getDay() === diaIndex;
+        let eventoInicioDia = eventoInicio.getDay();
+        let eventoFinDia = eventoFin.getDay();
+        if (eventoInicioDia === 0) {
+          eventoInicioDia = 6;
+        }else{
+          eventoInicioDia = eventoInicioDia - 1;
+        }
+        if (eventoFinDia === 0) {
+          eventoFinDia = 6;
+        }else{
+          eventoFinDia = eventoFinDia - 1;
+        }
+        
+        return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10)+1 && eventoInicioDia === diaIndex;
         
       case 'mes':
-        return eventoInicio.getDate() === tiempo;
+        return eventoInicio.getDate() === tiempo && eventoInicio.getMonth() === this.mesActual && eventoInicio.getFullYear() === this.anoActual;
       default:
         return false;
     }
@@ -136,23 +148,22 @@ export class CalendarComponent implements OnInit {
     
       this.diasMes = [];
     
-      for (let i = 1; i <= ultimoDiaMes.getDate(); i++) {
-        this.diasMes.push(i);
-      }
-    
-      // Ajustar los días del mes anterior para completar la semana
-      const primerDiaSemana = primerDiaMes.getDay();
+      const primerDiaSemana = (primerDiaMes.getDay() + 6) % 7;
+      console.log(primerDiaSemana);
       const ultimoDiaMesAnterior = new Date(this.anoActual, this.mesActual, 0).getDate();
       for (let i = ultimoDiaMesAnterior - primerDiaSemana + 1; i <= ultimoDiaMesAnterior; i++) {
-        this.diasMes.unshift(i);
+        this.diasMes.push({type: 'otro', value: i});
       }
     
-      // Ajustar los días del mes siguiente para completar la semana
-      const ultimoDiaSemana = ultimoDiaMes.getDay();
-      for (let i = 1; i < 7 - ultimoDiaSemana; i++) {
-        this.diasMes.push(i);
+      for (let i = 1; i <= ultimoDiaMes.getDate(); i++) {
+        this.diasMes.push({type: 'normal', value: i});
       }
-    }else if (this.vistaActual === 'semana') {
+    
+      const ultimoDiaSemana = (ultimoDiaMes.getDay() + 6) % 7;
+      for (let i = 1; i < 7 - ultimoDiaSemana; i++) {
+        this.diasMes.push({type: 'otro', value: i});
+      }
+    } else if (this.vistaActual === 'semana') {
       const fechaActual = new Date();
       const primerDiaSemana = fechaActual.getDate() - fechaActual.getDay();
       const ultimoDiaSemana = primerDiaSemana + 6;
@@ -160,13 +171,13 @@ export class CalendarComponent implements OnInit {
       for (let i = primerDiaSemana; i <= ultimoDiaSemana; i++) {
         this.diasMes.push(i);
       }
-    }else{
-        this.diasMes = [this.fechaActual.getDate()];
+    } else {
+      this.diasMes = [this.fechaActual.getDate()];
     }
   }
+  
 
   eliminarEvento(evento: Recordatorio): void {
     this.eventos = this.eventos.filter(e => e.id !== evento.id);
   }
-
 }
