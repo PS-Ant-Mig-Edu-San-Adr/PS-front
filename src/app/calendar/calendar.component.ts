@@ -105,6 +105,7 @@ export class CalendarComponent implements OnInit {
     const hoy = new Date();
     const eventoHora = eventoInicio.getHours();
     let horaString;
+    const fechaSeleccionada = new Date(this.anoActual, this.mesActual, (tiempo.type ? tiempo.value : tiempo));
 
     const esMismoDia = (fecha1: Date, fecha2: Date): boolean => {
       return fecha1.getDate() === fecha2.getDate() &&
@@ -119,17 +120,18 @@ export class CalendarComponent implements OnInit {
         horaString = tiempo.split(':');
         const diaSemanaEvento = eventoInicio.getDay();
         const diaSemanaHoy = hoy.getDay();
-        if ((evento.repetir === 'Diario') ||
+        if ((evento.repetir === 'Diario' && fechaSeleccionada >= hoy)||
             (evento.repetir === 'Ninguno' && esMismoDia(eventoInicio, hoy)) ||
-            (evento.repetir === 'Semanal' && diaSemanaEvento === diaSemanaHoy) ||
-            (evento.repetir === 'Mensual' && eventoInicio.getDate() === hoy.getDate()) ||
-            (evento.repetir === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate())) {
+            (evento.repetir === 'Semanal' && diaSemanaEvento === diaSemanaHoy && fechaSeleccionada >= hoy) ||
+            (evento.repetir === 'Mensual' && eventoInicio.getDate() === hoy.getDate() && fechaSeleccionada >= hoy) ||
+            (evento.repetir === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate()) && fechaSeleccionada >= hoy) {
           return parseInt(horaString, 10) === eventoHora;
         }else{
           return false;
         }
         case 'semana':
           horaString = tiempo.split(':');
+
 
           let fechaActualDia = this.fechaActual.getDay();
           fechaActualDia = fechaActualDia === 0 ? 6 : fechaActualDia - 1;
@@ -151,16 +153,16 @@ export class CalendarComponent implements OnInit {
         
           switch (evento.repetir) {
             case 'Diario':
-              return parseInt(horaString, 10) === eventoInicio.getHours();
+              return parseInt(horaString, 10) === eventoInicio.getHours() && fechaSeleccionada >= hoy;
         
             case 'Semanal':
-              return eventoInicioDia === diaIndex && parseInt(horaString, 10) === eventoInicio.getHours();
+              return eventoInicioDia === diaIndex && fechaSeleccionada >= hoy && parseInt(horaString, 10) === eventoInicio.getHours();
         
             case 'Mensual':
-              return eventoInicio.getDate() === this.fechaActual.getDate() && esEventoEnSemanaActual(eventoInicio) && parseInt(horaString, 10) === eventoInicio.getHours();
+              return eventoInicio.getDate() === this.fechaActual.getDate() && fechaSeleccionada >= hoy && esEventoEnSemanaActual(eventoInicio) && parseInt(horaString, 10) === eventoInicio.getHours();
         
             case 'Anual':
-              return eventoInicio.getMonth() === this.fechaActual.getMonth() && eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoInicio.getHours();
+              return eventoInicio.getMonth() === this.fechaActual.getMonth() && fechaSeleccionada >= hoy && eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoInicio.getHours();
         
             case 'Ninguno':
               return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10) + 1 && eventoInicioDia === diaIndex;
@@ -175,40 +177,20 @@ export class CalendarComponent implements OnInit {
           
             switch (evento.repetir) {
               case 'Diario':
-                return true;
+                return tiempo.type === 'normal' && fechaSeleccionada >= hoy;
                 
               case 'Semanal':
-                let diaCasilla: Number = 0;
-                if(tiempo.type === 'otro'){
-                  if(tiempo.value > 7){
-                    const mesAnterior = this.mesActual <= 0 ? 11 : this.mesActual - 1;
-                    if(mesAnterior === 11){
-                      diaCasilla = new Date(this.anoActual-1, mesAnterior, tiempo.value).getDay();
-                    }else{
-                      diaCasilla = new Date(this.anoActual, mesAnterior, tiempo.value).getDay();
-                    }
-                  }else if(tiempo.value < 7){
-                    const mesSiguiente = this.mesActual >= 11 ? 0 : this.mesActual + 1;
-                    if(mesSiguiente === 0){
-                      diaCasilla = new Date(this.anoActual+1, mesSiguiente, tiempo.value).getDay();
-                    }else{
-                      diaCasilla = new Date(this.anoActual, mesSiguiente, tiempo.value).getDay();
-                    }
-                  }
-                }else{
-                  diaCasilla = new Date(this.anoActual, this.mesActual, tiempo.value).getDay();
-                }
-                
-                return diaCasilla === eventoInicio.getDay();
+                const diaCasilla = new Date(this.anoActual, this.mesActual, tiempo.value).getDay();
+                return diaCasilla === eventoInicio.getDay() && fechaSeleccionada >= hoy && tiempo.type === 'normal';
                 
               case 'Mensual':
-                return diaDelMesEvento === tiempo.value;
+                return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && tiempo.type === 'normal';
           
               case 'Anual':
-                return diaDelMesEvento === tiempo.value && mesEvento === this.mesActual && tiempo.type === 'normal';
+                return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && mesEvento === this.mesActual && tiempo.type === 'normal';
           
               case 'Ninguno':
-                return diaDelMesEvento === tiempo.value && mesEvento === this.mesActual && añoEvento === this.anoActual && tiempo.type === 'normal';
+                return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && mesEvento === this.mesActual && añoEvento === this.anoActual && tiempo.type === 'normal';
           
               default:
                 return false;

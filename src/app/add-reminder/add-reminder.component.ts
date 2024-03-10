@@ -97,8 +97,35 @@ export class AddReminderComponent implements OnInit, OnDestroy{
 
   updateReminder() {
     if (this.checkContent()) {
-      // Aquí iría la lógica para actualizar el recordatorio
-      // basándose en la información del formulario
+      const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
+      const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
+      const selectedRepeat = document.getElementById('input-repeat') as HTMLInputElement;
+      const selectedTitle = document.getElementById('input-title') as HTMLInputElement;
+      const selectedColor = document.getElementById('input-color') as HTMLInputElement;
+      const selectedDescription = document.getElementById('input-description') as HTMLInputElement;
+
+      
+      if(selectedDateStart.value < selectedDateEnd.value){
+        alert('La fecha de inicio no puede ser mayor que la fecha de fin');
+        return;
+      }else if(selectedDateStart.value === selectedDateEnd.value){
+        alert('La fecha de inicio no puede ser igual a la fecha de fin');
+        return;
+      }else if(selectedDateStart.value < formatDate(new Date(), 'yyyy-MM-ddTHH:mm', this.locale)){
+        alert('La fecha de inicio no puede ser menor que la fecha actual');
+        return;
+      }
+  
+      this.addReminderService.updateReminder(
+        selectedDateStart.value,
+        selectedDateEnd.value,
+        selectedRepeat.value,
+        selectedTitle.value,
+        selectedColor.value,
+        selectedDescription?.value || '',
+        this.sessionStorageService.get('username'),
+        this.recordatorio?.id || ''
+      );
       this.closeAddReminderPopup();
     } else {
       alert('Please fill all the fields');
@@ -113,6 +140,18 @@ export class AddReminderComponent implements OnInit, OnDestroy{
       const selectedTitle = document.getElementById('input-title') as HTMLInputElement;
       const selectedColor = document.getElementById('input-color') as HTMLInputElement;
       const selectedDescription = document.getElementById('input-description') as HTMLInputElement;
+
+      
+      if(selectedDateStart.value > selectedDateEnd.value){
+        alert('La fecha de inicio no puede ser mayor que la fecha de fin');
+        return;
+      }else if(selectedDateStart.value === selectedDateEnd.value){
+        alert('La fecha de inicio no puede ser igual a la fecha de fin');
+        return;
+      }else if(selectedDateStart.value < formatDate(new Date(), 'yyyy-MM-ddTHH:mm', this.locale)){
+        alert('La fecha de inicio no puede ser menor que la fecha actual');
+        return;
+      }
 
       this.addReminderService.addReminder(
         selectedDateStart.value,
