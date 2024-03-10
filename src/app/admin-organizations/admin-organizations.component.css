@@ -62,8 +62,8 @@
 .event-data  {
     display: flex;
     flex-direction: row;
-    gap: 100px;
-    width: 30%; 
+    gap: 80px;
+    width: 50%; 
     align-items: center;
 }
 
