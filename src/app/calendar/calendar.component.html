@@ -28,7 +28,7 @@
                   {{ evento.titulo }}
                   <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                     <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                    <button><i class="fas fa-pencil-alt"></i></button>
+                    <button (click)="cargarComponente(evento)"><i class="fas fa-pencil-alt"></i></button>
                   </div>
                 </div>
               </ng-container>
@@ -52,7 +52,7 @@
                     {{ evento.titulo }}
                     <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                       <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                      <button><i class="fas fa-pencil-alt"></i></button>
+                      <button (click)="cargarComponente(evento)"><i class="fas fa-pencil-alt"></i></button>
                     </div>
                   </div>
                 </ng-container>
@@ -75,7 +75,7 @@
                 {{ evento.titulo }}
                 <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                   <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                  <button><i class="fas fa-pencil-alt"></i></button>
+                  <button (click)="cargarComponente(evento)"><i class="fas fa-pencil-alt"></i></button>
                 </div>
               </div>
             </ng-container>

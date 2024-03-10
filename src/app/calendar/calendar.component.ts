@@ -10,8 +10,6 @@ import { RegisterService } from '../register/register.component.service';
 import { LoginService } from '../login/login.component.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { D, co } from '@fullcalendar/core/internal-common';
-import e from 'express';
 
 @Component({
   selector: 'app-calendar',
@@ -23,7 +21,10 @@ import e from 'express';
 export class CalendarComponent implements OnInit {
 
   private unsubscribe$ = new Subject<void>();
+  
   @Output() addReminder = new EventEmitter<any>();
+  @Output() editReminder = new EventEmitter<any>();
+
 
 
   constructor(private recordatorioService: RecordatorioService,
@@ -85,6 +86,10 @@ export class CalendarComponent implements OnInit {
     this.addReminder.emit(object);
   }
 
+  cargarComponente(recordatorio: Recordatorio) {
+    this.editReminder.emit(recordatorio);
+  }
+
   async actualizarEventos(): Promise<void> {
     const eventos = await this.eventoService.getEventos(this.username);
     const recordatorios = await this.recordatorioService.getRecordatorios(this.username);
@@ -141,7 +146,6 @@ export class CalendarComponent implements OnInit {
         
           const esEventoEnSemanaActual = (fecha: Date) => {
             const diaDelMes = fecha.getDate();
-            console.log("dia del mes: " + diaDelMes, "primer dia de la semana: " + primerDiaSemana, "ultimo dia de la semana: " + ultimoDiaSemana);
             return diaDelMes >= primerDiaSemana && diaDelMes <= ultimoDiaSemana;
           };
         
@@ -165,7 +169,6 @@ export class CalendarComponent implements OnInit {
               return false;
           }
           case 'mes':
-            console.log(evento);
             const diaDelMesEvento = eventoInicio.getDate();
             const mesEvento = eventoInicio.getMonth();
             const añoEvento = eventoInicio.getFullYear();

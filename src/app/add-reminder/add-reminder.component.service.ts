@@ -24,6 +24,12 @@ export class AddReminderService {
     this.dateSubject.next(date);
   }
 
+  openEditReminderPopup() {
+    this.isOpenSubject.next(true);
+  }
+
+
+
   closeAddReminderPopup() {
     this.isOpenSubject.next(false);
     this.dateSubject.next(undefined);

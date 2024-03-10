@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { OnInit, OnDestroy } from '@angular/core';
+import { OnInit, OnDestroy, Input, SimpleChanges } from '@angular/core';
 import { Component } from '@angular/core';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { SessionStorageService } from 'angular-web-storage';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { Recordatorio } from '../interfaces/interface';
 
 @Component({
   selector: 'app-add-reminder',
@@ -16,8 +17,15 @@ import { formatDate } from '@angular/common';
 })
 export class AddReminderComponent implements OnInit, OnDestroy{
   constructor(private addReminderService: AddReminderService, private sessionStorageService: SessionStorageService) {}
+  @Input() recordatorio: Recordatorio | null = null;
+
 
   selectedDateStart: string = '';
+  selectedDateEnd: string = '';
+  selectedRepeat: string = '';
+  selectedTitle: string = '';
+  selectedColor: string = '';
+  selectedDescription: string = '';
   private locale: string = 'en-US';
   private dateSubscription: Subscription = new Subscription();
 
@@ -26,8 +34,25 @@ export class AddReminderComponent implements OnInit, OnDestroy{
     this.dateSubscription = this.addReminderService.date$.subscribe(date => {
       if (date) {
         this.selectedDateStart = this.formatDateToDateTimeLocal(date);
+        this.selectedDateEnd = this.formatDateToDateTimeLocal(date);
       }
     });
+
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['recordatorio'] && this.recordatorio) {
+      this.loadReminderData(this.recordatorio);
+    }
+  }
+
+  loadReminderData(reminder: Recordatorio) {
+    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.fechaInicio.toString());
+    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.fechaFin.toString());
+    this.selectedRepeat = reminder.repetir ?? 'Ninguno';
+    this.selectedTitle = reminder.titulo;
+    this.selectedColor = reminder.color ?? 'red';
+    this.selectedDescription = reminder.descripcion ?? '';
 
   }
 
@@ -67,6 +92,16 @@ export class AddReminderComponent implements OnInit, OnDestroy{
       return true;
     } else {
       return false;
+    }
+  }
+
+  updateReminder() {
+    if (this.checkContent()) {
+      // Aquí iría la lógica para actualizar el recordatorio
+      // basándose en la información del formulario
+      this.closeAddReminderPopup();
+    } else {
+      alert('Please fill all the fields');
     }
   }
 

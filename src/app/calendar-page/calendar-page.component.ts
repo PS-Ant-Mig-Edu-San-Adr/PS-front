@@ -13,7 +13,7 @@ import { RegisterComponent } from '../register/register.component';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { AddReminderComponent } from '../add-reminder/add-reminder.component';
-import { cu } from '@fullcalendar/core/internal-common';
+import { Recordatorio } from '../interfaces/interface';
 
 @Component({
   selector: 'app-calendar-page',
@@ -25,6 +25,7 @@ import { cu } from '@fullcalendar/core/internal-common';
 })
 export class CalendarPageComponent implements OnInit{
   organizations: Organization[] = [];
+  recordatorioParaEditar: Recordatorio | null = null;
 
   constructor(
     public sharedService: SharedPopupsService, 
@@ -60,6 +61,11 @@ export class CalendarPageComponent implements OnInit{
     //   organization.activities = activities;
     // });
     return organization;
+  }
+
+  editReminder(event: Recordatorio) {
+    this.recordatorioParaEditar = event;
+    this.addReminderService.openEditReminderPopup();
   }
 
   addReminder(event: any) {
