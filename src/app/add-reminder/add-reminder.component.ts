@@ -1,21 +1,54 @@
 import { CommonModule } from '@angular/common';
+import { OnInit, OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { LocalStorageService } from 'angular-web-storage';
+import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-add-reminder',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './add-reminder.component.html',
   styleUrl: './add-reminder.component.css'
 })
-export class AddReminderComponent {
+export class AddReminderComponent implements OnInit, OnDestroy{
   constructor(private addReminderService: AddReminderService, private localStorageService: LocalStorageService) {}
+
+  selectedDateStart: string = '';
+  private locale: string = 'en-US';
+  private dateSubscription: Subscription = new Subscription();
+
+  async ngOnInit(): Promise<void> {
+
+    this.dateSubscription = this.addReminderService.date$.subscribe(date => {
+      if (date) {
+        this.selectedDateStart = this.formatDateToDateTimeLocal(date);
+      }
+    });
+
+  }
+
+  ngOnDestroy() {
+    if (this.dateSubscription) {
+      this.dateSubscription.unsubscribe();
+    }
+  }
+
+  formatDateToDateTimeLocal(dateString: string): string {
+    const date = new Date(dateString);
+    return formatDate(date, 'yyyy-MM-ddTHH:mm', this.locale);
+  }
+
 
   closeAddReminderPopup() {
     this.addReminderService.closeAddReminderPopup();
+    
   }
+
+
 
   checkContent(): boolean{
     const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;

@@ -79,8 +79,8 @@ export class CalendarComponent implements OnInit {
       });
   }
 
-  addReminderFunction() {
-    this.addReminder.emit();
+  addReminderFunction(object: any): void {
+    this.addReminder.emit(object);
   }
 
   async actualizarEventos(): Promise<void> {
@@ -115,15 +115,16 @@ export class CalendarComponent implements OnInit {
         }else{
           eventoFinDia = eventoFinDia - 1;
         }
-        
+
         return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10)+1 && eventoInicioDia === diaIndex;
-        
+
       case 'mes':
         return eventoInicio.getDate() === tiempo && eventoInicio.getMonth() === this.mesActual && eventoInicio.getFullYear() === this.anoActual;
       default:
         return false;
     }
   }
+  
   
 
   cambiarVista(vista: string): void {

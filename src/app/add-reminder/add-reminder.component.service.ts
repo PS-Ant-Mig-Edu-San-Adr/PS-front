@@ -16,12 +16,17 @@ export class AddReminderService {
   private manageMembersStatusSubject = new BehaviorSubject<boolean>(false);
   manageMembersStatus$ = this.manageMembersStatusSubject.asObservable();
 
-  openAddReminderPopup() {
+  private dateSubject = new BehaviorSubject<string | undefined>(undefined);
+  date$ = this.dateSubject.asObservable();
+
+  openAddReminderPopup(date: string) {
     this.isOpenSubject.next(true);
+    this.dateSubject.next(date);
   }
 
   closeAddReminderPopup() {
     this.isOpenSubject.next(false);
+    this.dateSubject.next(undefined);
   }
 
   addReminder(selectedDateStart: string, selectedDateEnd: string, selectedRepeat: string, selectedTitle: string, selectedColor: string, selectedDescription: string ,username: string){
