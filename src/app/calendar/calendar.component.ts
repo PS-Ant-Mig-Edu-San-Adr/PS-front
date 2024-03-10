@@ -5,7 +5,7 @@ import { Evento } from '../interfaces/interface';
 import { RecordatorioService } from '../generalServices/recordatorio.service';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { EventosService } from '../generalServices/eventos.service';
-import { LocalStorageService } from 'angular-web-storage';
+import { SessionStorageService } from 'angular-web-storage';
 import { RegisterService } from '../register/register.component.service';
 import { LoginService } from '../login/login.component.service';
 import { takeUntil } from 'rxjs/operators';
@@ -24,9 +24,9 @@ export class CalendarComponent implements OnInit {
   @Output() addReminder = new EventEmitter<any>();
 
 
-  constructor(private recordatorioService: RecordatorioService, 
-    private eventoService: EventosService, 
-    private localStorageService: LocalStorageService,
+  constructor(private recordatorioService: RecordatorioService,
+    private eventoService: EventosService,
+    private sessionStorageService: SessionStorageService,
     private registerService: RegisterService,
     private loginService: LoginService,
     private addReminderService: AddReminderService
@@ -51,24 +51,24 @@ export class CalendarComponent implements OnInit {
     this.mesActualNombre = this.nombresMeses[this.mesActual];
     this.calculateDaysForCalendar();
     this.inicializarHoras();
-  
-    this.username = this.localStorageService.get('username') || '';
+
+    this.username = this.sessionStorageService.get('username') || '';
 
     if (this.username !== '') {
       await this.actualizarEventos();
     }
-  
+
     this.loginService.loginStatus$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.username = this.localStorageService.get('username');
+        this.username = this.sessionStorageService.get('username');
         this.actualizarEventos();
       });
-  
+
     this.registerService.registerStatus$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.username = this.localStorageService.get('username');
+        this.username = this.sessionStorageService.get('username');
         this.actualizarEventos();
       });
 
@@ -124,8 +124,8 @@ export class CalendarComponent implements OnInit {
         return false;
     }
   }
-  
-  
+
+
 
   cambiarVista(vista: string): void {
     this.vistaActual = vista;
@@ -134,7 +134,7 @@ export class CalendarComponent implements OnInit {
 
   cambiarMes(diferencia: number): void {
     this.mesActual += diferencia;
-    
+
     if (this.mesActual < 0) {
       this.mesActual = 11;
       this.anoActual -= 1;
@@ -156,24 +156,24 @@ export class CalendarComponent implements OnInit {
   actualizarFechaActual(): void {
     this.fechaActual = new Date(this.anoActual, this.mesActual, new Date().getDate());
   }
-  
+
   calculateDaysForCalendar(): void {
     if (this.vistaActual === 'mes') {
       const primerDiaMes = new Date(this.anoActual, this.mesActual, 1);
       const ultimoDiaMes = new Date(this.anoActual, this.mesActual + 1, 0);
-    
+
       this.diasMes = [];
-    
+
       const primerDiaSemana = (primerDiaMes.getDay() + 6) % 7;
       const ultimoDiaMesAnterior = new Date(this.anoActual, this.mesActual, 0).getDate();
       for (let i = ultimoDiaMesAnterior - primerDiaSemana + 1; i <= ultimoDiaMesAnterior; i++) {
         this.diasMes.push({type: 'otro', value: i});
       }
-    
+
       for (let i = 1; i <= ultimoDiaMes.getDate(); i++) {
         this.diasMes.push({type: 'normal', value: i});
       }
-    
+
       const ultimoDiaSemana = (ultimoDiaMes.getDay() + 6) % 7;
       for (let i = 1; i < 7 - ultimoDiaSemana; i++) {
         this.diasMes.push({type: 'otro', value: i});
@@ -190,7 +190,7 @@ export class CalendarComponent implements OnInit {
       this.diasMes = [this.fechaActual.getDate()];
     }
   }
-  
+
 
   eliminarEvento(evento: any): void {
     if(evento.tipo === 'evento'){

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { OnInit, OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
-import { LocalStorageService } from 'angular-web-storage';
+import { SessionStorageService } from 'angular-web-storage';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
@@ -15,7 +15,7 @@ import { formatDate } from '@angular/common';
   styleUrl: './add-reminder.component.css'
 })
 export class AddReminderComponent implements OnInit, OnDestroy{
-  constructor(private addReminderService: AddReminderService, private localStorageService: LocalStorageService) {}
+  constructor(private addReminderService: AddReminderService, private sessionStorageService: SessionStorageService) {}
 
   selectedDateStart: string = '';
   private locale: string = 'en-US';
@@ -45,7 +45,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
 
   closeAddReminderPopup() {
     this.addReminderService.closeAddReminderPopup();
-    
+
   }
 
 
@@ -71,7 +71,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
   }
 
   addReminder() {
-    if (this.checkContent() && this.localStorageService.get('username')) {
+    if (this.checkContent() && this.sessionStorageService.get('username')) {
       const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
       const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
       const selectedRepeat = document.getElementById('input-repeat') as HTMLInputElement;
@@ -86,12 +86,12 @@ export class AddReminderComponent implements OnInit, OnDestroy{
         selectedTitle.value,
         selectedColor.value,
         selectedDescription?.value || '',
-        this.localStorageService.get('username')
+        this.sessionStorageService.get('username')
       );
       this.closeAddReminderPopup();
     } else {
       alert('Please fill all the fields');
     }
   }
-  
+
 }
