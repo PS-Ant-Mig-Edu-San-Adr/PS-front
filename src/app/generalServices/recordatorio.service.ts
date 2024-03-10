@@ -12,8 +12,6 @@ export class RecordatorioService {
     try {
       const response: any = await this.httpClient.get(`http://localhost:3001/api/recordatorios/${username}`).toPromise();
       if (response.status === 200) {
-        // Mapear los resultados para que cumplan con la interfaz Recordatorio
-        console.log("RES: ", response)
         return response.reminders.map((reminder: any) => ({
           titulo: reminder.title,
           fechaInicio: new Date(reminder.startDate),

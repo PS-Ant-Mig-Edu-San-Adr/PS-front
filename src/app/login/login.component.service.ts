@@ -29,9 +29,8 @@ export class LoginService {
       (res) => {
         if (res.status === 200) {
           this.closeLoginPopup();
-          console.log("Token: ", res.token, "User: ", res.user.username);
-          this.sessionStorageService.set('token', res.token); // Almacenar el token en sessionStorage
-          this.sessionStorageService.set('username', res.user.username); // Almacenar el nombre de usuario en sessionStorage
+          this.sessionStorageService.set('token', res.token);
+          this.sessionStorageService.set('username', res.user.username);
           this.loginStatusSubject.next(true);
         } else {
           this.loginStatusSubject.next(false);
