@@ -69,7 +69,7 @@
     background-color: transparent   ;
 }
 
-.dia:hover .dia-button, .contenido:hover .dia-button, .hora-dia .dia-button{
+.dia.normal:hover .dia-button, .contenido:hover .dia-button, .hora-dia .dia-button{
     opacity: 1;
 }
 
