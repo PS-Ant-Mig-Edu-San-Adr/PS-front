@@ -16,7 +16,7 @@
         </div>
 
         <div *ngIf="vistaActual === 'dia'" class="vista-dia">
-          <div class="titulo-dia">{{ fechaActual.getDay() === 0 ? 'Sábado' : diasSemana[fechaActual.getDay() - 1] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
+          <div class="titulo-dia">{{ fechaActual.getDay() === 0 ? 'Domingo  ' : diasSemana[fechaActual.getDay() - 1] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
           <div class="horas-dia">
             <div *ngFor="let hora of horas" class="hora-dia">
               <div class="hora-container">
@@ -71,7 +71,7 @@
               <button class="dia-button" (click)="addReminderFunction({dia: dia.value, mes: mesActual, ano: anoActual, type: 'mes'})"><i [ngClass]="dia.type" class="fas fa-plus"></i></button>
             </div>
             <ng-container *ngFor="let evento of eventos">
-              <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia.value, 'mes')">
+              <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia, 'mes')">
                 {{ evento.titulo }}
                 <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                   <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>

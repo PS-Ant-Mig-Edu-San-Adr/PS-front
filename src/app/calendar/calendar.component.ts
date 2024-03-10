@@ -10,6 +10,8 @@ import { RegisterService } from '../register/register.component.service';
 import { LoginService } from '../login/login.component.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { D, co } from '@fullcalendar/core/internal-common';
+import e from 'express';
 
 @Component({
   selector: 'app-calendar',
@@ -89,37 +91,125 @@ export class CalendarComponent implements OnInit {
     this.eventos = [...eventos, ...recordatorios];
   }
 
+
+
+
   seMuestraEvento(evento: (Recordatorio | Evento), tiempo: any, vista: string, diaIndex?: number): boolean {
-    const eventoInicio = evento.fechaInicio;
-    const eventoFin = evento.fechaFin;
+    const eventoInicio: Date = evento.fechaInicio;
+    const eventoFin: Date = evento.fechaFin;
+    const hoy = new Date();
     const eventoHora = eventoInicio.getHours();
-    let horaString: string;
+    let horaString;
+
+    const esMismoDia = (fecha1: Date, fecha2: Date): boolean => {
+      return fecha1.getDate() === fecha2.getDate() &&
+         fecha1.getMonth() === fecha2.getMonth() &&
+         fecha1.getFullYear() === fecha2.getFullYear();
+    };
+
+    
 
     switch (vista) {
       case 'dia':
         horaString = tiempo.split(':');
-        return eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoHora;
-      case 'semana':
-        horaString = tiempo.split(':');
-        const primerDiaSemana = (this.fechaActual.getDate() - this.fechaActual.getDay())+1;
-        const ultimoDiaSemana = primerDiaSemana + 6;
-        let eventoInicioDia = eventoInicio.getDay();
-        let eventoFinDia = eventoFin.getDay();
-        if (eventoInicioDia === 0) {
-          eventoInicioDia = 6;
+        const diaSemanaEvento = eventoInicio.getDay();
+        const diaSemanaHoy = hoy.getDay();
+        if ((evento.repetir === 'Diario') ||
+            (evento.repetir === 'Ninguno' && esMismoDia(eventoInicio, hoy)) ||
+            (evento.repetir === 'Semanal' && diaSemanaEvento === diaSemanaHoy) ||
+            (evento.repetir === 'Mensual' && eventoInicio.getDate() === hoy.getDate()) ||
+            (evento.repetir === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate())) {
+          return parseInt(horaString, 10) === eventoHora;
         }else{
-          eventoInicioDia = eventoInicioDia - 1;
+          return false;
         }
-        if (eventoFinDia === 0) {
-          eventoFinDia = 6;
-        }else{
-          eventoFinDia = eventoFinDia - 1;
-        }
+        case 'semana':
+          horaString = tiempo.split(':');
 
-        return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10)+1 && eventoInicioDia === diaIndex;
+          let fechaActualDia = this.fechaActual.getDay();
+          fechaActualDia = fechaActualDia === 0 ? 6 : fechaActualDia - 1;
 
-      case 'mes':
-        return eventoInicio.getDate() === tiempo && eventoInicio.getMonth() === this.mesActual && eventoInicio.getFullYear() === this.anoActual;
+          const primerDiaSemana = (this.fechaActual.getDate() - fechaActualDia);
+          const ultimoDiaSemana = primerDiaSemana + 6;
+
+          let eventoInicioDia = eventoInicio.getDay();
+          let eventoFinDia = eventoFin ? eventoFin.getDay() : eventoInicio.getDay();
+        
+          // Ajuste para comenzar la semana en domingo
+          eventoInicioDia = eventoInicioDia === 0 ? 6 : eventoInicioDia - 1;
+          eventoFinDia = eventoFinDia === 0 ? 6 : eventoFinDia - 1;
+        
+          const esEventoEnSemanaActual = (fecha: Date) => {
+            const diaDelMes = fecha.getDate();
+            console.log("dia del mes: " + diaDelMes, "primer dia de la semana: " + primerDiaSemana, "ultimo dia de la semana: " + ultimoDiaSemana);
+            return diaDelMes >= primerDiaSemana && diaDelMes <= ultimoDiaSemana;
+          };
+        
+          switch (evento.repetir) {
+            case 'Diario':
+              return parseInt(horaString, 10) === eventoInicio.getHours();
+        
+            case 'Semanal':
+              return eventoInicioDia === diaIndex && parseInt(horaString, 10) === eventoInicio.getHours();
+        
+            case 'Mensual':
+              return eventoInicio.getDate() === this.fechaActual.getDate() && esEventoEnSemanaActual(eventoInicio) && parseInt(horaString, 10) === eventoInicio.getHours();
+        
+            case 'Anual':
+              return eventoInicio.getMonth() === this.fechaActual.getMonth() && eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoInicio.getHours();
+        
+            case 'Ninguno':
+              return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10) + 1 && eventoInicioDia === diaIndex;
+
+            default:
+              return false;
+          }
+          case 'mes':
+            console.log(evento);
+            const diaDelMesEvento = eventoInicio.getDate();
+            const mesEvento = eventoInicio.getMonth();
+            const añoEvento = eventoInicio.getFullYear();
+          
+            switch (evento.repetir) {
+              case 'Diario':
+                return true;
+                
+              case 'Semanal':
+                let diaCasilla: Number = 0;
+                if(tiempo.type === 'otro'){
+                  if(tiempo.value > 7){
+                    const mesAnterior = this.mesActual <= 0 ? 11 : this.mesActual - 1;
+                    if(mesAnterior === 11){
+                      diaCasilla = new Date(this.anoActual-1, mesAnterior, tiempo.value).getDay();
+                    }else{
+                      diaCasilla = new Date(this.anoActual, mesAnterior, tiempo.value).getDay();
+                    }
+                  }else if(tiempo.value < 7){
+                    const mesSiguiente = this.mesActual >= 11 ? 0 : this.mesActual + 1;
+                    if(mesSiguiente === 0){
+                      diaCasilla = new Date(this.anoActual+1, mesSiguiente, tiempo.value).getDay();
+                    }else{
+                      diaCasilla = new Date(this.anoActual, mesSiguiente, tiempo.value).getDay();
+                    }
+                  }
+                }else{
+                  diaCasilla = new Date(this.anoActual, this.mesActual, tiempo.value).getDay();
+                }
+                
+                return diaCasilla === eventoInicio.getDay();
+                
+              case 'Mensual':
+                return diaDelMesEvento === tiempo.value;
+          
+              case 'Anual':
+                return diaDelMesEvento === tiempo.value && mesEvento === this.mesActual && tiempo.type === 'normal';
+          
+              case 'Ninguno':
+                return diaDelMesEvento === tiempo.value && mesEvento === this.mesActual && añoEvento === this.anoActual && tiempo.type === 'normal';
+          
+              default:
+                return false;
+            }
       default:
         return false;
     }
