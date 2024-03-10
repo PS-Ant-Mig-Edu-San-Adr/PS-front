@@ -6,7 +6,7 @@
     <div class="data-reminder-container">
         <div class="input-reminder">
             <p>Fecha Inicio:</p>
-            <input type="datetime-local" id="input-start-date">
+            <input type="datetime-local" [(ngModel)]="selectedDateStart" id="input-start-date">
         </div>
         <div class="input-reminder">
             <p>Fecha Límite:</p>
@@ -15,7 +15,11 @@
         <div class="input-reminder">
             <p>Repetir:</p>
             <select name="" id="input-repeat">
-                <option value="todos_los_dias" selected>Todos los días</option>
+                <option value="Diario" selected>Diario</option>
+                <option value="Semanal" selected>Semanal</option>
+                <option value="Mensual" selected>Mensual</option>
+                <option value="Anual" selected>Anual</option>
+                <option value="Ninguno" selected>Ninguno</option>
             </select>
         </div>
         <div class="input-reminder">

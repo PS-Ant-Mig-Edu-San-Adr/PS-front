@@ -1,21 +1,54 @@
 import { CommonModule } from '@angular/common';
+import { OnInit, OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
-import { SessionStorageService } from 'angular-web-storage';
+import { LocalStorageService } from 'angular-web-storage';
+import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-add-reminder',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './add-reminder.component.html',
   styleUrl: './add-reminder.component.css'
 })
-export class AddReminderComponent {
-  constructor(private addReminderService: AddReminderService, private sessionStorageService: SessionStorageService) {}
+export class AddReminderComponent implements OnInit, OnDestroy{
+  constructor(private addReminderService: AddReminderService, private localStorageService: LocalStorageService) {}
+
+  selectedDateStart: string = '';
+  private locale: string = 'en-US';
+  private dateSubscription: Subscription = new Subscription();
+
+  async ngOnInit(): Promise<void> {
+
+    this.dateSubscription = this.addReminderService.date$.subscribe(date => {
+      if (date) {
+        this.selectedDateStart = this.formatDateToDateTimeLocal(date);
+      }
+    });
+
+  }
+
+  ngOnDestroy() {
+    if (this.dateSubscription) {
+      this.dateSubscription.unsubscribe();
+    }
+  }
+
+  formatDateToDateTimeLocal(dateString: string): string {
+    const date = new Date(dateString);
+    return formatDate(date, 'yyyy-MM-ddTHH:mm', this.locale);
+  }
+
 
   closeAddReminderPopup() {
     this.addReminderService.closeAddReminderPopup();
+    
   }
+
+
 
   checkContent(): boolean{
     const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
@@ -38,7 +71,7 @@ export class AddReminderComponent {
   }
 
   addReminder() {
-    if (this.checkContent() && this.sessionStorageService.get('username')) {
+    if (this.checkContent() && this.localStorageService.get('username')) {
       const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
       const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
       const selectedRepeat = document.getElementById('input-repeat') as HTMLInputElement;
@@ -53,12 +86,12 @@ export class AddReminderComponent {
         selectedTitle.value,
         selectedColor.value,
         selectedDescription?.value || '',
-        this.sessionStorageService.get('username')
+        this.localStorageService.get('username')
       );
       this.closeAddReminderPopup();
     } else {
       alert('Please fill all the fields');
     }
   }
-
+  
 }

@@ -21,7 +21,7 @@
             <div *ngFor="let hora of horas" class="hora-dia">
               <div class="hora-container">
                 <span>{{ hora }}</span>
-                <button class="dia-button" (click)="addReminderFunction()"><i class="fas fa-plus"></i></button>
+                <button class="dia-button" (click)="addReminderFunction({hora: hora, type: 'dia'})"><i class="fas fa-plus"></i></button>
               </div>
               <ng-container *ngFor="let evento of eventos">
                 <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'dia')">
@@ -46,7 +46,7 @@
             <div class="celda hora">{{ hora }}</div>
             <ng-container *ngFor="let dia of diasSemana; let i = index">
               <div class="contenido">
-                <button class="dia-button" (click)="addReminderFunction()"><i class="fas fa-plus"></i></button>
+                <button class="dia-button" (click)="addReminderFunction({dia: i, hora: hora, type: 'semana'})"><i class="fas fa-plus"></i></button>
                 <ng-container *ngFor="let evento of eventos">
                   <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', i)">
                     {{ evento.titulo }}
@@ -68,7 +68,7 @@
           <div *ngFor="let dia of diasMes" [ngClass]="dia.type" class="dia">
             <div class="dia-container">
               <span>{{ dia.value }}</span>
-              <button class="dia-button" (click)="addReminderFunction()"><i [ngClass]="dia.type" class="fas fa-plus"></i></button>
+              <button class="dia-button" (click)="addReminderFunction({dia: dia.value, mes: mesActual, ano: anoActual, type: 'mes'})"><i [ngClass]="dia.type" class="fas fa-plus"></i></button>
             </div>
             <ng-container *ngFor="let evento of eventos">
               <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia.value, 'mes')">
