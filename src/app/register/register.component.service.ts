@@ -40,7 +40,8 @@ export class RegisterService {
         if (res.status === 200) {
           this.closeRegisterPopup();
           this.sessionStorageService.set('token', res.token); // Almacenar el token en sessionStorage
-          this.sessionStorageService.set('username', res.user.usuario); // Almacenar el nombre de usuario en sessionStorage
+          this.sessionStorageService.set('username', res.user.username); // Almacenar el nombre de usuario en sessionStorage
+          console.log("register.component.service -> Username", res.user.username);
           // this.localStorageService.set('username', res.user.usuario);
           this.registerStatusSubject.next(true);
         } else {

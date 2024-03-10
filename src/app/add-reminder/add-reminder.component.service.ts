@@ -32,12 +32,14 @@ export class AddReminderService {
   addReminder(selectedDateStart: string, selectedDateEnd: string, selectedRepeat: string, selectedTitle: string, selectedColor: string, selectedDescription: string ,username: string){
 
     const body = {
-      selectedDateStart,
-      selectedDateEnd,
-      selectedRepeat,
-      selectedTitle,
-      selectedColor,
-      selectedDescription
+      reminder: {
+        selectedDateStart,
+        selectedDateEnd,
+        selectedRepeat,
+        selectedTitle,
+        selectedColor,
+        selectedDescription
+      }
     };
 
     this.httpClient.post<any>(`http://localhost:3001/api/recordatorios/${username}`, body).subscribe(
