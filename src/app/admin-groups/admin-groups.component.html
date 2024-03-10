@@ -1,6 +1,7 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
 
@@ -50,7 +51,7 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button>Gestionar miembros</button>
+                    <button (click)="manageMembers()">Gestionar miembros</button>
                 </div>
             </div>
         </div>
