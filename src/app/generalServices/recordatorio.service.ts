@@ -13,6 +13,7 @@ export class RecordatorioService {
       const response: any = await this.httpClient.get(`http://localhost:3001/api/recordatorios/${username}`).toPromise();
       if (response.status === 200) {
         return response.reminders.map((reminder: any) => ({
+          id: reminder._id,
           titulo: reminder.title,
           fechaInicio: new Date(reminder.startDate),
           fechaFin: new Date(reminder.endDate),
@@ -30,7 +31,7 @@ export class RecordatorioService {
     }
   }
 
-  async deleteRecordatorio(username: string, id: any): Promise<boolean> {
+  async deleteRecordatorio(username: string, id: string): Promise<boolean> {
     try {
       const response: any = await this.httpClient.delete(`http://localhost:3001/api/recordatorios/${username}/${id}`).toPromise();
       if (response.status === 200) {
