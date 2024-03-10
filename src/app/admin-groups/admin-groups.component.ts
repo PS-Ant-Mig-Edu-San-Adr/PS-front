@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { SharedPopupsService } from '../generalServices/sharedPopups.service';
 import { HeaderComponent } from '../header/header.component';
 import { LoginComponent } from '../login/login.component';
@@ -38,4 +38,25 @@ export class AdminGroupsComponent  implements OnInit {
   manageMembers() {
     this.manageMembersService.openManageMembersPopup();
   }
+
+  @ViewChild('inputNoActive', { static: false }) inputNoActive!: ElementRef;
+
+
+  toggleEditMode(inputElement: HTMLInputElement) {
+    if (inputElement) {
+      const inputId = inputElement.getAttribute('id');
+  
+      // Cambiar entre "noactive" y "active"
+      const newId = inputId === 'noactive' ? 'active' : 'noactive';
+      inputElement.setAttribute('id', newId);
+  
+      // Verificar el ID para habilitar o deshabilitar la edición
+      if (newId === 'active') {
+        inputElement.removeAttribute('readonly'); // Habilitar la edición
+      } else {
+        inputElement.setAttribute('readonly', 'true'); // Deshabilitar la edición
+      }
+    }  
+  }
+
 }
