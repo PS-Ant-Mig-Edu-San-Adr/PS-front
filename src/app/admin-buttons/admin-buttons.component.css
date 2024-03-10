@@ -19,7 +19,7 @@
     color: var(--mainColor);
     text-align: center;
     padding: 25px 30px;
-    background-color: var(--mainColorLighter);
+    background-color: var(--mainColorLightest);
     justify-content: center;
     font-size: x-large;
 }
