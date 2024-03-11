@@ -21,7 +21,8 @@ import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage
 })
 export class AdminOrganizationsComponent implements  OnInit{
   constructor(public addActivitiesPopUP: ManageActivitiesPopUpService, public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
-  
+  active: number = 2;
+
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
