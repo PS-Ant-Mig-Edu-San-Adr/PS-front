@@ -10,17 +10,19 @@ import { RegisterComponent } from '../register/register.component';
 import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component';
 import { ManageMembersService } from '../manage-members-pop-up/manage-members-pop-up.component.service'
 import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-members-pop-up.component'
+import { GroupAddPopUpComponent } from '../group-add-pop-up/group-add-pop-up.component';
+import { GroupAddPopUpService } from '../group-add-pop-up/group-add-pop-up.service';
 
 @Component({
   selector: 'app-admin-activities',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, AdminButtonsComponent, ManageMembersPopUpComponent],
+  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, AdminButtonsComponent, ManageMembersPopUpComponent, GroupAddPopUpComponent],
   providers: [SharedPopupsService],
   templateUrl: './admin-activities.component.html',
   styleUrl: './admin-activities.component.css'
 })
 export class AdminActivitiesComponent implements  OnInit {
-  constructor(public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  constructor(public addGroup: GroupAddPopUpService, public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
 
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
@@ -33,6 +35,13 @@ export class AdminActivitiesComponent implements  OnInit {
     this.sharedService.manageMembersService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
+    this.sharedService.addGroup.isOpen$.subscribe((success: boolean) => {
+      this.sharedService.toggleWrapperContainerStyles(success);
+    });
+  }
+
+  GroupAddPopup(){
+    this.addGroup.openGroupAddPopup();
   }
 
   manageMembers() {
