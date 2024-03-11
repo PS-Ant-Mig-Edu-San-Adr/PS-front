@@ -14,11 +14,14 @@ import { CalendarComponent } from '../calendar/calendar.component';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { AddReminderComponent } from '../add-reminder/add-reminder.component';
 import { Recordatorio } from '../interfaces/interface';
+import { Evento } from '../interfaces/interface';
+import { EventDetailsService } from '../event-details/event-details.component.service';
+import { EventDetailsComponent } from '../event-details/event-details.component';
 
 @Component({
   selector: 'app-calendar-page',
   standalone: true,
-  imports: [CommonModule, AddReminderComponent, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, CalendarComponent],
+  imports: [CommonModule, AddReminderComponent, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, CalendarComponent, EventDetailsComponent],
   providers: [SharedPopupsService, OrganizationService, ActivityService],
   templateUrl: './calendar-page.component.html',
   styleUrls: ['./calendar-page.component.css']
@@ -26,12 +29,14 @@ import { Recordatorio } from '../interfaces/interface';
 export class CalendarPageComponent implements OnInit{
   organizations: Organization[] = [];
   recordatorioParaEditar: Recordatorio | null = null;
+  detalles: Recordatorio | Evento | null = null;
 
   constructor(
     public sharedService: SharedPopupsService, 
     public loginService: LoginService, 
     public registerService: RegisterService,
     public addReminderService: AddReminderService,
+    public eventDetailsService: EventDetailsService
   ) {}
 
   ngOnInit() {
@@ -44,6 +49,10 @@ export class CalendarPageComponent implements OnInit{
     });
 
     this.sharedService.addReminderService.isOpen$.subscribe((success: boolean) => {
+      this.sharedService.toggleWrapperContainerStyles(success);
+    });
+
+    this.sharedService.eventDetailsService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
@@ -66,6 +75,11 @@ export class CalendarPageComponent implements OnInit{
   editReminder(event: Recordatorio) {
     this.recordatorioParaEditar = event;
     this.addReminderService.openEditReminderPopup();
+  }
+
+  showDetails(event: Recordatorio | Evento) {
+    this.detalles = event;
+    this.eventDetailsService.openEventDetailsPopup();
   }
 
   addReminder(event: any) {

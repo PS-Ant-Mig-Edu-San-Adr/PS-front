@@ -10,6 +10,7 @@ import { RegisterService } from '../register/register.component.service';
 import { LoginService } from '../login/login.component.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { co } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-calendar',
@@ -24,6 +25,7 @@ export class CalendarComponent implements OnInit {
   
   @Output() addReminder = new EventEmitter<any>();
   @Output() editReminder = new EventEmitter<any>();
+  @Output() showDetails = new EventEmitter<any>();
 
 
 
@@ -86,14 +88,28 @@ export class CalendarComponent implements OnInit {
     this.addReminder.emit(object);
   }
 
-  cargarComponente(recordatorio: Recordatorio) {
+  editReminderFunction(recordatorio: Recordatorio) {
     this.editReminder.emit(recordatorio);
+  }
+
+  showDetailsFunction(event: Recordatorio | Evento) {
+    this.showDetails.emit(event);
   }
 
   async actualizarEventos(): Promise<void> {
     const eventos = await this.eventoService.getEventos(this.username);
     const recordatorios = await this.recordatorioService.getRecordatorios(this.username);
     this.eventos = [...eventos, ...recordatorios];
+  }
+
+  diaDelMesEnSemanaActual(diaDeLaSemana: number) {
+    const hoy = new Date();
+    let diaSemanaActual = hoy.getDay();
+    diaSemanaActual = diaSemanaActual === 0 ? 6 : diaSemanaActual - 1;
+
+    let diferencia = diaDeLaSemana - diaSemanaActual;
+    hoy.setDate(hoy.getDate() + diferencia);
+    return hoy.getDate();
   }
 
 
@@ -105,7 +121,7 @@ export class CalendarComponent implements OnInit {
     const hoy = new Date();
     const eventoHora = eventoInicio.getHours();
     let horaString;
-    const fechaSeleccionada = new Date(this.anoActual, this.mesActual, (tiempo.type ? tiempo.value : tiempo));
+    let monthDay: number = tiempo.type ? tiempo.value : diaIndex;
 
     const esMismoDia = (fecha1: Date, fecha2: Date): boolean => {
       return fecha1.getDate() === fecha2.getDate() &&
@@ -115,36 +131,43 @@ export class CalendarComponent implements OnInit {
 
     
 
+    
+
     switch (vista) {
       case 'dia':
         horaString = tiempo.split(':');
         const diaSemanaEvento = eventoInicio.getDay();
         const diaSemanaHoy = hoy.getDay();
-        if ((evento.repetir === 'Diario' && fechaSeleccionada >= hoy)||
+        const fechaSeleccionadaDia = new Date(this.anoActual, this.mesActual, monthDay, hoy.getHours(), hoy.getMinutes(), hoy.getSeconds());
+        fechaSeleccionadaDia.setMinutes(fechaSeleccionadaDia.getMinutes() + 2);
+        if ((evento.repetir === 'Diario' && fechaSeleccionadaDia >= hoy)||
             (evento.repetir === 'Ninguno' && esMismoDia(eventoInicio, hoy)) ||
-            (evento.repetir === 'Semanal' && diaSemanaEvento === diaSemanaHoy && fechaSeleccionada >= hoy) ||
-            (evento.repetir === 'Mensual' && eventoInicio.getDate() === hoy.getDate() && fechaSeleccionada >= hoy) ||
-            (evento.repetir === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate()) && fechaSeleccionada >= hoy) {
-          return parseInt(horaString, 10) === eventoHora;
+            (evento.repetir === 'Semanal' && diaSemanaEvento === diaSemanaHoy && fechaSeleccionadaDia >= hoy) ||
+            (evento.repetir === 'Mensual' && eventoInicio.getDate() === hoy.getDate() && fechaSeleccionadaDia >= hoy) ||
+            (evento.repetir === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate()) && fechaSeleccionadaDia >= hoy) {
+          return eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1
         }else{
           return false;
         }
         case 'semana':
-          horaString = tiempo.split(':');
+              horaString = tiempo.split(':');
 
+              let fechaActualDia = this.fechaActual.getDay();
+              fechaActualDia = fechaActualDia === 0 ? 6 : fechaActualDia - 1;
 
-          let fechaActualDia = this.fechaActual.getDay();
-          fechaActualDia = fechaActualDia === 0 ? 6 : fechaActualDia - 1;
+              const primerDiaSemana = (this.fechaActual.getDate() - fechaActualDia);
+              const ultimoDiaSemana = primerDiaSemana + 6;
 
-          const primerDiaSemana = (this.fechaActual.getDate() - fechaActualDia);
-          const ultimoDiaSemana = primerDiaSemana + 6;
-
-          let eventoInicioDia = eventoInicio.getDay();
-          let eventoFinDia = eventoFin ? eventoFin.getDay() : eventoInicio.getDay();
-        
-          // Ajuste para comenzar la semana en domingo
-          eventoInicioDia = eventoInicioDia === 0 ? 6 : eventoInicioDia - 1;
+              let eventoInicioDia = eventoInicio.getDay();
+              let eventoFinDia = eventoFin ? eventoFin.getDay() : eventoInicio.getDay();
+          
+            // Ajuste para comenzar la semana en domingo
+            eventoInicioDia = eventoInicioDia === 0 ? 6 : eventoInicioDia - 1;
           eventoFinDia = eventoFinDia === 0 ? 6 : eventoFinDia - 1;
+
+          const fechaSeleccionadaSemana = new Date(this.anoActual, this.mesActual, monthDay, hoy.getHours(), hoy.getMinutes(), hoy.getSeconds());
+          fechaSeleccionadaSemana.setMinutes(fechaSeleccionadaSemana.getMinutes() + 2);
+          const fechaSeleccionadaDiaSemana = fechaSeleccionadaSemana.getDay() === 0 ? 6 : fechaSeleccionadaSemana.getDay() - 1;
         
           const esEventoEnSemanaActual = (fecha: Date) => {
             const diaDelMes = fecha.getDate();
@@ -153,19 +176,20 @@ export class CalendarComponent implements OnInit {
         
           switch (evento.repetir) {
             case 'Diario':
-              return parseInt(horaString, 10) === eventoInicio.getHours() && fechaSeleccionada >= hoy;
+              return eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1 && fechaSeleccionadaSemana >= hoy;
         
             case 'Semanal':
-              return eventoInicioDia === diaIndex && fechaSeleccionada >= hoy && parseInt(horaString, 10) === eventoInicio.getHours();
+              console.log(fechaSeleccionadaSemana, hoy);
+              return eventoInicioDia === fechaSeleccionadaDiaSemana && fechaSeleccionadaSemana >= hoy && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
         
             case 'Mensual':
-              return eventoInicio.getDate() === this.fechaActual.getDate() && fechaSeleccionada >= hoy && esEventoEnSemanaActual(eventoInicio) && parseInt(horaString, 10) === eventoInicio.getHours();
+              return eventoInicioDia === fechaSeleccionadaDiaSemana && eventoInicio.getDate() === this.fechaActual.getDate() && fechaSeleccionadaSemana >= hoy && esEventoEnSemanaActual(eventoInicio) && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
         
             case 'Anual':
-              return eventoInicio.getMonth() === this.fechaActual.getMonth() && fechaSeleccionada >= hoy && eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoInicio.getHours();
+              return eventoInicioDia === fechaSeleccionadaDiaSemana && eventoInicio.getMonth() === this.fechaActual.getMonth() && fechaSeleccionadaSemana >= hoy && eventoInicio.getDate() === this.fechaActual.getDate() && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
         
             case 'Ninguno':
-              return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10) + 1 && eventoInicioDia === diaIndex;
+              return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1 && eventoInicioDia === fechaSeleccionadaDiaSemana;
 
             default:
               return false;
@@ -174,6 +198,7 @@ export class CalendarComponent implements OnInit {
             const diaDelMesEvento = eventoInicio.getDate();
             const mesEvento = eventoInicio.getMonth();
             const añoEvento = eventoInicio.getFullYear();
+            const fechaSeleccionada = new Date(this.anoActual, this.mesActual, tiempo.value, 23, 59);
           
             switch (evento.repetir) {
               case 'Diario':
@@ -190,7 +215,7 @@ export class CalendarComponent implements OnInit {
                 return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && mesEvento === this.mesActual && tiempo.type === 'normal';
           
               case 'Ninguno':
-                return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && mesEvento === this.mesActual && añoEvento === this.anoActual && tiempo.type === 'normal';
+                return diaDelMesEvento === tiempo.value && mesEvento === this.mesActual && añoEvento === this.anoActual && tiempo.type === 'normal';
           
               default:
                 return false;

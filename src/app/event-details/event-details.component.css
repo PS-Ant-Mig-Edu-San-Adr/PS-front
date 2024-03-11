@@ -1,0 +1,47 @@
+.event-details-container {
+    background-color: var(--mainColor);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 40px 40px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: default;
+    z-index: 9999; 
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: x-large;
+    color: white;
+}
+.input-title-container {
+  margin-top: 16px;
+}
+
+
+.input-title-container input {
+  width: 80%;
+  font-size: xxx-large; 
+  color: var(--mainTextWhite);
+  background-color: transparent;
+  outline: 0px;
+}
+
+.description-event-details p {
+  width: 100%;
+  height: auto;
+  min-height: 100px;
+  box-sizing: border-box; 
+  color: var(--mainTextWhite);
+  text-align:start;
+  margin: 20px 0px;
+}

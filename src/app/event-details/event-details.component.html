@@ -1,0 +1,28 @@
+<div class="event-details-container">
+    <button (click)="closeEventDetailsPopup()" class="close-button">X</button>
+    <div class="input-title-container">
+        <input type="text" placeholder="Sin título" id="input-title" disabled [(ngModel)]="selectedTitle">
+    </div>
+    <div class="description-event-details">
+        <p id="input-description" disabled>{{ selectedDescription }}</p>
+    </div>
+
+    <!-- <label for="start-date">Fecha de inicio:</label>
+    <input type="text" id="start-date" disabled [value]="startDate">
+
+    <label for="end-date">Fecha de fin:</label>
+    <input type="text" id="end-date" disabled [value]="endDate">
+
+    <label for="event-status">Estado del evento:</label>
+    <input type="text" id="event-status" disabled [value]="eventStatus">
+
+    <label for="attachments">Archivos adjuntos:</label>
+    <a href="{{attachmentUrl}}" download>Descargar</a>
+
+    <label for="event-group">Grupo:</label>
+    <input type="text" id="event-group" disabled [value]="eventGroup">
+
+    <label for="additional-notes">Notas adicionales:</label>
+    <textarea id="additional-notes" disabled [(ngModel)]="additionalNotes"></textarea> -->
+
+</div>

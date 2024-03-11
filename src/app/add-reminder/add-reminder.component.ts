@@ -56,6 +56,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
 
   }
 
+
   ngOnDestroy() {
     if (this.dateSubscription) {
       this.dateSubscription.unsubscribe();
@@ -105,7 +106,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
       const selectedDescription = document.getElementById('input-description') as HTMLInputElement;
 
       
-      if(selectedDateStart.value < selectedDateEnd.value){
+      if(selectedDateStart.value > selectedDateEnd.value){
         alert('La fecha de inicio no puede ser mayor que la fecha de fin');
         return;
       }else if(selectedDateStart.value === selectedDateEnd.value){
