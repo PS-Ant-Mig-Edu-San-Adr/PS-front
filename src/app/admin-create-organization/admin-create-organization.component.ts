@@ -28,5 +28,8 @@ export class AdminCreateOrganizationComponent implements OnInit{
     this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
+    this.sharedService.addActivitiesService.isOpen$.subscribe((success: boolean) => {
+      this.sharedService.toggleWrapperContainerStyles(success);
+    });
   }
 }
