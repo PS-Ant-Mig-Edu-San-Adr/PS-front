@@ -22,7 +22,11 @@ export class EventosService {
           descripcion: event.description || '',
           tipo: "evento",
           color: event.color || '',
-          repetir: event.repeat || ''
+          repetir: event.repeat || '',
+          estado: event.status || '',
+          adjuntos: event.attachments || '',
+          grupo: event.group || 0,
+          notas: event.notes || ''
         }));
         return eventos;
       } else {

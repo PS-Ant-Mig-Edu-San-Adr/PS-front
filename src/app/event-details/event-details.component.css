@@ -4,7 +4,7 @@
     border-radius: 10px;
     box-sizing: border-box;
     padding: 40px 40px;
-
+    color: var(--mainTextWhite);
     position: fixed;
     top: 50%;
     left: 50%;
@@ -39,9 +39,24 @@
 .description-event-details p {
   width: 100%;
   height: auto;
-  min-height: 100px;
   box-sizing: border-box; 
-  color: var(--mainTextWhite);
   text-align:start;
   margin: 20px 0px;
+}
+
+.extra-details {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.extra-details > :nth-child(1) {
+  margin-right: 10px;
+}
+
+.extra-details > :nth-child(2) {
+  background-color: transparent;
+  color: white;
+  flex: 1;
+
 }

@@ -10,7 +10,6 @@ import { RegisterService } from '../register/register.component.service';
 import { LoginService } from '../login/login.component.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { co } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-calendar',
@@ -94,6 +93,7 @@ export class CalendarComponent implements OnInit {
 
   showDetailsFunction(event: Recordatorio | Evento) {
     this.showDetails.emit(event);
+    
   }
 
   async actualizarEventos(): Promise<void> {
