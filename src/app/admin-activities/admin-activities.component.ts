@@ -23,6 +23,7 @@ import { GroupAddPopUpService } from '../group-add-pop-up/group-add-pop-up.servi
 })
 export class AdminActivitiesComponent implements  OnInit {
   constructor(public addGroup: GroupAddPopUpService, public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  active: number = 3;
 
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
