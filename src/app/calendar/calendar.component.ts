@@ -5,11 +5,12 @@ import { Evento } from '../interfaces/interface';
 import { RecordatorioService } from '../generalServices/recordatorio.service';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { EventosService } from '../generalServices/eventos.service';
-import { LocalStorageService } from 'angular-web-storage';
+import { SessionStorageService } from 'angular-web-storage';
 import { RegisterService } from '../register/register.component.service';
 import { LoginService } from '../login/login.component.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { co } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-calendar',
@@ -21,12 +22,16 @@ import { Subject } from 'rxjs';
 export class CalendarComponent implements OnInit {
 
   private unsubscribe$ = new Subject<void>();
+  
   @Output() addReminder = new EventEmitter<any>();
+  @Output() editReminder = new EventEmitter<any>();
+  @Output() showDetails = new EventEmitter<any>();
 
 
-  constructor(private recordatorioService: RecordatorioService, 
-    private eventoService: EventosService, 
-    private localStorageService: LocalStorageService,
+
+  constructor(private recordatorioService: RecordatorioService,
+    private eventoService: EventosService,
+    private sessionStorageService: SessionStorageService,
     private registerService: RegisterService,
     private loginService: LoginService,
     private addReminderService: AddReminderService
@@ -51,24 +56,24 @@ export class CalendarComponent implements OnInit {
     this.mesActualNombre = this.nombresMeses[this.mesActual];
     this.calculateDaysForCalendar();
     this.inicializarHoras();
-  
-    this.username = this.localStorageService.get('username') || '';
+
+    this.username = this.sessionStorageService.get('username') || '';
 
     if (this.username !== '') {
       await this.actualizarEventos();
     }
-  
+
     this.loginService.loginStatus$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.username = this.localStorageService.get('username');
+        this.username = this.sessionStorageService.get('username');
         this.actualizarEventos();
       });
-  
+
     this.registerService.registerStatus$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.username = this.localStorageService.get('username');
+        this.username = this.sessionStorageService.get('username');
         this.actualizarEventos();
       });
 
@@ -79,8 +84,16 @@ export class CalendarComponent implements OnInit {
       });
   }
 
-  addReminderFunction() {
-    this.addReminder.emit();
+  addReminderFunction(object: any): void {
+    this.addReminder.emit(object);
+  }
+
+  editReminderFunction(recordatorio: Recordatorio) {
+    this.editReminder.emit(recordatorio);
+  }
+
+  showDetailsFunction(event: Recordatorio | Evento) {
+    this.showDetails.emit(event);
   }
 
   async actualizarEventos(): Promise<void> {
@@ -89,42 +102,130 @@ export class CalendarComponent implements OnInit {
     this.eventos = [...eventos, ...recordatorios];
   }
 
+  diaDelMesEnSemanaActual(diaDeLaSemana: number) {
+    const hoy = new Date();
+    let diaSemanaActual = hoy.getDay();
+    diaSemanaActual = diaSemanaActual === 0 ? 6 : diaSemanaActual - 1;
+
+    let diferencia = diaDeLaSemana - diaSemanaActual;
+    hoy.setDate(hoy.getDate() + diferencia);
+    return hoy.getDate();
+  }
+
+
+
+
   seMuestraEvento(evento: (Recordatorio | Evento), tiempo: any, vista: string, diaIndex?: number): boolean {
-    const eventoInicio = evento.fechaInicio;
-    const eventoFin = evento.fechaFin;
+    const eventoInicio: Date = evento.fechaInicio;
+    const eventoFin: Date = evento.fechaFin;
+    const hoy = new Date();
     const eventoHora = eventoInicio.getHours();
-    let horaString: string;
+    let horaString;
+    let monthDay: number = tiempo.type ? tiempo.value : diaIndex;
+
+    const esMismoDia = (fecha1: Date, fecha2: Date): boolean => {
+      return fecha1.getDate() === fecha2.getDate() &&
+         fecha1.getMonth() === fecha2.getMonth() &&
+         fecha1.getFullYear() === fecha2.getFullYear();
+    };
+
+    
+
+    
 
     switch (vista) {
       case 'dia':
         horaString = tiempo.split(':');
-        return eventoInicio.getDate() === this.fechaActual.getDate() && parseInt(horaString, 10) === eventoHora;
-      case 'semana':
-        horaString = tiempo.split(':');
-        const primerDiaSemana = (this.fechaActual.getDate() - this.fechaActual.getDay())+1;
-        const ultimoDiaSemana = primerDiaSemana + 6;
-        let eventoInicioDia = eventoInicio.getDay();
-        let eventoFinDia = eventoFin.getDay();
-        if (eventoInicioDia === 0) {
-          eventoInicioDia = 6;
+        const diaSemanaEvento = eventoInicio.getDay();
+        const diaSemanaHoy = hoy.getDay();
+        const fechaSeleccionadaDia = new Date(this.anoActual, this.mesActual, monthDay, hoy.getHours(), hoy.getMinutes(), hoy.getSeconds());
+        fechaSeleccionadaDia.setMinutes(fechaSeleccionadaDia.getMinutes() + 2);
+        if ((evento.repetir === 'Diario' && fechaSeleccionadaDia >= hoy)||
+            (evento.repetir === 'Ninguno' && esMismoDia(eventoInicio, hoy)) ||
+            (evento.repetir === 'Semanal' && diaSemanaEvento === diaSemanaHoy && fechaSeleccionadaDia >= hoy) ||
+            (evento.repetir === 'Mensual' && eventoInicio.getDate() === hoy.getDate() && fechaSeleccionadaDia >= hoy) ||
+            (evento.repetir === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate()) && fechaSeleccionadaDia >= hoy) {
+          return eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1
         }else{
-          eventoInicioDia = eventoInicioDia - 1;
+          return false;
         }
-        if (eventoFinDia === 0) {
-          eventoFinDia = 6;
-        }else{
-          eventoFinDia = eventoFinDia - 1;
-        }
+        case 'semana':
+              horaString = tiempo.split(':');
+
+              let fechaActualDia = this.fechaActual.getDay();
+              fechaActualDia = fechaActualDia === 0 ? 6 : fechaActualDia - 1;
+
+              const primerDiaSemana = (this.fechaActual.getDate() - fechaActualDia);
+              const ultimoDiaSemana = primerDiaSemana + 6;
+
+              let eventoInicioDia = eventoInicio.getDay();
+              let eventoFinDia = eventoFin ? eventoFin.getDay() : eventoInicio.getDay();
+          
+            // Ajuste para comenzar la semana en domingo
+            eventoInicioDia = eventoInicioDia === 0 ? 6 : eventoInicioDia - 1;
+          eventoFinDia = eventoFinDia === 0 ? 6 : eventoFinDia - 1;
+
+          const fechaSeleccionadaSemana = new Date(this.anoActual, this.mesActual, monthDay, hoy.getHours(), hoy.getMinutes(), hoy.getSeconds());
+          fechaSeleccionadaSemana.setMinutes(fechaSeleccionadaSemana.getMinutes() + 2);
+          const fechaSeleccionadaDiaSemana = fechaSeleccionadaSemana.getDay() === 0 ? 6 : fechaSeleccionadaSemana.getDay() - 1;
         
-        return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoInicio.getHours() >= parseInt(horaString, 10) && eventoInicio.getHours() <= parseInt(horaString, 10)+1 && eventoInicioDia === diaIndex;
+          const esEventoEnSemanaActual = (fecha: Date) => {
+            const diaDelMes = fecha.getDate();
+            return diaDelMes >= primerDiaSemana && diaDelMes <= ultimoDiaSemana;
+          };
         
-      case 'mes':
-        return eventoInicio.getDate() === tiempo && eventoInicio.getMonth() === this.mesActual && eventoInicio.getFullYear() === this.anoActual;
+          switch (evento.repetir) {
+            case 'Diario':
+              return eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1 && fechaSeleccionadaSemana >= hoy;
+        
+            case 'Semanal':
+              console.log(fechaSeleccionadaSemana, hoy);
+              return eventoInicioDia === fechaSeleccionadaDiaSemana && fechaSeleccionadaSemana >= hoy && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
+        
+            case 'Mensual':
+              return eventoInicioDia === fechaSeleccionadaDiaSemana && eventoInicio.getDate() === this.fechaActual.getDate() && fechaSeleccionadaSemana >= hoy && esEventoEnSemanaActual(eventoInicio) && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
+        
+            case 'Anual':
+              return eventoInicioDia === fechaSeleccionadaDiaSemana && eventoInicio.getMonth() === this.fechaActual.getMonth() && fechaSeleccionadaSemana >= hoy && eventoInicio.getDate() === this.fechaActual.getDate() && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
+        
+            case 'Ninguno':
+              return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1 && eventoInicioDia === fechaSeleccionadaDiaSemana;
+
+            default:
+              return false;
+          }
+          case 'mes':
+            const diaDelMesEvento = eventoInicio.getDate();
+            const mesEvento = eventoInicio.getMonth();
+            const añoEvento = eventoInicio.getFullYear();
+            const fechaSeleccionada = new Date(this.anoActual, this.mesActual, tiempo.value, 23, 59);
+          
+            switch (evento.repetir) {
+              case 'Diario':
+                return tiempo.type === 'normal' && fechaSeleccionada >= hoy;
+                
+              case 'Semanal':
+                const diaCasilla = new Date(this.anoActual, this.mesActual, tiempo.value).getDay();
+                return diaCasilla === eventoInicio.getDay() && fechaSeleccionada >= hoy && tiempo.type === 'normal';
+                
+              case 'Mensual':
+                return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && tiempo.type === 'normal';
+          
+              case 'Anual':
+                return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && mesEvento === this.mesActual && tiempo.type === 'normal';
+          
+              case 'Ninguno':
+                return diaDelMesEvento === tiempo.value && mesEvento === this.mesActual && añoEvento === this.anoActual && tiempo.type === 'normal';
+          
+              default:
+                return false;
+            }
       default:
         return false;
     }
   }
-  
+
+
 
   cambiarVista(vista: string): void {
     this.vistaActual = vista;
@@ -133,7 +234,7 @@ export class CalendarComponent implements OnInit {
 
   cambiarMes(diferencia: number): void {
     this.mesActual += diferencia;
-    
+
     if (this.mesActual < 0) {
       this.mesActual = 11;
       this.anoActual -= 1;
@@ -155,24 +256,24 @@ export class CalendarComponent implements OnInit {
   actualizarFechaActual(): void {
     this.fechaActual = new Date(this.anoActual, this.mesActual, new Date().getDate());
   }
-  
+
   calculateDaysForCalendar(): void {
     if (this.vistaActual === 'mes') {
       const primerDiaMes = new Date(this.anoActual, this.mesActual, 1);
       const ultimoDiaMes = new Date(this.anoActual, this.mesActual + 1, 0);
-    
+
       this.diasMes = [];
-    
+
       const primerDiaSemana = (primerDiaMes.getDay() + 6) % 7;
       const ultimoDiaMesAnterior = new Date(this.anoActual, this.mesActual, 0).getDate();
       for (let i = ultimoDiaMesAnterior - primerDiaSemana + 1; i <= ultimoDiaMesAnterior; i++) {
         this.diasMes.push({type: 'otro', value: i});
       }
-    
+
       for (let i = 1; i <= ultimoDiaMes.getDate(); i++) {
         this.diasMes.push({type: 'normal', value: i});
       }
-    
+
       const ultimoDiaSemana = (ultimoDiaMes.getDay() + 6) % 7;
       for (let i = 1; i < 7 - ultimoDiaSemana; i++) {
         this.diasMes.push({type: 'otro', value: i});
@@ -189,7 +290,7 @@ export class CalendarComponent implements OnInit {
       this.diasMes = [this.fechaActual.getDate()];
     }
   }
-  
+
 
   eliminarEvento(evento: any): void {
     if(evento.tipo === 'evento'){

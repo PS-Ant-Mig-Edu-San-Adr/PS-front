@@ -1,6 +1,7 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
 
@@ -28,29 +29,29 @@
                             <div class="event-data">
                                 <p>Titulo</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id=""  placeholder="ej.: Producción de Software">
-                                    <i class="fa fa-pencil"></i>
+                                    <input type="text" name="" id="noactive" #inputTitulo placeholder="ej.: Producción de Software" readonly>
+                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Descripción</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id=""  placeholder="ej.: ...">
-                                    <i class="fa fa-pencil"></i>
+                                    <input type="text" name="" id="noactive"  #inputDescripcion placeholder="ej.: ..." readonly>
+                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Horario</p>
                                 <div class="input-container">
-                                    <input type="email" name="" id=""  placeholder="ej.: Lunes[8:30-10:30]">
-                                    <i class="fa fa-pencil"></i>
+                                    <input type="email" name="" id="noactive" #inputHorario placeholder="ej.: Lunes[8:30-10:30]" readonly> 
+                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputHorario)"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="buttons">
-                    <button>Gestionar miembros</button>
+                    <button (click)="manageMembers()">Gestionar miembros</button>
                 </div>
             </div>
         </div>

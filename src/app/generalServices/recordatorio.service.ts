@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Recordatorio } from '../interfaces/interface';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Recordatorio} from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +12,16 @@ export class RecordatorioService {
     try {
       const response: any = await this.httpClient.get(`http://localhost:3001/api/recordatorios/${username}`).toPromise();
       if (response.status === 200) {
-        // Mapear los resultados para que cumplan con la interfaz Recordatorio
-        const recordatorios: Recordatorio[] = response.recordatorios.map((recordatorio: any) => ({
-          id: recordatorio._id,
-          titulo: recordatorio.titulo,
-          fechaInicio: new Date(recordatorio.fechaInicio),
-          fechaFin: new Date(recordatorio.fechaFin),
-          descripcion: recordatorio.descripcion || '',
+        return response.reminders.map((reminder: any) => ({
+          id: reminder._id,
+          titulo: reminder.title,
+          fechaInicio: new Date(reminder.startDate),
+          fechaFin: new Date(reminder.endDate),
+          descripcion: reminder.description,
           tipo: "recordatorio",
-          color: recordatorio.color || '',
-          repetir: recordatorio.repetir || ''
+          color: reminder.color || '',
+          repetir: reminder.repeat || ''
         }));
-        return recordatorios;
       } else {
         return [];
       }
@@ -33,7 +31,7 @@ export class RecordatorioService {
     }
   }
 
-  async deleteRecordatorio(username: string, id: any): Promise<boolean> {
+  async deleteRecordatorio(username: string, id: string): Promise<boolean> {
     try {
       const response: any = await this.httpClient.delete(`http://localhost:3001/api/recordatorios/${username}/${id}`).toPromise();
       if (response.status === 200) {

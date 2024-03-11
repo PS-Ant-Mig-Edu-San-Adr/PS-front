@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { LocalStorageService } from 'angular-web-storage';
+import {SessionStorageService} from "angular-web-storage";
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegisterService {
 
-  constructor(private httpClient: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(private httpClient: HttpClient, private sessionStorageService: SessionStorageService) {}
 
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   isOpen$ = this.isOpenSubject.asObservable();
@@ -19,11 +19,7 @@ export class RegisterService {
   async checkUsername(username: string): Promise<boolean> {
     try {
       const result = await this.httpClient.get<any>(`http://localhost:3001/api/check-username/${username}`).toPromise();
-      if (result.status === 200) {
-        return true;
-      } else {
-        return false;
-      }
+      return result.status === 200;
     } catch (error) {
       console.error('Error al verificar el nombre de usuario:', error);
       return false;
@@ -43,7 +39,8 @@ export class RegisterService {
       (res) => {
         if (res.status === 200) {
           this.closeRegisterPopup();
-          this.localStorageService.set('username', res.user.usuario);
+          this.sessionStorageService.set('token', res.token); // Almacenar el token en sessionStorage
+          this.sessionStorageService.set('username', res.user.username); // Almacenar el nombre de usuario en sessionStorage
           this.registerStatusSubject.next(true);
         } else {
           this.registerStatusSubject.next(false);

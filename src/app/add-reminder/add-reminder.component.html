@@ -1,26 +1,30 @@
 <div class="add-reminder-container">
     <button (click)="closeAddReminderPopup()" class="close-button">X</button>
     <div class="input-title-container">
-        <input type="text" placeholder="Sin título" id="input-title">
+        <input type="text" placeholder="Sin título" id="input-title" [(ngModel)]="selectedTitle">
     </div>
     <div class="data-reminder-container">
         <div class="input-reminder">
             <p>Fecha Inicio:</p>
-            <input type="datetime-local" id="input-start-date">
+            <input type="datetime-local" [(ngModel)]="selectedDateStart" id="input-start-date">
         </div>
         <div class="input-reminder">
             <p>Fecha Límite:</p>
-            <input type="datetime-local" id="input-end-date">
+            <input type="datetime-local" [(ngModel)]="selectedDateEnd" id="input-end-date">
         </div>
         <div class="input-reminder">
             <p>Repetir:</p>
-            <select name="" id="input-repeat">
-                <option value="todos_los_dias" selected>Todos los días</option>
+            <select name="" id="input-repeat" [(ngModel)]="selectedRepeat">
+                <option value="Diario" selected>Diario</option>
+                <option value="Semanal" selected>Semanal</option>
+                <option value="Mensual" selected>Mensual</option>
+                <option value="Anual" selected>Anual</option>
+                <option value="Ninguno" selected>Ninguno</option>
             </select>
         </div>
         <div class="input-reminder">
             <p>Color:</p>
-            <select name="" id="input-color">
+            <select name="" id="input-color" [(ngModel)]="selectedColor">
                 <option value="red" selected>Red</option>
                 <option value="blue" selected>Blue</option>
                 <option value="yellow" selected>Yellow</option>
@@ -32,7 +36,8 @@
         </div>
     </div>
     <div class="description-reminder-container">
-        <textarea id="input-description" placeholder="Descripción..."></textarea>
+        <textarea id="input-description" placeholder="Descripción..." [(ngModel)]="selectedDescription"></textarea>
     </div>
-    <button class="send-button" (click)="addReminder()">Añadir</button>
+    <button *ngIf="!recordatorio" class="send-button" (click)="addReminder()">Añadir</button>
+    <button *ngIf="recordatorio" class="send-button" (click)="updateReminder()">Editar</button>
 </div>

@@ -1,7 +1,8 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
-    <app-add-reminder *ngIf="addReminderService.isOpen$| async"></app-add-reminder>
+    <app-add-reminder *ngIf="addReminderService.isOpen$| async" [recordatorio]="recordatorioParaEditar"></app-add-reminder>
+    <app-event-details *ngIf="eventDetailsService.isOpen$| async" [detalles]="detalles"></app-event-details>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
         <div class="calendar-page-content">
@@ -26,7 +27,7 @@
             </div>
 
             <div class="calendar-container">
-                <app-calendar (addReminder)="addReminder($event)"></app-calendar>
+                <app-calendar (addReminder)="addReminder($event)" (editReminder)="editReminder($event)" (showDetails)="showDetails($event)"></app-calendar>
             </div>
 
         </div>

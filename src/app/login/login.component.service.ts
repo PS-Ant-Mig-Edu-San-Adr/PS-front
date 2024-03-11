@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { LocalStorageService } from 'angular-web-storage';
+import {SessionStorageService} from "angular-web-storage";
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  constructor(private httpClient: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(private httpClient: HttpClient, private sessionStorageService: SessionStorageService) {}
 
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   isOpen$ = this.isOpenSubject.asObservable();
@@ -28,7 +29,8 @@ export class LoginService {
       (res) => {
         if (res.status === 200) {
           this.closeLoginPopup();
-          this.localStorageService.set('username', res.user.usuario);
+          this.sessionStorageService.set('token', res.token);
+          this.sessionStorageService.set('username', res.user.username);
           this.loginStatusSubject.next(true);
         } else {
           this.loginStatusSubject.next(false);

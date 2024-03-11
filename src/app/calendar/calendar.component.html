@@ -16,19 +16,19 @@
         </div>
 
         <div *ngIf="vistaActual === 'dia'" class="vista-dia">
-          <div class="titulo-dia">{{ fechaActual.getDay() === 0 ? 'Sábado' : diasSemana[fechaActual.getDay() - 1] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
+          <div class="titulo-dia">{{ fechaActual.getDay() === 0 ? 'Domingo  ' : diasSemana[fechaActual.getDay() - 1] }}, {{ fechaActual.getDate() }} de {{ nombresMeses[fechaActual.getMonth()] }}</div>
           <div class="horas-dia">
             <div *ngFor="let hora of horas" class="hora-dia">
               <div class="hora-container">
                 <span>{{ hora }}</span>
-                <button class="dia-button" (click)="addReminderFunction()"><i class="fas fa-plus"></i></button>
+                <button class="dia-button" (click)="addReminderFunction({hora: hora, type: 'dia'})"><i class="fas fa-plus"></i></button>
               </div>
               <ng-container *ngFor="let evento of eventos">
-                <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'dia')">
-                  {{ evento.titulo }}
+                <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'dia', fechaActual.getDate())" (click)="showDetailsFunction(evento)">
+                  <a (click)="showDetailsFunction(evento)">{{ evento.titulo }}</a>
                   <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                     <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                    <button><i class="fas fa-pencil-alt"></i></button>
+                    <button (click)="editReminderFunction(evento)"><i class="fas fa-pencil-alt"></i></button>
                   </div>
                 </div>
               </ng-container>
@@ -46,13 +46,13 @@
             <div class="celda hora">{{ hora }}</div>
             <ng-container *ngFor="let dia of diasSemana; let i = index">
               <div class="contenido">
-                <button class="dia-button" (click)="addReminderFunction()"><i class="fas fa-plus"></i></button>
+                <button class="dia-button" (click)="addReminderFunction({dia: i, hora: hora, type: 'semana'})"><i class="fas fa-plus"></i></button>
                 <ng-container *ngFor="let evento of eventos">
-                  <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', i)">
-                    {{ evento.titulo }}
+                  <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', diaDelMesEnSemanaActual(i))"> 
+                    <a (click)="showDetailsFunction(evento)">{{ evento.titulo }}</a>
                     <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                       <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                      <button><i class="fas fa-pencil-alt"></i></button>
+                      <button (click)="editReminderFunction(evento)"><i class="fas fa-pencil-alt"></i></button>
                     </div>
                   </div>
                 </ng-container>
@@ -68,14 +68,14 @@
           <div *ngFor="let dia of diasMes" [ngClass]="dia.type" class="dia">
             <div class="dia-container">
               <span>{{ dia.value }}</span>
-              <button class="dia-button" (click)="addReminderFunction()"><i [ngClass]="dia.type" class="fas fa-plus"></i></button>
+              <button class="dia-button" (click)="addReminderFunction({dia: dia.value, mes: mesActual, ano: anoActual, type: 'mes'})"><i [ngClass]="dia.type" class="fas fa-plus"></i></button>
             </div>
             <ng-container *ngFor="let evento of eventos">
-              <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia.value, 'mes')">
-                {{ evento.titulo }}
+              <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia, 'mes')">
+                <a (click)="showDetailsFunction(evento)">{{ evento.titulo }}</a>
                 <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
                   <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                  <button><i class="fas fa-pencil-alt"></i></button>
+                  <button (click)="editReminderFunction(evento)"><i class="fas fa-pencil-alt"></i></button>
                 </div>
               </div>
             </ng-container>

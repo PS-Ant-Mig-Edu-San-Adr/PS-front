@@ -14,15 +14,15 @@ export class EventosService {
       const response: any = await this.httpClient.get(`http://localhost:3001/api/eventos/${username}`).toPromise();
       if (response.status === 200) {
         // Mapear los resultados para que cumplan con la interfaz Recordatorio
-        const eventos: Evento[] = response.eventos.map((recordatorio: any) => ({
-          id: recordatorio._id,
-          titulo: recordatorio.titulo,
-          fechaInicio: new Date(recordatorio.fechaInicio),
-          fechaFin: new Date(recordatorio.fechaFin),
-          descripcion: recordatorio.descripcion || '',
+        const eventos: Evento[] = response.events.map((event: any) => ({
+          id: event._id,
+          titulo: event.title,
+          fechaInicio: new Date(event.startDate),
+          fechaFin: new Date(event.endDate),
+          descripcion: event.description || '',
           tipo: "evento",
-          color: recordatorio.color || '',
-          repetir: recordatorio.repetir || ''
+          color: event.color || '',
+          repetir: event.repeat || ''
         }));
         return eventos;
       } else {

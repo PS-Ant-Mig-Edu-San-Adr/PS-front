@@ -69,7 +69,7 @@
     background-color: transparent   ;
 }
 
-.dia:hover .dia-button, .contenido:hover .dia-button, .hora-dia .dia-button{
+.dia.normal:hover .dia-button, .contenido:hover .dia-button, .hora-dia .dia-button{
     opacity: 1;
 }
 
@@ -195,9 +195,17 @@
     height: fit-content; 
     margin: 15px 0px;
     font-weight: 700;
-    cursor: pointer;
     justify-content: space-between;
     color: white;
+}
+
+.evento a{
+    cursor: pointer;
+    align-self: center;
+}
+
+.evento a:hover{
+    text-decoration: underline;
 }
 
 .evento-buttons {
