@@ -1,6 +1,7 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-manage-activities-pop-up *ngIf="addActivitiesPopUP.isOpen$ | async"></app-manage-activities-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
 
@@ -62,7 +63,7 @@
                     </div> 
                 </div>
                 <div class="buttons">
-                    <button>Crear Actividad</button>
+                    <button (click)="addActivities()">Crear Actividad</button>
                 </div>
             </div>
         </div>
