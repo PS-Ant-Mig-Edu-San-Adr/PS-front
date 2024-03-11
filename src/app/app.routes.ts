@@ -25,7 +25,6 @@ export const routes: Routes = [
   { path: 'adminActivities', component: AdminActivitiesComponent},
   { path: 'perfilInfo', component: PerfilInfoComponent},
   { path: 'perfilNotifications', component: PerfilNotificationsComponent},
-  { path: 'adminActivities', component: AdminActivitiesComponent},
   { path: 'calendar', component: CalendarPageComponent},
   { path: 'activities', component: ActivitiesComponent}
 ];

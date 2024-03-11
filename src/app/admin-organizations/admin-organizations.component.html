@@ -1,13 +1,14 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-manage-activities-pop-up *ngIf="addActivitiesPopUP.isOpen$ | async"></app-manage-activities-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
         <div class="admin-container">
             <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
             <div class="admin-organizations-content-container">
                 <div class="content">
-                    <app-admin-buttons></app-admin-buttons>
+                    <app-admin-buttons [active]="active"></app-admin-buttons>
                     <div class="admin-content">
                         <div class="header-admin-organizations-container">
                             <div class="filter">
@@ -68,7 +69,7 @@
                     </div> 
                 </div>
                 <div class="buttons">
-                    <button>Crear Actividad</button>
+                    <button (click)="addActivities()">Crear Actividad</button>
                 </div>
             </div>
         </div>

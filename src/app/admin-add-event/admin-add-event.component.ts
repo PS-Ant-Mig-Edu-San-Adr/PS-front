@@ -22,7 +22,7 @@ import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component'
 
 export class AdminAddEventComponent implements OnInit {
   constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
-
+  active: number = 0;
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);

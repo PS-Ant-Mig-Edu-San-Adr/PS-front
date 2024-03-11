@@ -1,0 +1,110 @@
+.manage-activities-container {
+    background-color: var(--mainColor);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px 30px;
+    width: 600px;
+    height: 450px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: default;
+    z-index: 9999; 
+}
+
+h1 {
+    color: var(--mainTextWhite);
+    font-size: xxx-large;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 8px;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: x-large;
+    color: white;
+}
+
+.manage-activities-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin-top: 20px;
+    color: white;
+    font-size: 16px;
+}
+
+.manage-activities-privacy {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 15px 0 15px 0;
+}
+
+.manage-activities-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 15px 0 15px 0;
+}
+
+.manage-activities-description{
+    margin: 15px 0 15px 0;
+}
+
+.manage-activities-content div h4{
+    font-size: 16px;
+    color: white;
+    width: 115px;
+}
+
+.manage-activities-name input{
+    height: 30px;
+    width: 150px;
+    background-color: #604E41;
+    font-size: 16px;
+    color: white;
+}
+
+.manage-activities-privacy select{
+    height: 35px;
+    width: 155px;
+    background-color: #604E41;
+    font-size: 16px;
+    color: white;
+    border: #604E41
+}
+
+.manage-activities-description textarea{
+    height: 100px;
+    width: 540px;
+    margin-top: 20px;
+    background-color: #604E41;
+    resize: none;
+    font-size: 16px;
+    color: white;
+    border: none;
+}
+
+.manage-activities-add{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.manage-activities-add button{
+    background-color: white;
+    color: #604E41;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 5px 30px 5px 30px;
+    cursor: pointer;
+}

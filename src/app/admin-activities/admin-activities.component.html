@@ -1,6 +1,7 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-group-add-pop-up *ngIf="addGroup.isOpen$ | async"></app-group-add-pop-up>
     <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
@@ -9,7 +10,7 @@
             <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
             <div class="admin-activities-content-container">
                 <div class="content">
-                    <app-admin-buttons></app-admin-buttons>
+                    <app-admin-buttons [active]="active"></app-admin-buttons>
                     <div class="admin-content">
                         <div class="event-filter">
                             <div class="filter">
@@ -48,7 +49,7 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button>Crear Grupos</button>
+                    <button (click)="GroupAddPopup()">Crear Grupos</button>
                 </div>
             </div>
         </div>
