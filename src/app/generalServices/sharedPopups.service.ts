@@ -4,6 +4,7 @@ import { LoginService } from '../login/login.component.service';
 import { RegisterService } from '../register/register.component.service';
 import { ManageMembersService } from '../manage-members-pop-up/manage-members-pop-up.component.service';
 import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage-activities-pop-up.service';
+import { GroupAddPopUpService } from '../group-add-pop-up/group-add-pop-up.service';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { EventDetailsService } from '../event-details/event-details.component.service';
 @Injectable({
@@ -17,8 +18,9 @@ export class SharedPopupsService {
     public registerService: RegisterService, 
     public manageMembersService : ManageMembersService, 
     public addReminderService: AddReminderService,
-    public eventDetailsService: EventDetailsService
-    , public addActivitiesService: ManageActivitiesPopUpService) {}
+    public eventDetailsService: EventDetailsService,
+    public addActivitiesService: ManageActivitiesPopUpService,
+    public addGroup: GroupAddPopUpService) {}
 
   toggleWrapperContainerStyles(success: boolean): void {
     const wrapperContainer = this.el.nativeElement.querySelector('#wrapper-container');
