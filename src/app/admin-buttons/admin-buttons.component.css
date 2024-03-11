@@ -5,21 +5,14 @@
     width: 100%;
 }
 
-#active {
-    font-weight: bolder;
-    border-right: 4px solid var(--mainColor);
-}
-
-#noactive {
-    font-weight: 400;
-    border-right: none;
-}
-
 .admin-option {
     color: var(--mainColor);
     text-align: center;
+    width: 250px;
     padding: 25px 30px;
     background-color: var(--mainColorLightest);
     justify-content: center;
     font-size: x-large;
+    transition: all 0.5s ease; /* Transición para todos los cambios */
+    position: relative; /* Necesario para el efecto de superposición */
 }
