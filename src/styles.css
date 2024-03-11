@@ -3,9 +3,10 @@
 
 :root {
     --mainColor: #504136;
-    --mainColorLighter: #E3D5CA;
+    --mainColorLighter: #604E41;
     --mainTextWhite: #fff;
     --mainTextBlack: #000;
+    --mainColorLightest: #E3D5CA;
 }
 
 /* Reset CSS */

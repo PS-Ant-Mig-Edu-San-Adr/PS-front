@@ -1,6 +1,7 @@
 <div>
     <app-login *ngIf="loginService.isOpen$ | async"></app-login>
     <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-group-add-pop-up *ngIf="addGroup.isOpen$ | async"></app-group-add-pop-up>
     <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
@@ -9,7 +10,7 @@
             <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
             <div class="admin-activities-content-container">
                 <div class="content">
-                    <app-admin-buttons></app-admin-buttons>
+                    <app-admin-buttons [active]="active"></app-admin-buttons>
                     <div class="admin-content">
                         <div class="event-filter">
                             <div class="filter">
@@ -26,29 +27,29 @@
                             <div class="event-data">
                                 <p>Titulo</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id=""  placeholder="ej.: Producción de Software">
-                                    <i class="fa fa-pencil"></i>
+                                  <input type="text" name="" id="noactive" #inputTitulo placeholder="ej.: Producción de Software" readonly>
+                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
                                 </div>
-                            </div>
-                            <div class="event-data">
+                              </div>
+                              <div class="event-data">
                                 <p>Descripción</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id=""  placeholder="ej.: ...">
-                                    <i class="fa fa-pencil"></i>
+                                  <input type="text" name="" id="noactive" #inputDescripcion placeholder="ej.: ..." readonly>
+                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
                                 </div>
-                            </div>
-                            <div class="event-data">
+                              </div>
+                              <div class="event-data">
                                 <p>Grupos</p>
                                 <div class="input-container">
-                                    <input type="email" name="" id=""  placeholder="ej.: Grupo 41, Grupo 42">
-                                    <i class="fa fa-pencil"></i>
+                                  <input type="email" name="" id="noactive" #inputGrupos placeholder="ej.: Grupo 41, Grupo 42" readonly>
+                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputGrupos)"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="buttons">
-                    <button>Crear Grupos</button>
+                    <button (click)="GroupAddPopup()">Crear Grupos</button>
                 </div>
             </div>
         </div>
