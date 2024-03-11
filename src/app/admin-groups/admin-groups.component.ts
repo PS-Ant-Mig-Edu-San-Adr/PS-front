@@ -22,6 +22,7 @@ import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-mem
 })
 export class AdminGroupsComponent  implements OnInit {
   constructor(public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  active: number = 4;
 
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
