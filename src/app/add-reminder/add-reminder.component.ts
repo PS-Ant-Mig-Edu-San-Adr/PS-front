@@ -35,6 +35,11 @@ export class AddReminderComponent implements OnInit, OnDestroy{
       if (date) {
         this.selectedDateStart = this.formatDateToDateTimeLocal(date);
         this.selectedDateEnd = this.formatDateToDateTimeLocal(date);
+        this.selectedRepeat = '';
+        this.selectedTitle = '';
+        this.selectedColor = '';
+        this.selectedDescription = '';
+        this.recordatorio = null;
       }
     });
 
