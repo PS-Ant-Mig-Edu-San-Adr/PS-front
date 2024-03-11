@@ -161,7 +161,6 @@ export class CalendarComponent implements OnInit {
               let eventoInicioDia = eventoInicio.getDay();
               let eventoFinDia = eventoFin ? eventoFin.getDay() : eventoInicio.getDay();
           
-            // Ajuste para comenzar la semana en domingo
             eventoInicioDia = eventoInicioDia === 0 ? 6 : eventoInicioDia - 1;
           eventoFinDia = eventoFinDia === 0 ? 6 : eventoFinDia - 1;
 

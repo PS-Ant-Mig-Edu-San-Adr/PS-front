@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { Recordatorio } from '../interfaces/interface';
+import { D } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-add-reminder',
@@ -97,30 +98,87 @@ export class AddReminderComponent implements OnInit, OnDestroy{
     ) {
       return true;
     } else {
+      alert('Please fill all the fields');
       return false;
     }
   }
 
+  getWeek(date: Date) {
+    let tempDate: Date = new Date(date.getTime());
+  
+    tempDate.setHours(0, 0, 0, 0);
+    tempDate.setDate(tempDate.getDate() - (tempDate.getDay() === 0 ? 6 : tempDate.getDay() - 1));
+  
+    let firstMonday: Date = new Date(tempDate.getFullYear(), 0, 1);
+    while (firstMonday.getDay() !== 1) {
+      firstMonday.setDate(firstMonday.getDate() + 1);
+    }
+  
+    let difference = tempDate.getTime() - firstMonday.getTime();
+
+    return Math.ceil(difference / (7 * 24 * 60 * 60 * 1000)) + 1;
+  }
+  
+
+  checkDate(): boolean{
+    const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
+    const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
+
+       
+    if (this.selectedRepeat === 'Diario') {
+      const startDay = new Date(selectedDateStart.value).getDate();
+      const endDay = new Date(selectedDateEnd.value).getDate();
+      if (startDay !== endDay) {
+        alert('Las fechas deben estar en el mismo día si el recordatorio es diario');
+        return false;
+      }
+    } else if (this.selectedRepeat === 'Semanal') {
+      const startWeek = this.getWeek(new Date(selectedDateStart.value));
+      const endWeek = this.getWeek(new Date(selectedDateEnd.value));
+      if (startWeek !== endWeek) {
+        alert('Las fechas deben estar en la misma semana si el recordatorio es semanal');
+        return false;
+      }
+    } else if (this.selectedRepeat === 'Mensual') {
+      const startMonth = new Date(selectedDateStart.value).getMonth();
+      const endMonth = new Date(selectedDateEnd.value).getMonth();
+      if (startMonth !== endMonth) {
+        alert('Las fechas deben estar en el mismo mes si el recordatorio es mensual');
+        return false;
+      }
+    } else if (this.selectedRepeat === 'Anual') {
+      const startYear = new Date(selectedDateStart.value).getFullYear();
+      const endYear = new Date(selectedDateEnd.value).getFullYear();
+      if (startYear !== endYear) {
+        alert('Las fechas deben estar en el mismo año si el recordatorio es anual');
+        return false;
+      }
+    }
+
+    if (selectedDateStart.value > selectedDateEnd.value) {
+      alert('La fecha de inicio no puede ser mayor que la fecha de fin');
+      return false;
+    } else if (selectedDateStart.value === selectedDateEnd.value) {
+      alert('La fecha de inicio no puede ser igual a la fecha de fin');
+      return false;
+    } else if (selectedDateStart.value < formatDate(new Date(), 'yyyy-MM-ddTHH:mm', this.locale)) {
+      alert('La fecha de inicio no puede ser menor que la fecha actual');
+      return false;
+    }
+
+    return true;
+
+  }
+
+
   updateReminder() {
-    if (this.checkContent()) {
+    if (this.checkContent() && this.checkDate() && this.sessionStorageService.get('username')){
       const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
       const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
       const selectedRepeat = document.getElementById('input-repeat') as HTMLInputElement;
       const selectedTitle = document.getElementById('input-title') as HTMLInputElement;
       const selectedColor = document.getElementById('input-color') as HTMLInputElement;
       const selectedDescription = document.getElementById('input-description') as HTMLInputElement;
-
-      
-      if(selectedDateStart.value > selectedDateEnd.value){
-        alert('La fecha de inicio no puede ser mayor que la fecha de fin');
-        return;
-      }else if(selectedDateStart.value === selectedDateEnd.value){
-        alert('La fecha de inicio no puede ser igual a la fecha de fin');
-        return;
-      }else if(selectedDateStart.value < formatDate(new Date(), 'yyyy-MM-ddTHH:mm', this.locale)){
-        alert('La fecha de inicio no puede ser menor que la fecha actual');
-        return;
-      }
   
       this.addReminderService.updateReminder(
         selectedDateStart.value,
@@ -133,31 +191,17 @@ export class AddReminderComponent implements OnInit, OnDestroy{
         this.recordatorio?.id || ''
       );
       this.closeAddReminderPopup();
-    } else {
-      alert('Please fill all the fields');
     }
   }
 
   addReminder() {
-    if (this.checkContent() && this.sessionStorageService.get('username')) {
+    if (this.checkContent() && this.sessionStorageService.get('username') && this.checkDate()) {
       const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
       const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
       const selectedRepeat = document.getElementById('input-repeat') as HTMLInputElement;
       const selectedTitle = document.getElementById('input-title') as HTMLInputElement;
       const selectedColor = document.getElementById('input-color') as HTMLInputElement;
       const selectedDescription = document.getElementById('input-description') as HTMLInputElement;
-
-      
-      if(selectedDateStart.value > selectedDateEnd.value){
-        alert('La fecha de inicio no puede ser mayor que la fecha de fin');
-        return;
-      }else if(selectedDateStart.value === selectedDateEnd.value){
-        alert('La fecha de inicio no puede ser igual a la fecha de fin');
-        return;
-      }else if(selectedDateStart.value < formatDate(new Date(), 'yyyy-MM-ddTHH:mm', this.locale)){
-        alert('La fecha de inicio no puede ser menor que la fecha actual');
-        return;
-      }
 
       this.addReminderService.addReminder(
         selectedDateStart.value,
@@ -175,3 +219,6 @@ export class AddReminderComponent implements OnInit, OnDestroy{
   }
 
 }
+
+
+
