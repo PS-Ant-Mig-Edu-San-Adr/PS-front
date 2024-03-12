@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     const loginObjectSubscription = this.loginService.loginObject$.subscribe((user: User) => {
       this.profile = user;
+      this.profilePict = this.sessionStorageService.get('profilePict');
     });
     this.subscriptions.push(loginObjectSubscription);
 
@@ -48,11 +49,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     const registerObjectSubscription = this.registerService.registerObject$.subscribe((user: User) => {
       this.profile = user;
+      this.profilePict = this.sessionStorageService.get('profilePict');
     });
     this.subscriptions.push(registerObjectSubscription);
 
-    this.isLoggedIn = !!this.sessionStorageService.get('token');
-    this.profile = this.sessionStorageService.get('username');
+    this.isLoggedIn = this.sessionStorageService.get('token');
     this.profilePict = this.sessionStorageService.get('profilePict');
   }
 
