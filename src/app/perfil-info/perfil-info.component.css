@@ -93,15 +93,11 @@ button {
     align-self: center; 
 }
 
-#active {
-    background-color: 000;
-}
-
-#noactive {
+.noactive {
     background-color: gray;
     color: white;
 }
 
-#noactive::placeholder {
+.noactive::placeholder {
     color: white;
 }

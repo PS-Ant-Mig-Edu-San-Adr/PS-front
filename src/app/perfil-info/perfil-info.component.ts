@@ -8,8 +8,9 @@ import { RegisterService } from '../register/register.component.service';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.component'
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { User } from '../interfaces/interface';
+import { PerfilInfoDataCollector } from './perfil-info-data-collector';
+
 
 @Component({
   selector: 'app-perfil-info',
@@ -24,6 +25,7 @@ export class PerfilInfoComponent implements OnInit {
   constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
 
   active: number = 0;
+  user: User | undefined;
   
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
@@ -41,13 +43,13 @@ export class PerfilInfoComponent implements OnInit {
 
   toggleEditMode(inputElement: HTMLElement) {
     if (inputElement) {
-      const inputId = inputElement.getAttribute('id');
+      const inputClass = inputElement.getAttribute('class');
   
 
-      const newId = inputId === 'noactive' ? 'active' : 'noactive';
-      inputElement.setAttribute('id', newId);
+      const newClass = inputClass === 'noactive' ? 'active' : 'noactive';
+      inputElement.setAttribute('class', newClass);
   
-      if (newId === 'active') {
+      if (newClass === 'active') {
         if (inputElement.tagName === 'INPUT') {
           (inputElement as HTMLInputElement).removeAttribute('readonly'); 
         } else if (inputElement.tagName === 'SELECT') {
@@ -61,5 +63,24 @@ export class PerfilInfoComponent implements OnInit {
         }
       }
     }  
+  }
+
+  onModifyUserClick(): void {
+    // Collect user data
+    const userData = PerfilInfoDataCollector.collectUserData(this.user as User);
+
+    // Check if all required fields are filled
+    if (!userData.result) {
+      alert(userData.details);
+      return;
+    }
+    // Define the username and the URL for the POST request
+    const username = this.user?.username;
+    if (!username) {
+      alert('Please log in before modifying your profile.');
+      return;
+    }
+    // Modify the user
+
   }
 }
