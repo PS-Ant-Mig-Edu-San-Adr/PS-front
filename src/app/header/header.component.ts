@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private sessionStorageService: SessionStorageService) {}
   isLoggedIn: boolean = false;
   profile: User | undefined;
+  profilePict: String = 'https://www.w3schools.com/howto/img_avatar.png';
 
   ngOnInit() {
     const loginStatusSubscription = this.loginService.loginStatus$.subscribe((success: boolean) => {
@@ -50,8 +51,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(registerObjectSubscription);
 
-    // Checks if there's a token in the sessionStorage
     this.isLoggedIn = !!this.sessionStorageService.get('token');
+    this.profile = this.sessionStorageService.get('username');
+    this.profilePict = this.sessionStorageService.get('profilePict');
   }
 
   ngOnDestroy(): void {

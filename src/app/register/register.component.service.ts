@@ -59,6 +59,7 @@ export class RegisterService {
           this.closeRegisterPopup();
           this.sessionStorageService.set('token', res.token); // Almacenar el token en sessionStorage
           this.sessionStorageService.set('username', res.user.username); // Almacenar el nombre de usuario en sessionStorage
+          this.sessionStorageService.set('profilePict', res.user.avatar); // Almacenar la imagen de perfil en sessionStorage
           this.registerStatusSubject.next(true);
           this.registerObjectSubject.next(res.user);
         } else {

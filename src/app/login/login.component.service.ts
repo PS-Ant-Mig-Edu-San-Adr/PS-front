@@ -49,6 +49,7 @@ export class LoginService {
           this.closeLoginPopup();
           this.sessionStorageService.set('token', res.token);
           this.sessionStorageService.set('username', res.user.username);
+          this.sessionStorageService.set('profilePict', res.user.avatar);
           this.loginStatusSubject.next(true);
           this.loginObjectSubject.next(res.user);
         } else {
