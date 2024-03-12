@@ -1,6 +1,6 @@
 <div>
-    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
-    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
+    <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
         <div class="perfil-container">
@@ -44,7 +44,7 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                </div> 
+                </div>
                 <button>Guardar Cambios</button>
             </div>
         </div>

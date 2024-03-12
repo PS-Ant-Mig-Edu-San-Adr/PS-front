@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
 import {User} from '../../interfaces/interface';
@@ -13,11 +13,7 @@ export class LoginService {
   }
 
   private isOpenSubject = new BehaviorSubject<boolean>(false);
-  isOpen$ = this.isOpenSubject.asObservable();
-
   private loginStatusSubject = new BehaviorSubject<boolean>(false);
-  loginStatus$ = this.loginStatusSubject.asObservable();
-
   private loginObjectSubject = new BehaviorSubject<User>({
     id: '',
     fullName: '',
@@ -33,7 +29,16 @@ export class LoginService {
     groups: [],
     tags: [],
   });
-  loginObject$ = this.loginObjectSubject.asObservable();
+  // Métodos públicos para acceder a los observables
+  isOpen$(): Observable<boolean> {
+    return this.isOpenSubject.asObservable();
+  }
+  loginStatus$(): Observable<boolean> {
+    return this.loginStatusSubject.asObservable();
+  }
+  loginObject$(): Observable<User> {
+    return this.loginObjectSubject.asObservable();
+  }
 
   openLoginPopup() {
     this.isOpenSubject.next(true);

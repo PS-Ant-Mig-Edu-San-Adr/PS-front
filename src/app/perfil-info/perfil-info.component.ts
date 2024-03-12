@@ -1,15 +1,13 @@
-import { Component, ElementRef, ViewChild, OnInit,  EventEmitter, Output } from '@angular/core';
-import { SharedPopupsService } from '../generalServices/sharedPopups.service';
-import { HeaderComponent } from '../header/header.component';
-import { LoginComponent } from '../login/login.component';
-import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../generalServices/auth-service/login.component.service';
-import { RegisterService } from '../generalServices/auth-service/register.component.service';
-import { CommonModule } from '@angular/common';
-import { RegisterComponent } from '../register/register.component';
-import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.component'
-import { User } from '../interfaces/interface';
-import { PerfilInfoDataCollector } from './perfil-info-data-collector';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {SharedPopupsService} from '../generalServices/sharedPopups.service';
+import {HeaderComponent} from '../header/header.component';
+import {LoginComponent} from '../login/login.component';
+import {FooterComponent} from '../footer/footer.component';
+import {CommonModule} from '@angular/common';
+import {RegisterComponent} from '../register/register.component';
+import {PerfilButtonsComponent} from '../perfil-buttons/perfil-buttons.component'
+import {User} from '../interfaces/interface';
+import {PerfilInfoDataCollector} from './perfil-info-data-collector';
 
 
 @Component({
@@ -22,17 +20,17 @@ import { PerfilInfoDataCollector } from './perfil-info-data-collector';
 
 })
 export class PerfilInfoComponent implements OnInit {
-  constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  constructor(public sharedService: SharedPopupsService) {}
 
   active: number = 0;
   user: User | undefined;
 
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
   }

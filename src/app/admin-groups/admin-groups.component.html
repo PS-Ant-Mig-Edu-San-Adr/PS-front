@@ -1,6 +1,6 @@
 <div>
-    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
-    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
+    <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
     <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
@@ -43,7 +43,7 @@
                             <div class="event-data">
                                 <p>Horario</p>
                                 <div class="input-container">
-                                    <input type="email" name="" id="noactive" #inputHorario placeholder="ej.: Lunes[8:30-10:30]" readonly> 
+                                    <input type="email" name="" id="noactive" #inputHorario placeholder="ej.: Lunes[8:30-10:30]" readonly>
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputHorario)"></i>
                                 </div>
                             </div>

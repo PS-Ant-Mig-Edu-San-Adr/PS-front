@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
 import {LoginService} from './login.component.service';
 import {RegisterService} from './register.component.service';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -51,5 +52,29 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return this.loginService.isLoggedIn();
+  }
+
+  isLoginOpen$() {
+    return this.loginService.isOpen$();
+  }
+
+  isRegisterOpen$() {
+    return this.registerService.isOpen$();
+  }
+
+  loginStatus$() {
+    return this.loginService.loginStatus$();
+  }
+
+  registerStatus$() {
+    return this.registerService.registerStatus$();
+  }
+
+  loginObject$() {
+    return this.loginService.loginObject$();
+  }
+
+  registerObject$() {
+    return this.registerService.registerObject$();
   }
 }

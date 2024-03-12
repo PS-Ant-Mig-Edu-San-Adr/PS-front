@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
 import { User } from '../../interfaces/interface';
@@ -12,11 +12,7 @@ export class RegisterService {
   constructor(private httpClient: HttpClient, private sessionStorageService: SessionStorageService) {}
 
   private isOpenSubject = new BehaviorSubject<boolean>(false);
-  isOpen$ = this.isOpenSubject.asObservable();
-
   private registerStatusSubject = new BehaviorSubject<boolean>(false);
-  registerStatus$ = this.registerStatusSubject.asObservable();
-
   private registerObjectSubject = new BehaviorSubject<User>({
     id: '',
     fullName: '',
@@ -32,7 +28,19 @@ export class RegisterService {
     groups: [],
     tags: [],
   });
-  registerObject$ = this.registerObjectSubject.asObservable();
+
+  // Métodos públicos para acceder a los observables
+  isOpen$(): Observable<boolean> {
+    return this.isOpenSubject.asObservable();
+  }
+
+  registerStatus$(): Observable<boolean> {
+    return this.registerStatusSubject.asObservable();
+  }
+
+  registerObject$(): Observable<User> {
+    return this.registerObjectSubject.asObservable();
+  }
 
   async checkUsername(username: string): Promise<boolean> {
     try {

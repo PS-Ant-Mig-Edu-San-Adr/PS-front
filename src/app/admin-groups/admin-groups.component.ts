@@ -21,15 +21,15 @@ import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-mem
   styleUrl: './admin-groups.component.css'
 })
 export class AdminGroupsComponent  implements OnInit {
-  constructor(public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  constructor(public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService) {}
   active: number = 4;
 
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
     this.sharedService.manageMembersService.isOpen$.subscribe((success: boolean) => {

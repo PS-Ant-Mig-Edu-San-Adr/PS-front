@@ -1,17 +1,15 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { SharedPopupsService } from '../generalServices/sharedPopups.service';
-import { HeaderComponent } from '../header/header.component';
-import { LoginComponent } from '../login/login.component';
-import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../generalServices/auth-service/login.component.service';
-import { RegisterService } from '../generalServices/auth-service/register.component.service';
-import { CommonModule } from '@angular/common';
-import { RegisterComponent } from '../register/register.component';
-import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component';
-import { ManageMembersService } from '../manage-members-pop-up/manage-members-pop-up.component.service'
-import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-members-pop-up.component'
-import { GroupAddPopUpComponent } from '../group-add-pop-up/group-add-pop-up.component';
-import { GroupAddPopUpService } from '../group-add-pop-up/group-add-pop-up.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {SharedPopupsService} from '../generalServices/sharedPopups.service';
+import {HeaderComponent} from '../header/header.component';
+import {LoginComponent} from '../login/login.component';
+import {FooterComponent} from '../footer/footer.component';
+import {CommonModule} from '@angular/common';
+import {RegisterComponent} from '../register/register.component';
+import {AdminButtonsComponent} from '../admin-buttons/admin-buttons.component';
+import {ManageMembersService} from '../manage-members-pop-up/manage-members-pop-up.component.service'
+import {ManageMembersPopUpComponent} from '../manage-members-pop-up/manage-members-pop-up.component'
+import {GroupAddPopUpComponent} from '../group-add-pop-up/group-add-pop-up.component';
+import {GroupAddPopUpService} from '../group-add-pop-up/group-add-pop-up.service';
 
 @Component({
   selector: 'app-admin-activities',
@@ -22,15 +20,14 @@ import { GroupAddPopUpService } from '../group-add-pop-up/group-add-pop-up.servi
   styleUrl: './admin-activities.component.css'
 })
 export class AdminActivitiesComponent implements  OnInit {
-  constructor(public addGroup: GroupAddPopUpService, public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  constructor(public addGroup: GroupAddPopUpService, public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService) {}
   active: number = 3;
 
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
-
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
     this.sharedService.manageMembersService.isOpen$.subscribe((success: boolean) => {

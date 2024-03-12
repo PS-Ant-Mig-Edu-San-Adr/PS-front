@@ -40,11 +40,11 @@ export class CalendarPageComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 

@@ -18,16 +18,16 @@ import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.compone
   styleUrl: './perfil-notifications.component.css'
 })
 export class PerfilNotificationsComponent implements OnInit {
-  constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  constructor(public sharedService: SharedPopupsService) {}
 
   active: number = 1;
 
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
   }

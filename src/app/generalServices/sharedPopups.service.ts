@@ -7,6 +7,7 @@ import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage
 import { GroupAddPopUpService } from '../group-add-pop-up/group-add-pop-up.service';
 import { AddReminderService } from '../add-reminder/add-reminder.component.service';
 import { EventDetailsService } from '../event-details/event-details.component.service';
+import {AuthService} from "./auth-service/auth.service";
 @Injectable({
   providedIn: 'root',
 })
@@ -14,8 +15,7 @@ export class SharedPopupsService {
   constructor
   (private renderer: Renderer2,
     private el: ElementRef,
-    public loginService: LoginService,
-    public registerService: RegisterService,
+    public authService: AuthService,
     public manageMembersService : ManageMembersService,
     public addReminderService: AddReminderService,
     public eventDetailsService: EventDetailsService,

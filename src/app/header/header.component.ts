@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LoginService } from '../generalServices/auth-service/login.component.service';
-import { RegisterService } from '../generalServices/auth-service/register.component.service';
-import { RouterOutlet } from '@angular/router';
-import { SessionStorageService } from "angular-web-storage";
-import { Subscription } from 'rxjs'; // Import Subscription from rxjs
-import { User } from '../interfaces/interface';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterOutlet} from '@angular/router';
+import {SessionStorageService} from "angular-web-storage";
+import {Subscription} from 'rxjs'; // Import Subscription from rxjs
+import {User} from '../interfaces/interface';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -19,35 +18,35 @@ import { User } from '../interfaces/interface';
 export class HeaderComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []; // Declare subscriptions array
 
-  constructor(private loginService: LoginService,
-              private registerService: RegisterService,
+  constructor(
+              private authService: AuthService,
               private sessionStorageService: SessionStorageService) {}
   isLoggedIn: boolean = false;
   profile: User | undefined;
   profilePict: String = 'https://www.w3schools.com/howto/img_avatar.png';
 
   ngOnInit() {
-    const loginStatusSubscription = this.loginService.loginStatus$.subscribe((success: boolean) => {
+    const loginStatusSubscription = this.authService.loginStatus$().subscribe((success: boolean) => {
       if (success) {
         this.isLoggedIn = true;
       }
     });
     this.subscriptions.push(loginStatusSubscription);
 
-    const loginObjectSubscription = this.loginService.loginObject$.subscribe((user: User) => {
+    const loginObjectSubscription = this.authService.loginObject$().subscribe((user: User) => {
       this.profile = user;
       this.profilePict = this.sessionStorageService.get('profilePict');
     });
     this.subscriptions.push(loginObjectSubscription);
 
-    const registerStatusSubscription = this.registerService.registerStatus$.subscribe((success: boolean) => {
+    const registerStatusSubscription = this.authService.registerStatus$().subscribe((success: boolean) => {
       if (success) {
         this.isLoggedIn = true;
       }
     });
     this.subscriptions.push(registerStatusSubscription);
 
-    const registerObjectSubscription = this.registerService.registerObject$.subscribe((user: User) => {
+    const registerObjectSubscription = this.authService.registerObject$().subscribe((user: User) => {
       this.profile = user;
       this.profilePict = this.sessionStorageService.get('profilePict');
     });
@@ -62,11 +61,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.loginService.openLoginPopup();
+    this.authService.openLoginPopup();
   }
 
   register() {
-    this.registerService.openRegisterPopup();
+    this.authService.openRegisterPopup();
   }
 
   isUserLoggedIn(): boolean {
