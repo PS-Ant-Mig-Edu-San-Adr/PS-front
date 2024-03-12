@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
+import { User } from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,23 @@ export class RegisterService {
 
   private registerStatusSubject = new BehaviorSubject<boolean>(false);
   registerStatus$ = this.registerStatusSubject.asObservable();
+
+  private registerObjectSubject = new BehaviorSubject<User>({
+    id: '',
+    fullName: '',
+    email: '',
+    username: '',
+    passwordHash: '',
+    creationDate: '',
+    timeZone: '',
+    preferredLanguage: '',
+    notificationSettings: '',
+    avatar: '',
+    calendar: '',
+    groups: [],
+    tags: [],
+  });
+  registerObject$ = this.registerObjectSubject.asObservable();
 
   async checkUsername(username: string): Promise<boolean> {
     try {
@@ -41,7 +59,9 @@ export class RegisterService {
           this.closeRegisterPopup();
           this.sessionStorageService.set('token', res.token); // Almacenar el token en sessionStorage
           this.sessionStorageService.set('username', res.user.username); // Almacenar el nombre de usuario en sessionStorage
+          this.sessionStorageService.set('profilePict', res.user.avatar); // Almacenar la imagen de perfil en sessionStorage
           this.registerStatusSubject.next(true);
+          this.registerObjectSubject.next(res.user);
         } else {
           this.registerStatusSubject.next(false);
           alert('Error al registrar el usuario: ' + res.details);

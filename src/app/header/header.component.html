@@ -12,7 +12,7 @@
 
     <!-- Modo: Usuario loggeado -->
     <div *ngIf="isUserLoggedIn()" class="profile-container">
-      <img src="https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=1380&t=st=1709673019~exp=1709673619~hmac=9d504ec5aa5c1cd54b6b670aa754df8dd5c68099f78b9fd2241712c0eabd41f0" alt="Logo">
+      <img [src]="profilePict" alt="User Avatar" href="">
     </div>
 
     <!-- Modo: Usuario no loggeado -->

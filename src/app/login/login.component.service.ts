@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
+import { User } from '../interfaces/interface';
 
 
 @Injectable({
@@ -15,6 +16,23 @@ export class LoginService {
 
   private loginStatusSubject = new BehaviorSubject<boolean>(false);
   loginStatus$ = this.loginStatusSubject.asObservable();
+
+  private loginObjectSubject = new BehaviorSubject<User>({
+    id: '',
+    fullName: '',
+    email: '',
+    username: '',
+    passwordHash: '',
+    creationDate: '',
+    timeZone: '',
+    preferredLanguage: '',
+    notificationSettings: '',
+    avatar: '',
+    calendar: '',
+    groups: [],
+    tags: [],
+  });
+  loginObject$ = this.loginObjectSubject.asObservable();
 
   openLoginPopup() {
     this.isOpenSubject.next(true);
@@ -31,7 +49,9 @@ export class LoginService {
           this.closeLoginPopup();
           this.sessionStorageService.set('token', res.token);
           this.sessionStorageService.set('username', res.user.username);
+          this.sessionStorageService.set('profilePict', res.user.avatar);
           this.loginStatusSubject.next(true);
+          this.loginObjectSubject.next(res.user);
         } else {
           this.loginStatusSubject.next(false);
           alert('Error al loggearse: ' + res.details);
