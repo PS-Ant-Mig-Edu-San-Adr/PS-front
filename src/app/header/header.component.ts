@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginService } from '../login/login.component.service';
-import { RegisterService } from '../register/register.component.service';
+import { LoginService } from '../generalServices/auth-service/login.component.service';
+import { RegisterService } from '../generalServices/auth-service/register.component.service';
 import { RouterOutlet } from '@angular/router';
 import { SessionStorageService } from "angular-web-storage";
 import { Subscription } from 'rxjs'; // Import Subscription from rxjs

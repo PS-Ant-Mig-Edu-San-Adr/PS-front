@@ -3,8 +3,8 @@ import { SharedPopupsService } from '../generalServices/sharedPopups.service';
 import { HeaderComponent } from '../header/header.component';
 import { LoginComponent } from '../login/login.component';
 import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../login/login.component.service';
-import { RegisterService } from '../register/register.component.service';
+import { LoginService } from '../generalServices/auth-service/login.component.service';
+import { RegisterService } from '../generalServices/auth-service/register.component.service';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.component'
@@ -19,14 +19,14 @@ import { PerfilInfoDataCollector } from './perfil-info-data-collector';
   providers: [SharedPopupsService],
   templateUrl: './perfil-info.component.html',
   styleUrl: './perfil-info.component.css'
-  
+
 })
 export class PerfilInfoComponent implements OnInit {
   constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
 
   active: number = 0;
   user: User | undefined;
-  
+
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
@@ -37,32 +37,32 @@ export class PerfilInfoComponent implements OnInit {
     });
   }
 
-  
+
   @ViewChild('inputNoActive', { static: false }) inputNoActive!: ElementRef;
 
 
   toggleEditMode(inputElement: HTMLElement) {
     if (inputElement) {
       const inputClass = inputElement.getAttribute('class');
-  
+
 
       const newClass = inputClass === 'noactive' ? 'active' : 'noactive';
       inputElement.setAttribute('class', newClass);
-  
+
       if (newClass === 'active') {
         if (inputElement.tagName === 'INPUT') {
-          (inputElement as HTMLInputElement).removeAttribute('readonly'); 
+          (inputElement as HTMLInputElement).removeAttribute('readonly');
         } else if (inputElement.tagName === 'SELECT') {
           (inputElement as HTMLSelectElement).removeAttribute('disabled');
         }
       } else {
         if (inputElement.tagName === 'INPUT') {
-          (inputElement as HTMLInputElement).setAttribute('readonly', 'true'); 
+          (inputElement as HTMLInputElement).setAttribute('readonly', 'true');
         } else if (inputElement.tagName === 'SELECT') {
-          (inputElement as HTMLSelectElement).setAttribute('disabled', 'true'); 
+          (inputElement as HTMLSelectElement).setAttribute('disabled', 'true');
         }
       }
-    }  
+    }
   }
 
   onModifyUserClick(): void {

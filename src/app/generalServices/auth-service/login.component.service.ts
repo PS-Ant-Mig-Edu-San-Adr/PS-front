@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
-import { User } from '../interfaces/interface';
+import {User} from '../../interfaces/interface';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  constructor(private httpClient: HttpClient, private sessionStorageService: SessionStorageService) {}
+  constructor(private httpClient: HttpClient, private sessionStorageService: SessionStorageService) {
+  }
 
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   isOpen$ = this.isOpenSubject.asObservable();
@@ -43,7 +44,7 @@ export class LoginService {
   }
 
   login(email: string, password: string) {
-    this.httpClient.post<any>('http://localhost:3001/api/login', { email, password }).subscribe(
+    this.httpClient.post<any>('http://localhost:3001/api/login', {email, password}).subscribe(
       (res) => {
         if (res.status === 200) {
           this.closeLoginPopup();
@@ -63,5 +64,23 @@ export class LoginService {
         alert('Error al realizar la solicitud de inicio de sesión');
       }
     );
+  }
+
+  logout() {
+    // Verificar si el usuario está autenticado antes de cerrar la sesión
+    if (this.isLoggedIn()) {
+      // Eliminar el token y la información de usuario del sessionStorage
+      this.sessionStorageService.remove('token');
+      this.sessionStorageService.remove('username');
+      this.sessionStorageService.remove('profilePict');
+      // Emitir un valor falso para indicar que el usuario está desconectado
+      this.loginStatusSubject.next(false);
+      // También podrías realizar una solicitud HTTP para cerrar la sesión en el servidor, si es necesario
+    }
+  }
+
+  isLoggedIn(): boolean {
+    // Verificar si el token está presente en el sessionStorage para determinar si el usuario está autenticado
+    return !!this.sessionStorageService.get('token'); //FIXME: Must verify token validity
   }
 }

@@ -1,8 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { LoginService } from './login.component.service';
-import { RegisterService } from '../register/register.component.service';
-import { CommonModule } from '@angular/common';
-import e from 'express';
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 
 @Component({
@@ -14,21 +12,21 @@ import e from 'express';
 })
 export class LoginComponent{
 
-  constructor(private loginService: LoginService, private registerService: RegisterService) {}
+  constructor(private authService: AuthService) {}
 
   closeLoginPopup() {
-    this.loginService.closeLoginPopup();
+    this.authService.closeLoginPopup();
   }
 
   async checkLogin() {
-    var emailElement = <HTMLInputElement>document.getElementById('email');
-    var passwordElement = <HTMLInputElement>document.getElementById('password');
+    const emailElement = <HTMLInputElement>document.getElementById('email');
+    const passwordElement = <HTMLInputElement>document.getElementById('password');
 
     if (emailElement.value && passwordElement.value) {
-      var email = emailElement.value;
-      var password = passwordElement.value;
+      const email = emailElement.value;
+      const password = passwordElement.value;
 
-      this.loginService.login(email, password);
+      this.authService.login(email, password);
 
     }else{
       alert('Por favor, llene todos los campos');
@@ -36,7 +34,7 @@ export class LoginComponent{
   }
 
   openRegisterPopup() {
-    this.loginService.closeLoginPopup();
-    this.registerService.openRegisterPopup();
+    this.authService.closeLoginPopup();
+    this.authService.openRegisterPopup();
   }
 }
