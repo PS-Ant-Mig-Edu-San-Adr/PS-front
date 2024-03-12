@@ -12,7 +12,9 @@
 
     <!-- Modo: Usuario loggeado -->
     <div *ngIf="isUserLoggedIn()" class="profile-container">
-      <img [src]="profilePict" alt="User Avatar" href="">
+      <a *ngIf="isUserLoggedIn()" href="/perfilInfo" class="profile-link">
+        <img [src]="profilePict" alt="User Avatar">
+      </a>
     </div>
 
     <!-- Modo: Usuario no loggeado -->
