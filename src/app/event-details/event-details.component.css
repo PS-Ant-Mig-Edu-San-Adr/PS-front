@@ -11,6 +11,8 @@
     transform: translate(-50%, -50%);
     cursor: default;
     z-index: 9999; 
+    width: 600px;
+    height: 450px;
 }
 
 .close-button {

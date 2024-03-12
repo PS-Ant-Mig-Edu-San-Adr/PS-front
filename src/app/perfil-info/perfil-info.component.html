@@ -4,7 +4,7 @@
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
         <div class="perfil-container">
-            <app-perfil-buttons></app-perfil-buttons>
+            <app-perfil-buttons [active]="active" ></app-perfil-buttons>
             <div class="perfil-info-container">
                 <div class="perfil-img-container">
                     <img src="../../assets/img/image_aca.jpg" alt="">
@@ -15,28 +15,28 @@
                         <div class="input-perfil">
                             <p>Nombre de Usuario</p>
                             <div class="input-container">
-                                <input type="text" name="" id=""  placeholder="ej.: Trepuca la Cuca">
-                                <i class="fa fa-pencil"></i>
+                                <input type="text" name="" id="noactive" #inputUserName placeholder="ej.: Trepuca la Cuca" readonly>
+                                <i class="fa fa-pencil" (click)="toggleEditMode(inputUserName)"></i>
                             </div>
                         </div>
                         <div class="input-perfil">
                             <p>Contraseña</p>
                             <div class="input-container">
-                                <input type="password" name="" id=""  placeholder="ej.: Trepuca la Cuca">
-                                <i class="fa fa-pencil"></i>
+                                <input type="password" name="" id="noactive" #inputPassword placeholder="ej.: Trepuca la Cuca" readonly>
+                                <i class="fa fa-pencil" (click)="toggleEditMode(inputPassword)"></i>
                             </div>
                         </div>
                         <div class="input-perfil">
                             <p>Correo electrónico</p>
                             <div class="input-container">
-                                <input type="email" name="" id=""  placeholder="ej.: pepito@gmail.com">
-                                <i class="fa fa-pencil"></i>
+                                <input type="email" name="" id="noactive"  #inputEmail placeholder="ej.: pepito@gmail.com" readonly>
+                                <i class="fa fa-pencil" (click)="toggleEditMode(inputEmail)"></i>
                             </div>
                         </div>
                         <div class="input-perfil">
                             <p>Fecha de creación</p>
                             <div class="input-container">
-                                <input type="date" name="" id=""  placeholder="ej.: Trepuca la Cuca">
+                                <input type="date" name="" id="noactive"  placeholder="ej.: Trepuca la Cuca" readonly>
                             </div>
                         </div>
                         <div class="input-perfil">
