@@ -60,11 +60,24 @@
 }
 
 .card-body {
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     flex: 1;
     font-size: large;
-    /*font-weight: 600;*/
+}
+
+.card-photo {
+    display: block;
+    padding: 20px 20px 20px 20px;
+    border-radius: 40px;
+}
+
+.horario-photo {
+    width: 90%;
+    height: 60%;
+    display: block;
+    padding: 20px 20px 20px 20px;
+    border-radius: 40px;
 }
 
 .home-cards-grid > :nth-child(1) {
@@ -128,7 +141,15 @@
     justify-content: center;
     padding: 20px;
     height: 150px;
+    transition: transform 0.3s ease;
+    position: relative;
+}
 
+.home-novedades .novedad-info:hover {
+    transform: scale(1.1);
+    z-index: 3;
+    background-color: #EFEFEF; /* Un fondo ligeramente diferente al hacer hover */
+    color: #403020;
 }
 
 .novedad-info h2{
@@ -140,15 +161,28 @@
 }
 
 .first{
-    width: 50%;
+    width: 55%;
     z-index: 1;
     background-color: rgba(95, 158, 160, 0.201);
 }
 .second{
     position: absolute;
     right: 5px;
-    width: 50%;
+    width: 55%;
     top: 20px;
     z-index: 2;
-    background-color: white;
+    background-color: #504136;
+    color: white;
+}
+
+.card:hover {
+    filter: none !important;
+    z-index: 10;
+    transform: scale(1.05);
+    transition: filter 0.5s ease, transform 0.3s ease, z-index 0s;
+}
+
+.home-cards-grid:hover .card:not(:hover) {
+    filter: blur(4px);
+    transition: filter 0.5s ease;
 }
