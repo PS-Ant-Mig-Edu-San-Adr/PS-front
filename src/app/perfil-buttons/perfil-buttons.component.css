@@ -5,15 +5,7 @@
     width: 100%;
 }
 
-#active {
-    font-weight: bolder;
-    border-right: 4px solid var(--mainColor);
-}
 
-#noactive {
-    font-weight: 400;
-    border-right: none;
-}
 
 .perfil-option {
     color: var(--mainColor);

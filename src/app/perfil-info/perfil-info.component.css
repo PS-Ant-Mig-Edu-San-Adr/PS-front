@@ -92,3 +92,16 @@ button {
     width: 40%;
     align-self: center; 
 }
+
+#active {
+    background-color: 000;
+}
+
+#noactive {
+    background-color: gray;
+    color: white;
+}
+
+#noactive::placeholder {
+    color: white;
+}

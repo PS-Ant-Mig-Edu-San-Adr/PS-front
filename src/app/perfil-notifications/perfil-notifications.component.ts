@@ -20,6 +20,8 @@ import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.compone
 export class PerfilNotificationsComponent implements OnInit {
   constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
 
+  active: number = 1;
+  
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
