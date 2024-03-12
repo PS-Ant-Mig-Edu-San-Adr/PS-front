@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input } from '@angular/core';
+import { Component, AfterViewInit, Input, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,10 +12,12 @@ export class AdminButtonsComponent implements AfterViewInit {
 
   @Input() active: number = 0;
 
+  constructor(private elementRef: ElementRef) {}
   ngAfterViewInit() {
-    const adminButton = document.getElementById(`admin_button_${this.active}`) as HTMLElement;
-      // Ahora puedes usar adminButton para manipular el elemento
+    const adminButton = this.elementRef.nativeElement.querySelector(`#admin_button_${this.active}`);
+    if (adminButton) {
       adminButton.style.fontWeight = "700";
       adminButton.style.boxShadow = "inset -5px 0 0 0 #504136";
+    }
   }
 }
