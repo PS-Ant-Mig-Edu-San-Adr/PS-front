@@ -1,5 +1,5 @@
 // adminAddEvent.component.ts
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, importProvidersFrom} from '@angular/core';
 import {SharedPopupsService} from '../generalServices/sharedPopups.service';
 import {HeaderComponent} from '../header/header.component';
 import {LoginComponent} from '../login/login.component';
@@ -31,7 +31,7 @@ export class AdminAddEventComponent implements OnInit {
               private httpClient: HttpClient,
               private sessionStorageService: SessionStorageService) {
   }
-
+  active: number = 0;
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
