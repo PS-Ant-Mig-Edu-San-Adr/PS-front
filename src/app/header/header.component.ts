@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../login/login.component.service';
 import { RegisterService } from '../register/register.component.service';
 import { RouterOutlet } from '@angular/router';
-import {SessionStorageService} from "angular-web-storage";
+import { SessionStorageService } from "angular-web-storage";
+import { Subscription } from 'rxjs'; // Import Subscription from rxjs
+import { User } from '../interfaces/interface';
 
 @Component({
   selector: 'app-header',
@@ -14,27 +16,46 @@ import {SessionStorageService} from "angular-web-storage";
     './header.component.css'
   ]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = []; // Declare subscriptions array
 
   constructor(private loginService: LoginService,
               private registerService: RegisterService,
               private sessionStorageService: SessionStorageService) {}
   isLoggedIn: boolean = false;
+  profile: User | undefined;
 
   ngOnInit() {
-    this.loginService.loginStatus$.subscribe((success: boolean) => {
+    const loginStatusSubscription = this.loginService.loginStatus$.subscribe((success: boolean) => {
       if (success) {
         this.isLoggedIn = true;
       }
     });
-    this.registerService.registerStatus$.subscribe((success: boolean) => {
+    this.subscriptions.push(loginStatusSubscription);
+
+    const loginObjectSubscription = this.loginService.loginObject$.subscribe((user: User) => {
+      this.profile = user;
+    });
+    this.subscriptions.push(loginObjectSubscription);
+
+    const registerStatusSubscription = this.registerService.registerStatus$.subscribe((success: boolean) => {
       if (success) {
         this.isLoggedIn = true;
       }
     });
+    this.subscriptions.push(registerStatusSubscription);
+
+    const registerObjectSubscription = this.registerService.registerObject$.subscribe((user: User) => {
+      this.profile = user;
+    });
+    this.subscriptions.push(registerObjectSubscription);
 
     // Checks if there's a token in the sessionStorage
-    this.sessionStorageService.get('token') ? this.isLoggedIn = true : this.isLoggedIn = false;
+    this.isLoggedIn = !!this.sessionStorageService.get('token');
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   login() {
@@ -48,5 +69,4 @@ export class HeaderComponent {
   isUserLoggedIn(): boolean {
     return this.isLoggedIn;
   }
-
 }

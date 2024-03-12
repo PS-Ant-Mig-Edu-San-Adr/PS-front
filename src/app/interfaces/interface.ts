@@ -9,6 +9,22 @@ export interface Organization {
   activities?: Activity[];
 }
 
+export interface User {
+  id: any,
+  fullName: String,
+  email: String,
+  username: String
+  passwordHash: String,
+  creationDate: String,
+  timeZone: String,
+  preferredLanguage: String,
+  notificationSettings: String,
+  avatar: String,
+  calendar: any
+  groups: Array<any>,
+  tags: Array<String>
+}
+
 export interface Recordatorio {
   id: any;
   titulo: string;
