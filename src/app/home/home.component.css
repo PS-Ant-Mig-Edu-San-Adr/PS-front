@@ -64,7 +64,7 @@
     text-align: center;
     flex: 1;
     font-size: large;
-    font-weight: 600;
+    /*font-weight: 600;*/
 }
 
 .home-cards-grid > :nth-child(1) {
