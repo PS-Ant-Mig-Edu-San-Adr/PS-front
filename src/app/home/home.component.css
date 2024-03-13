@@ -46,9 +46,14 @@
 
 .long {
     grid-row: span 15;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
 }
 
 .short {
+    height: 9vw;
     grid-row: span 1;
 }
 
@@ -60,10 +65,14 @@
 }
 
 .card-body {
-    padding: 20px;
-    text-align: center;
+    padding: 20px 40px;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
     font-size: large;
+    font-weight: 600
 }
 
 .card-photo {
@@ -180,4 +189,10 @@
     z-index: 10;
     transform: scale(1.05);
     transition: filter 0.5s ease, transform 0.3s ease, z-index 0s;
+    border: 1px solid black;
+}
+
+.home-cards-grid:hover .card:not(:hover) {
+    filter: blur(6px);
+    transition: filter 0.5s ease;
 }
