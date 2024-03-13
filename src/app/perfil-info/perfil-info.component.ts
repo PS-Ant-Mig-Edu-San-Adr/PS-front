@@ -78,7 +78,6 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
     }
     if (this.inputZone) {
       this.selectedTimeZone = (this.user?.timeZone || 'GMT').toString();
-
     }
   }
 
