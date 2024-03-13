@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { Recordatorio } from '../interfaces/interface';
-import { D } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-add-reminder',
