@@ -1,52 +1,57 @@
 <div>
-    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
-    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
+    <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
         <div class="perfil-container">
             <app-perfil-buttons [active]="active" ></app-perfil-buttons>
             <div class="perfil-info-container">
                 <div class="perfil-img-container">
-                    <img src="../../assets/img/image_aca.jpg" alt="">
-                    <p>Editar foto</p>
+                    <img [src]="profilePict" alt="">
+                    <label for="fileInput">Editar foto</label>
+                    <input type="file" id="fileInput" style="display: none" (change)="onFileSelected($event)">
                 </div>
                 <div class="perfil-data-container">
                     <div class="inputs-perfil-container">
                         <div class="input-perfil">
                             <p>Nombre de Usuario</p>
                             <div class="input-container">
-                                <input type="text" name="" id="input-username" class="noactive" #inputUserName placeholder="ej.: Trepuca la Cuca" readonly>
+                                <input type="text" name="" id="input-username" class="noactive" #inputUserName placeholder="Usuario" readonly>
                                 <i class="fa fa-pencil" (click)="toggleEditMode(inputUserName)"></i>
                             </div>
                         </div>
                         <div class="input-perfil">
                             <p>Contraseña</p>
                             <div class="input-container">
-                                <input type="password" name="" id="input-password" class="noactive" #inputPassword placeholder="ej.: Trepuca la Cuca" readonly>
+                                <input type="password" name="" id="input-password" class="noactive" #inputPassword placeholder="Contraseña no mostrada por seguridad" readonly>
                                 <i class="fa fa-pencil" (click)="toggleEditMode(inputPassword)"></i>
                             </div>
                         </div>
                         <div class="input-perfil">
                             <p>Correo electrónico</p>
                             <div class="input-container">
-                                <input type="email" name="" class="noactive" id="input-email" #inputEmail placeholder="ej.: pepito@gmail.com" readonly>
+                                <input type="email" name="" class="noactive" id="input-email" #inputEmail placeholder="Email" readonly>
                                 <i class="fa fa-pencil" (click)="toggleEditMode(inputEmail)"></i>
                             </div>
                         </div>
                         <div class="input-perfil">
                             <p>Fecha de creación</p>
                             <div class="input-container">
-                                <input type="date" name="" class="noactive" placeholder="ej.: Trepuca la Cuca" readonly>
+                                <input id="input-date" type="date" name="" #inputDate placeholder="Fecha de creación" readonly>
                             </div>
                         </div>
                         <div class="input-perfil">
                             <p>Zona horaria</p>
                             <div class="input-container">
-                                <select name="" id="input-zona"></select>
+                                <select name="timeZone" id="input-zone" #inputZone [(ngModel)]="selectedTimeZone">
+                                    <option value="GMT">GMT</option>
+                                    <option value="EST">EST</option>
+                                    <option value="PST">PST</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <button>Guardar Cambios</button>
+                    <button (click)="onModifyUserClick()">Guardar Cambios</button>
                 </div>
             </div>
         </div>

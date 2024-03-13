@@ -1,9 +1,9 @@
 <div>
-    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
-    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
+    <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
-        
+
         <div  class="organizations-container">
             <div class="organizations-filters">
                 <input type="text" name="" id="organization-search" placeholder="BUSCAR ORGANIZACIONES...">
@@ -15,9 +15,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>
@@ -33,9 +33,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>
@@ -51,9 +51,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>
@@ -69,9 +69,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>
@@ -87,9 +87,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>
@@ -105,9 +105,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>
@@ -123,9 +123,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>
@@ -141,9 +141,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>
@@ -159,9 +159,9 @@
                         <div class="content-organization">
                             <h1>Organizacion</h1>
                             <h2>Descripcion</h2>
-                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar 
-                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac 
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Nullam non velit ut sapien fermentum fringilla. Sed pulvinar
+                                ex vel nisi laoreet, at venenatis nibh blandit. Vestibulum ac
                                 ligula in libero volutpat consequat. Nulla facilisi.
                             </p>
                             <p><strong>Miembros: </strong> XX</p>

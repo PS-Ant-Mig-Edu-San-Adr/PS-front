@@ -1,6 +1,6 @@
 <div>
-    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
-    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
+    <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
         <div class="schedules-content">
@@ -10,7 +10,7 @@
                     <option value="1">Ingeniería Informática</option>
                 </select>
             </div>
-            
+
         </div>
         <app-footer></app-footer>
     </div>

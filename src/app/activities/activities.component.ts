@@ -1,13 +1,12 @@
 // home.component.ts
-import { Component, OnInit } from '@angular/core';
-import { SharedPopupsService } from '../generalServices/sharedPopups.service';
-import { HeaderComponent } from '../header/header.component';
-import { LoginComponent } from '../login/login.component';
-import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../login/login.component.service';
-import { RegisterService } from '../register/register.component.service';
-import { CommonModule } from '@angular/common';
-import { RegisterComponent } from '../register/register.component';
+import {Component, OnInit} from '@angular/core';
+import {SharedPopupsService} from '../generalServices/sharedPopups.service';
+import {HeaderComponent} from '../header/header.component';
+import {LoginComponent} from '../login/login.component';
+import {FooterComponent} from '../footer/footer.component';
+import {CommonModule} from '@angular/common';
+import {RegisterComponent} from '../register/register.component';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 
 @Component({
@@ -20,14 +19,14 @@ import { RegisterComponent } from '../register/register.component';
 })
 
 export class ActivitiesComponent implements OnInit {
-  constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  constructor(public sharedService: SharedPopupsService, public authService: AuthService) {}
 
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$().subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$().subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
   }

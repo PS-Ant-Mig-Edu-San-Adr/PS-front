@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedPopupsService } from '../generalServices/sharedPopups.service';
-import { LoginService } from '../login/login.component.service';
-import { RegisterService } from '../register/register.component.service';
+import { LoginService } from '../generalServices/auth-service/login.component.service';
+import { RegisterService } from '../generalServices/auth-service/register.component.service';
 import { OrganizationService } from '../generalServices/organization.service';
 import { ActivityService } from '../generalServices/activity.service';
 import { Organization } from '../interfaces/interface';
@@ -17,6 +17,7 @@ import { Recordatorio } from '../interfaces/interface';
 import { Evento } from '../interfaces/interface';
 import { EventDetailsService } from '../event-details/event-details.component.service';
 import { EventDetailsComponent } from '../event-details/event-details.component';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-calendar-page',
@@ -32,19 +33,18 @@ export class CalendarPageComponent implements OnInit{
   detalles: Recordatorio | Evento | null = null;
 
   constructor(
-    public sharedService: SharedPopupsService, 
-    public loginService: LoginService, 
-    public registerService: RegisterService,
+    public sharedService: SharedPopupsService,
+    public authService: AuthService,
     public addReminderService: AddReminderService,
     public eventDetailsService: EventDetailsService
   ) {}
 
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
@@ -86,9 +86,9 @@ export class CalendarPageComponent implements OnInit{
     let selectedDateStart: string = '';
     const today = new Date();
     const currentDay = today.getDay();
-  
+
     const adjustedCurrentDay = (currentDay === 0) ? 6 : currentDay - 1;
-  
+
     if (event.type === 'mes') {
       selectedDateStart = new Date(event.ano, event.mes, event.dia).toISOString();
       this.addReminderService.openAddReminderPopup(selectedDateStart);
@@ -99,14 +99,14 @@ export class CalendarPageComponent implements OnInit{
     } else if (event.type === 'semana') {
       const selectedWeekDay = event.dia;
       let daysDifference = selectedWeekDay - adjustedCurrentDay;
-  
+
       const hora = event.hora.split(":")
-  
+
       today.setDate(today.getDate() + daysDifference);
       selectedDateStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hora[0], hora[1]).toISOString();
       this.addReminderService.openAddReminderPopup(selectedDateStart);
     }
   }
-  
+
 
 }

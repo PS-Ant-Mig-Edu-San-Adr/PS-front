@@ -1,6 +1,6 @@
 <div>
-    <app-login *ngIf="loginService.isOpen$ | async"></app-login>
-    <app-register *ngIf="registerService.isOpen$ | async"></app-register>
+    <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
+    <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
     <app-add-reminder *ngIf="addReminderService.isOpen$| async" [recordatorio]="recordatorioParaEditar"></app-add-reminder>
     <app-event-details *ngIf="eventDetailsService.isOpen$| async" [detalles]="detalles"></app-event-details>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">

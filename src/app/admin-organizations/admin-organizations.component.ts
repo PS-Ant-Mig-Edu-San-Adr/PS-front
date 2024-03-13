@@ -3,13 +3,14 @@ import { SharedPopupsService } from '../generalServices/sharedPopups.service';
 import { HeaderComponent } from '../header/header.component';
 import { LoginComponent } from '../login/login.component';
 import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../login/login.component.service';
-import { RegisterService } from '../register/register.component.service';
+import { LoginService } from '../generalServices/auth-service/login.component.service';
+import { RegisterService } from '../generalServices/auth-service/register.component.service';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component';
 import { ManageActivitiesPopUpComponent } from '../manage-activities-pop-up/manage-activities-pop-up.component';
 import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage-activities-pop-up.service';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-admin-organizations',
@@ -20,15 +21,15 @@ import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage
   styleUrl: './admin-organizations.component.css'
 })
 export class AdminOrganizationsComponent implements  OnInit{
-  constructor(public addActivitiesPopUP: ManageActivitiesPopUpService, public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  constructor(public addActivitiesPopUP: ManageActivitiesPopUpService, public sharedService: SharedPopupsService, protected authService: AuthService) {}
   active: number = 2;
 
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
     this.sharedService.addActivitiesService.isOpen$.subscribe((success: boolean) => {
@@ -47,11 +48,11 @@ export class AdminOrganizationsComponent implements  OnInit{
   toggleEditMode(inputElement: HTMLElement) {
     if (inputElement) {
       const inputId = inputElement.getAttribute('id');
-  
+
       // Cambiar entre "noactive" y "active"
       const newId = inputId === 'noactive' ? 'active' : 'noactive';
       inputElement.setAttribute('id', newId);
-  
+
       // Verificar el tipo de elemento y habilitar o deshabilitar la edición en consecuencia
       if (newId === 'active') {
         if (inputElement.tagName === 'INPUT') {
@@ -66,7 +67,7 @@ export class AdminOrganizationsComponent implements  OnInit{
           (inputElement as HTMLSelectElement).setAttribute('disabled', 'true'); // Deshabilitar la edición
         }
       }
-    }  
+    }
   }
 }
 
