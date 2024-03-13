@@ -17,6 +17,7 @@ import { Recordatorio } from '../interfaces/interface';
 import { Evento } from '../interfaces/interface';
 import { EventDetailsService } from '../event-details/event-details.component.service';
 import { EventDetailsComponent } from '../event-details/event-details.component';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-calendar-page',
@@ -33,8 +34,7 @@ export class CalendarPageComponent implements OnInit{
 
   constructor(
     public sharedService: SharedPopupsService,
-    public loginService: LoginService,
-    public registerService: RegisterService,
+    public authService: AuthService,
     public addReminderService: AddReminderService,
     public eventDetailsService: EventDetailsService
   ) {}

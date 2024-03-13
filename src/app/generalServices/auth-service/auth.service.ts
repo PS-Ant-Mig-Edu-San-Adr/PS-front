@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
 import {LoginService} from './login.component.service';
 import {RegisterService} from './register.component.service';
-import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',

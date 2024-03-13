@@ -1,18 +1,17 @@
-import { Component, ElementRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { SharedPopupsService } from '../generalServices/sharedPopups.service';
-import { HeaderComponent } from '../header/header.component';
-import { LoginComponent } from '../login/login.component';
-import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../generalServices/auth-service/login.component.service';
-import { RegisterService } from '../generalServices/auth-service/register.component.service';
-import { CommonModule } from '@angular/common';
-import { RegisterComponent } from '../register/register.component';
-import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.component'
-import { User } from '../interfaces/interface';
-import { PerfilInfoDataCollector } from './perfil-info-data-collector';
-import { SessionStorageService } from 'angular-web-storage';
-import { PerfilInfoService } from './perfil-info.component.service';
-import { FormsModule } from '@angular/forms';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {SharedPopupsService} from '../generalServices/sharedPopups.service';
+import {HeaderComponent} from '../header/header.component';
+import {LoginComponent} from '../login/login.component';
+import {FooterComponent} from '../footer/footer.component';
+import {CommonModule} from '@angular/common';
+import {RegisterComponent} from '../register/register.component';
+import {PerfilButtonsComponent} from '../perfil-buttons/perfil-buttons.component'
+import {User} from '../interfaces/interface';
+import {PerfilInfoDataCollector} from './perfil-info-data-collector';
+import {SessionStorageService} from 'angular-web-storage';
+import {PerfilInfoService} from './perfil-info.component.service';
+import {FormsModule} from '@angular/forms';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 
 @Component({
@@ -25,9 +24,8 @@ import { FormsModule } from '@angular/forms';
 
 })
 export class PerfilInfoComponent implements OnInit, AfterViewInit {
-  constructor(public sharedService: SharedPopupsService, 
-    public loginService: LoginService, 
-    public registerService: RegisterService, 
+  constructor(public sharedService: SharedPopupsService,
+    public authService: AuthService,
     public sessionStorageService: SessionStorageService,
     public perfilInfoService: PerfilInfoService
   ) {}
@@ -44,13 +42,13 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
   profilePict: string = '';
   selectedTimeZone: string = 'GMT';
   filePicture: File | undefined;
-  
+
   ngOnInit() {
-    this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$().subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
-    this.sharedService.registerService.isOpen$.subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$().subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
@@ -62,7 +60,7 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
     });
   }
 
-  
+
   ngAfterViewInit() {
     this.loadInputs();
   }
@@ -134,7 +132,7 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
       this.filePicture = modifiedFile;
       this.profilePict = URL.createObjectURL(modifiedFile);
     }
-    
+
   }
 
   renameFile(file: File): File {
@@ -155,12 +153,12 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
       alert('Please log in before modifying your profile.');
       return;
     }
-    
+
     this.perfilInfoService.putUser(
-        this.sessionStorageService.get('username'), 
-        this.inputUsername.nativeElement.value, 
-        this.inputEmail.nativeElement.value, 
-        this.inputZone.nativeElement.value, 
+        this.sessionStorageService.get('username'),
+        this.inputUsername.nativeElement.value,
+        this.inputEmail.nativeElement.value,
+        this.inputZone.nativeElement.value,
         this.inputPassword.nativeElement.value,
         this.filePicture
       ).subscribe((res) => {

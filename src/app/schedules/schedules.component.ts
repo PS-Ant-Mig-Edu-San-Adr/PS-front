@@ -5,6 +5,7 @@ import {LoginComponent} from '../login/login.component';
 import {FooterComponent} from '../footer/footer.component';
 import {CommonModule} from '@angular/common';
 import {RegisterComponent} from '../register/register.component';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-schedules',
@@ -15,7 +16,7 @@ import {RegisterComponent} from '../register/register.component';
   styleUrl: './schedules.component.css'
 })
 export class SchedulesComponent {
-  constructor(public sharedService: SharedPopupsService) {}
+  constructor(public sharedService: SharedPopupsService, protected authService: AuthService) {}
 
   ngOnInit() {
     this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {

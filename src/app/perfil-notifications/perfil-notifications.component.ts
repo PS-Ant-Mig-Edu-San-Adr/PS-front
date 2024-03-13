@@ -8,6 +8,7 @@ import { RegisterService } from '../generalServices/auth-service/register.compon
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.component'
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-perfil-notifications',
@@ -18,7 +19,7 @@ import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.compone
   styleUrl: './perfil-notifications.component.css'
 })
 export class PerfilNotificationsComponent implements OnInit {
-  constructor(public sharedService: SharedPopupsService) {}
+  constructor(public sharedService: SharedPopupsService, protected authService: AuthService) {}
 
   active: number = 1;
 

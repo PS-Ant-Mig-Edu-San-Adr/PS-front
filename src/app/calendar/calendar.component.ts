@@ -1,15 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Recordatorio } from '../interfaces/interface';
-import { Evento } from '../interfaces/interface';
-import { RecordatorioService } from '../generalServices/recordatorio.service';
-import { AddReminderService } from '../add-reminder/add-reminder.component.service';
-import { EventosService } from '../generalServices/eventos.service';
-import { SessionStorageService } from 'angular-web-storage';
-import { RegisterService } from '../generalServices/auth-service/register.component.service';
-import { LoginService } from '../generalServices/auth-service/login.component.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import {CommonModule} from '@angular/common';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Evento, Recordatorio} from '../interfaces/interface';
+import {RecordatorioService} from '../generalServices/recordatorio.service';
+import {AddReminderService} from '../add-reminder/add-reminder.component.service';
+import {EventosService} from '../generalServices/eventos.service';
+import {SessionStorageService} from 'angular-web-storage';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-calendar',
@@ -31,8 +29,7 @@ export class CalendarComponent implements OnInit {
   constructor(private recordatorioService: RecordatorioService,
     private eventoService: EventosService,
     private sessionStorageService: SessionStorageService,
-    private registerService: RegisterService,
-    private loginService: LoginService,
+    private authService: AuthService,
     private addReminderService: AddReminderService
     ) { }
 
@@ -62,14 +59,14 @@ export class CalendarComponent implements OnInit {
       await this.actualizarEventos();
     }
 
-    this.loginService.loginStatus$
+    this.authService.loginStatus$()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
         this.username = this.sessionStorageService.get('username');
         this.actualizarEventos();
       });
 
-    this.registerService.registerStatus$
+    this.authService.registerStatus$()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
         this.username = this.sessionStorageService.get('username');

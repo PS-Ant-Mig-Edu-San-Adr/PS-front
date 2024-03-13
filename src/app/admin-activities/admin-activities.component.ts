@@ -10,6 +10,7 @@ import {ManageMembersService} from '../manage-members-pop-up/manage-members-pop-
 import {ManageMembersPopUpComponent} from '../manage-members-pop-up/manage-members-pop-up.component'
 import {GroupAddPopUpComponent} from '../group-add-pop-up/group-add-pop-up.component';
 import {GroupAddPopUpService} from '../group-add-pop-up/group-add-pop-up.service';
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-admin-activities',
@@ -20,7 +21,8 @@ import {GroupAddPopUpService} from '../group-add-pop-up/group-add-pop-up.service
   styleUrl: './admin-activities.component.css'
 })
 export class AdminActivitiesComponent implements  OnInit {
-  constructor(public addGroup: GroupAddPopUpService, public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService) {}
+  constructor(public addGroup: GroupAddPopUpService, protected authService: AuthService,
+              public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService) {}
   active: number = 3;
 
   ngOnInit() {

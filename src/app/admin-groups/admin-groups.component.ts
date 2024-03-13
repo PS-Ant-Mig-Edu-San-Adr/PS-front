@@ -10,6 +10,7 @@ import { RegisterComponent } from '../register/register.component';
 import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component';
 import { ManageMembersService } from '../manage-members-pop-up/manage-members-pop-up.component.service'
 import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-members-pop-up.component'
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 
 @Component({
@@ -21,7 +22,8 @@ import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-mem
   styleUrl: './admin-groups.component.css'
 })
 export class AdminGroupsComponent  implements OnInit {
-  constructor(public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService) {}
+  constructor(public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService,
+              protected authService: AuthService) {}
   active: number = 4;
 
   ngOnInit() {

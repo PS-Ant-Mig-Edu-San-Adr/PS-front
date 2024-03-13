@@ -7,6 +7,7 @@ import {RegisterComponent} from "../register/register.component";
 import {HeaderComponent} from "../header/header.component";
 import {FooterComponent} from "../footer/footer.component";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
   selector: 'app-not-available-page',
@@ -24,7 +25,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
   styleUrl: './not-available-page.component.css'
 })
 export class NotAvailablePageComponent implements OnInit {
-  constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
+  constructor(public sharedService: SharedPopupsService, public authService: AuthService) {}
 
   ngOnInit() {
     this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
