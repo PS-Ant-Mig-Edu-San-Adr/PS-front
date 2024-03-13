@@ -137,3 +137,43 @@ input:focus {
 #noactive::placeholder {
     color: white;
 }
+
+table th {
+    width: 10em;
+}
+
+.time-interval-input{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    justify-content: center;
+}
+table * {
+    text-align: center; /* Centra todo dentro de la tabla */
+  }
+th, td {
+    border: 1px solid black; /* Añade bordes a las celdas */
+    padding: 8px; /* Añade espacio entre el contenido y el borde */
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.event-data-horario {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-row {
+    margin-top: 16px;
+    display: flex;
+    position: relative;
+}
+.add-row i {
+    position: absolute;
+    right: 0;
+    font-size: x-large;
+}
