@@ -54,7 +54,7 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
 
     this.profilePict = this.sessionStorageService.get('profilePict');
 
-    this.perfilInfoService.getUser(this.sessionStorageService.get('username')).subscribe((user: User | undefined) => {
+    this.authService.getUser(this.sessionStorageService.get('username')).subscribe((user: User | undefined) => {
       this.user = user;
       this.loadInputs();
     });
