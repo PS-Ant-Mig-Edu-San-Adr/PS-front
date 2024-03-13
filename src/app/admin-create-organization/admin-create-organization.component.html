@@ -11,40 +11,40 @@
                 <div class="content">
                     <app-admin-buttons [active]="active"></app-admin-buttons>
                     <div class="admin-content">
-                        <div class="header-admin-create-organizations-container">
-                            <button (click)="manageMembers()">Gestionar miembros</button>
-                        </div>
                         <div class="event-description">
                             <div class="event-data">
-                                <p>Titulo</p>
-                                <input type="text" name=""  placeholder="ej.: Producción de Software">
+                                <p>Nombre</p>
+                                <input type="text" name="" id="input-name" #inputName placeholder="ej.: ULPGC">
                             </div>
                             <div class="event-data">
                                 <p>Descripción</p>
-                                <input type="text" name=""   placeholder="ej.: ...">
+                                <input type="text" name="" id="input-description" #inputDescription placeholder="ej.: ...">
                             </div>
                             <div class="event-data">
                                 <p>Correo electrónico</p>
-                                <input type="email" name=""   placeholder="ej.:pepito@gmail.com">
+                                <input type="email" name="" id="input-email" #inputEmail placeholder="ej.:pepito@gmail.com">
                             </div>
                             <div class="event-data">
                                 <p>Dominio</p>
-                                <input type="url" name=""   placeholder="ej.:timify.es">
+                                <input type="url" name="" id="input-domain'" #inputDomain placeholder="ej.:timify.es">
                             </div>
                             <div class="event-data">
                                 <p>Contacto</p>
-                                <input type="text" name=""   placeholder="ej.: +XX XXXXXXXXX">
+                                <input type="text" name="" id="input-contact" #inputContact placeholder="ej.: +XXXXXXXXXXX">
 
                             </div>
                             <div class="event-data">
                                 <p>Privacidad</p>
-                                <select name="" id=""></select>
+                                <select name="" id="select-privacy" #selectPrivacy>
+                                    <option value="Público">Público</option>
+                                    <option value="Privado">Privado</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="buttons">
-                    <button>Crear Organización</button>
+                    <button (click)="createOrganization()">Crear Organización</button>
                 </div>
             </div>
         </div>

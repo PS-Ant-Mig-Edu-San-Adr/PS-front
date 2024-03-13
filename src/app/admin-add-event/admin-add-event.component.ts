@@ -1,5 +1,5 @@
 // adminAddEvent.component.ts
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {SharedPopupsService} from '../generalServices/sharedPopups.service';
 import {HeaderComponent} from '../header/header.component';
 import {LoginComponent} from '../login/login.component';
@@ -11,12 +11,12 @@ import {AdminEventDataCollector} from './admin-add-event-data-collector';
 import {HttpClient} from "@angular/common/http";
 import {SessionStorageService} from "angular-web-storage";
 import {AuthService} from "../generalServices/auth-service/auth.service";
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-add-event',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, AdminButtonsComponent],
+  imports: [FormsModule, CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, AdminButtonsComponent],
   providers: [SharedPopupsService],
   templateUrl: './admin-add-event.component.html',
   styleUrl: './admin-add-event.component.css'
@@ -76,5 +76,27 @@ export class AdminAddEventComponent implements OnInit {
         alert('Error submitting data. Please try again later.');
       }
     );
+  }
+
+  @Input() fileName: string = '';
+
+  onFileSelected(event: any) {
+    const files: FileList = event.target.files;
+    if (files.length > 0) {
+      const file: File = files[0];
+      if (this.isValidFileType(file)) {
+        this.fileName = file.name;
+      } else {
+        this.fileName = '';
+        alert('El archivo seleccionado no es un PDF ni un archivo DOCX.');
+      }
+    } else {
+      this.fileName = '';
+    }
+  }
+
+  private isValidFileType(file: File): boolean {
+    const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']; // Tipos MIME para PDF y DOCX
+    return allowedTypes.includes(file.type);
   }
 }

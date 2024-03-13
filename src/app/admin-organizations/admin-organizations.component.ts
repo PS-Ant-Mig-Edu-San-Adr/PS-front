@@ -11,6 +11,10 @@ import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component'
 import { ManageActivitiesPopUpComponent } from '../manage-activities-pop-up/manage-activities-pop-up.component';
 import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage-activities-pop-up.service';
 import {AuthService} from "../generalServices/auth-service/auth.service";
+import { AdminOrganizationsDataCollector } from './admin-organizations-data-collector';
+import { User } from "../interfaces/interface";
+import { SessionStorageService } from 'angular-web-storage';
+import { AdminService } from '../generalServices/admin.service';
 
 @Component({
   selector: 'app-admin-organizations',
@@ -21,8 +25,14 @@ import {AuthService} from "../generalServices/auth-service/auth.service";
   styleUrl: './admin-organizations.component.css'
 })
 export class AdminOrganizationsComponent implements  OnInit{
-  constructor(public addActivitiesPopUP: ManageActivitiesPopUpService, public sharedService: SharedPopupsService, protected authService: AuthService) {}
+  constructor(
+    public addActivitiesPopUP: ManageActivitiesPopUpService, 
+    public sharedService: SharedPopupsService, 
+    protected authService: AuthService,
+    private sessionStorageService: SessionStorageService,
+    ) {}
   active: number = 2;
+  user: User | undefined;
 
   ngOnInit() {
     this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
@@ -34,6 +44,10 @@ export class AdminOrganizationsComponent implements  OnInit{
     });
     this.sharedService.addActivitiesService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
+    });
+
+    this.authService.getUser(this.sessionStorageService.get('username')).subscribe((user: User | undefined) => {
+      this.user = user;
     });
   }
   addActivities(){
@@ -68,6 +82,24 @@ export class AdminOrganizationsComponent implements  OnInit{
         }
       }
     }
+  }
+
+  general(): void {
+    const userData = AdminOrganizationsDataCollector.collectUserData();
+
+    if (!userData.result) {
+      alert(userData.details);
+      return;
+    }
+
+    const username = this.user?.username;
+    if (!username) {
+      alert('Please log in before modifying your profile.');
+      return;
+    }
+
+    
+
   }
 }
 

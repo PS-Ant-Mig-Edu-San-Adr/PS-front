@@ -10,23 +10,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class PerfilInfoService {
     constructor(private httpClient: HttpClient, private sessionStorageService: SessionStorageService) {}
-
-    getUser(username: string): Observable<User | undefined> {
-        return this.httpClient.get<any>(`http://localhost:3001/api/searchUser/${username}`, { params: { username } }).pipe(
-            map((res) => {
-                if (res.status === 200) {
-                    return res.user;
-                } else {
-                    return undefined;
-                }
-            }),
-            catchError((error) => {
-                console.error('Error al realizar la solicitud de obtener el usuario:', error);
-                return of(undefined);
-            })
-        );
-    }
-
+    
     addImage(file: File): Observable<any> {
         const image = new FormData();
         image.append('file', file);

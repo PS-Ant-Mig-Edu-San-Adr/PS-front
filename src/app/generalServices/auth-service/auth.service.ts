@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
 import {LoginService} from './login.component.service';
 import {RegisterService} from './register.component.service';
+import { Observable, catchError, map, of } from 'rxjs';
+import { User } from '../../interfaces/interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +33,23 @@ export class AuthService {
   register(email: string, password: string, firstName: string, lastName: string, username: string) {
     this.registerService.register(email, password, firstName, lastName, username);
   }
+
+  getUser(username: string): Observable<User | undefined> {
+    return this.httpClient.get<any>(`http://localhost:3001/api/searchUser/${username}`, { params: { username } }).pipe(
+        map((res) => {
+            if (res.status === 200) {
+                return res.user;
+            } else {
+                return undefined;
+            }
+        }),
+        catchError((error) => {
+            console.error('Error al realizar la solicitud de obtener el usuario:', error);
+            return of(undefined);
+        })
+    );
+}
+
 
   // Métodos y observables para la funcionalidad de inicio de sesión
   openLoginPopup() {
