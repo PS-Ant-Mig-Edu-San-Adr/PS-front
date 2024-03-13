@@ -15,17 +15,20 @@ import { AdminOrganizationsDataCollector } from './admin-organizations-data-coll
 import { User } from "../interfaces/interface";
 import { SessionStorageService } from 'angular-web-storage';
 import { AdminService } from '../generalServices/admin.service';
+import { ManageMembersService } from '../manage-members-pop-up/manage-members-pop-up.component.service';
+import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-members-pop-up.component';
 
 @Component({
   selector: 'app-admin-organizations',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, AdminButtonsComponent, ManageActivitiesPopUpComponent],
+  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, AdminButtonsComponent, ManageActivitiesPopUpComponent, ManageMembersPopUpComponent],
   providers: [SharedPopupsService],
   templateUrl: './admin-organizations.component.html',
   styleUrl: './admin-organizations.component.css'
 })
 export class AdminOrganizationsComponent implements  OnInit{
   constructor(
+    public manageMembersService: ManageMembersService,
     public addActivitiesPopUP: ManageActivitiesPopUpService, 
     public sharedService: SharedPopupsService, 
     protected authService: AuthService,
@@ -46,12 +49,21 @@ export class AdminOrganizationsComponent implements  OnInit{
       this.sharedService.toggleWrapperContainerStyles(success);
     });
 
+    this.sharedService.manageMembersService.isOpen$.subscribe((success: boolean) => {
+      this.sharedService.toggleWrapperContainerStyles(success);
+    });
+
     this.authService.getUser(this.sessionStorageService.get('username')).subscribe((user: User | undefined) => {
       this.user = user;
     });
   }
+
   addActivities(){
     this.addActivitiesPopUP.openAddActivityPopup();
+  }
+
+  addMembers(){
+    this.manageMembersService.openManageMembersPopup();
   }
 
 

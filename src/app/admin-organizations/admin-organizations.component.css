@@ -45,6 +45,12 @@
     margin-right: 5%;
 }
 
+.filter-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
 .filter select {
     margin-top: 8px;
     width: 200px;

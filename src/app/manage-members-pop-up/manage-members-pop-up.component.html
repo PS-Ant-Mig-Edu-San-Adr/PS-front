@@ -1,27 +1,39 @@
 <div class="manage-members-container">
-    <button (click)="closeManageMembersPopup()" class="close-button">X</button>
-    <h1>MIEMBROS</h1>
-    <div class="manage-members-content">
-        <div class="input-manage-members">
-            <input type="text" name="" id="" placeholder="Buscar Usuario">
-            <i class="fa-solid fa-plus"></i>
-        </div>
-        <div class="members-data">
-            <table>
-                <thead>
-                  <tr>
+  <button (click)="closeManageMembersPopup()" class="close-button">X</button>
+  <h1>MIEMBROS</h1>
+  <div class="manage-members-content">
+
+    <div class="input-filtering">
+      <div class="input-manage-members">
+        <input type="text" name="" id="searchInput" #inputUserName placeholder="Buscar Usuario" (input)="filterNames()">
+        <i class="fa-solid fa-plus"></i>
+      </div>
+
+      <ul id="namesDropdown" #namesDropdown class="dropdown" style="display:none;">
+        <li (click)="userClick(user)" *ngFor="let user of users">
+          <img [src]="user.avatar" alt="user">
+          <div class="user-info">
+            <p>{{user.fullName}}</p>
+            <p>{{user.email}}</p>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="members-data">
+        <table>
+            <thead>
+                <tr>
                     <th>Nombre</th>
-                    <th>DNI</th>
+                    <th>Usuario</th>
                     <th>Correo</th>
                     <th>Rol</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <!-- Aqui van los datos -->
-                </tbody>
-              </table>
-        </div>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-    
-
+  </div>
 </div>
