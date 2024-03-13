@@ -80,7 +80,7 @@ export class PerfilInfoComponent implements OnInit {
       alert('Please log in before modifying your profile.');
       return;
     }
-    // Modify the user
+    
 
   }
 }

@@ -6,11 +6,13 @@
         <div class="perfil-container">
             <app-perfil-buttons [active]="active"></app-perfil-buttons>
             <div class="perfil-notifications-container">
-                <div class="perfil-notifications-container">
+                <div class="perfil-notifications-container" #perfilNotifications>
                     <div class="notification">
                         <p>Activar notificaciones</p>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" id="active-notifications" [(ngModel)]="notificationsActive" (ngModelChange)="setCheckBoxState()">
+
+
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -18,14 +20,14 @@
                     <div class="notification">
                         <p>Notificaciones de Eventos</p>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" id="active-event" [disabled]="!notificationsActive">
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="notification">
                         <p>Notificaciones de recordatorios</p>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox"  id="active-reminders" [disabled]="!notificationsActive">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -33,19 +35,20 @@
                     <div class="notification">
                         <p>Notificación por aplicación</p>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" id="active-app" [disabled]="!notificationsActive">
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="notification">
                         <p>Notificación por Email</p>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" id="active-email" [disabled]="!notificationsActive">
                             <span class="slider"></span>
                         </label>
                     </div>
-                </div> 
+                </div>
                 <button>Guardar Cambios</button>
+                
             </div>
         </div>
         <app-footer></app-footer>
