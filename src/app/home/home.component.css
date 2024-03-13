@@ -181,8 +181,3 @@
     transform: scale(1.05);
     transition: filter 0.5s ease, transform 0.3s ease, z-index 0s;
 }
-
-.home-cards-grid:hover .card:not(:hover) {
-    filter: blur(4px);
-    transition: filter 0.5s ease;
-}

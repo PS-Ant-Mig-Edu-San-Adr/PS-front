@@ -39,11 +39,11 @@
                             </div>
                             <div class="event-data">
                                 <p>Inicio</p>
-                                <input type="text" name="event-start-date" id=""  placeholder="ej.:XX/XX/XXXX/XX:XX">
+                                <input type="datetime-local" name="event-start-date" id="">
                             </div>
                             <div class="event-data">
                                 <p>Final</p>
-                                <input type="text" name="event-end-date" id=""  placeholder="ej.:XX/XX/XXXX/XX:XX">
+                                <input type="datetime-local" name="event-end-date" id="">
                             </div>
                             <div class="event-data">
                                 <p>Ubicación</p>
@@ -56,13 +56,20 @@
                             <div class="event-data">
                                 <p>Adjuntar fichero</p>
                                 <div class="input-container">
-                                    <input type="text" name="event-attached-files" id=""  placeholder="ej.: guiaExamen.pdf">
-                                    <i class="fa fa-paperclip"></i>
+                                    <input type="text" [(ngModel)]="fileName" placeholder="ej.: Adjuntar archivo" readonly>
+                                    <input type="file" (change)="onFileSelected($event)" class="file-input" multiple>
+                                    <label for="file-input" class="file-icon">
+                                        <i class="fa fa-paperclip"></i>
+                                    </label>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Repetir</p>
-                                <select name="event-repeat" id="">ej: Semanal</select>
+                                <select name="event-repeat" id="">
+                                    <option value="none">Ninguna</option>
+                                    <option value="daily">Diario</option>
+                                    <option value="weekly">Semanal</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -75,4 +82,21 @@
         </div>
         <app-footer></app-footer>
     </div>
+    <script>
+        // Obtener elementos del DOM
+        const fileInput = document.getElementById('file-input');
+        const fileNameInput = document.getElementById('file-name');
+    
+        // Agregar evento change al control de entrada de archivos
+        fileInput.addEventListener('change', function() {
+            const files = fileInput.files; // Obtener los archivos seleccionados
+            if (files.length > 0) {
+                // Mostrar el nombre del primer archivo seleccionado en el input de texto
+                fileNameInput.value = files[0].name;
+            } else {
+                // Si no se selecciona ningún archivo, mostrar el placeholder
+                fileNameInput.placeholder = "ej.: Adjuntar archivo";
+            }
+        });
+    </script>
 </div>
