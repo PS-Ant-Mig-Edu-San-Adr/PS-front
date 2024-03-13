@@ -1,0 +1,13 @@
+.not-available-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: #504136;
+}
+
+.not-available-content h1 {
+  font-size: xxx-large;
+  text-align: center;
+}
+

@@ -3,8 +3,8 @@ import { SharedPopupsService } from '../generalServices/sharedPopups.service';
 import { HeaderComponent } from '../header/header.component';
 import { LoginComponent } from '../login/login.component';
 import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../login/login.component.service';
-import { RegisterService } from '../register/register.component.service';
+import { LoginService } from '../generalServices/auth-service/login.component.service';
+import { RegisterService } from '../generalServices/auth-service/register.component.service';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component';
@@ -47,11 +47,11 @@ export class AdminOrganizationsComponent implements  OnInit{
   toggleEditMode(inputElement: HTMLElement) {
     if (inputElement) {
       const inputId = inputElement.getAttribute('id');
-  
+
       // Cambiar entre "noactive" y "active"
       const newId = inputId === 'noactive' ? 'active' : 'noactive';
       inputElement.setAttribute('id', newId);
-  
+
       // Verificar el tipo de elemento y habilitar o deshabilitar la edición en consecuencia
       if (newId === 'active') {
         if (inputElement.tagName === 'INPUT') {
@@ -66,7 +66,7 @@ export class AdminOrganizationsComponent implements  OnInit{
           (inputElement as HTMLSelectElement).setAttribute('disabled', 'true'); // Deshabilitar la edición
         }
       }
-    }  
+    }
   }
 }
 

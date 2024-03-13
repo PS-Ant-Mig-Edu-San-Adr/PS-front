@@ -11,6 +11,7 @@ import { PerfilInfoComponent } from "./perfil-info/perfil-info.component"
 import { PerfilNotificationsComponent } from "./perfil-notifications/perfil-notifications.component"
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { ActivitiesComponent } from './activities/activities.component';
+import {NotAvailablePageComponent}  from "./not-available-page/not-available-page.component"
 
 
 export const routes: Routes = [
@@ -26,5 +27,6 @@ export const routes: Routes = [
   { path: 'perfilInfo', component: PerfilInfoComponent},
   { path: 'perfilNotifications', component: PerfilNotificationsComponent},
   { path: 'calendar', component: CalendarPageComponent},
-  { path: 'activities', component: ActivitiesComponent}
+  { path: 'activities', component: ActivitiesComponent},
+  { path: 'notAvailable', component: NotAvailablePageComponent}
 ];

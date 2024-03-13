@@ -3,8 +3,8 @@ import { SharedPopupsService } from '../generalServices/sharedPopups.service';
 import { HeaderComponent } from '../header/header.component';
 import { LoginComponent } from '../login/login.component';
 import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../login/login.component.service';
-import { RegisterService } from '../register/register.component.service';
+import { LoginService } from '../generalServices/auth-service/login.component.service';
+import { RegisterService } from '../generalServices/auth-service/register.component.service';
 import { CommonModule } from '@angular/common';
 import { RegisterComponent } from '../register/register.component';
 import { PerfilButtonsComponent } from '../perfil-buttons/perfil-buttons.component'
@@ -21,7 +21,7 @@ export class PerfilNotificationsComponent implements OnInit {
   constructor(public sharedService: SharedPopupsService, public loginService: LoginService, public registerService: RegisterService) {}
 
   active: number = 1;
-  
+
   ngOnInit() {
     this.sharedService.loginService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
