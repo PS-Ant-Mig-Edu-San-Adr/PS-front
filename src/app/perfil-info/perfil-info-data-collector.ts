@@ -91,7 +91,8 @@ export class PerfilInfoDataCollector {
     return (
       (user.username && user.username === eventData.username) &&
       (user.email && user.email === eventData.email) &&
-      (user.timeZone && user.timeZone === eventData.zona)
+      (user.timeZone && user.timeZone === eventData.zona) && 
+      (!eventData.password || eventData.password === "")
     );
   }
 
