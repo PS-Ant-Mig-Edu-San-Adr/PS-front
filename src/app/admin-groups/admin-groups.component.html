@@ -72,8 +72,9 @@
                                                 <td class="checkbox-cell" id="viernes"></td>
                                                 <td class="checkbox-cell" id="sabado"></td>
                                                 <td class="checkbox-cell" id="domingo"></td>
-                                                <td class="checkbox-cell">
-                                                    <div class="delete-row" id="delete-row" (click)="deleteRow(i)">
+                                                
+                                                <td class="checkbox-cell" id="delete-row">
+                                                    <div  (click)="deleteRow(i)">
                                                         <i class="fa fa-minus"></i>
                                                     </div>
                                                 </td>
@@ -89,6 +90,7 @@
                 </div>
                 <div class="buttons">
                     <button (click)="manageMembers()">Gestionar miembros</button>
+                    <button (click)="onModifyUserClick()">Guardar</button>
                 </div>
             </div>
         </div>
