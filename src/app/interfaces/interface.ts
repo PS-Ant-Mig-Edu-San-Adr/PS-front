@@ -8,6 +8,14 @@ export interface Activity {
     privacy: string;
 }
 
+export interface Member {
+  name: string | String;
+  _id: string;
+  email: string | String;
+  role: string;
+  username: string | String;
+}
+
 export interface Organization {
   _id: any;
   name: string;
@@ -16,7 +24,7 @@ export interface Organization {
   contact: string;
   domain: string;
   privacy: string;
-  members: [];
+  members: Member[];
   activities?: Activity[];
 }
 
