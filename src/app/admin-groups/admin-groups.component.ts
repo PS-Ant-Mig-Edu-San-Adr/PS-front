@@ -36,9 +36,7 @@ export class AdminGroupsComponent implements OnInit {
     public sharedService: SharedPopupsService,
     protected authService: AuthService
   ) {
-    this.rows.forEach(row => {
-      row.days = this.days.slice(); // Asigna una copia del arreglo 'days' a la propiedad 'days' de cada objeto en 'rows'
-    });
+    
   }
   active: number = 4;
 
@@ -62,14 +60,14 @@ export class AdminGroupsComponent implements OnInit {
 
   toggleEditMode(inputElement: HTMLInputElement) {
     if (inputElement) {
-      const inputId = inputElement.getAttribute('id');
+      const inputClass = inputElement.getAttribute('class');
 
       // Cambiar entre "noactive" y "active"
-      const newId = inputId === 'noactive' ? 'active' : 'noactive';
-      inputElement.setAttribute('id', newId);
+      const newClass = inputClass === 'noactive' ? 'active' : 'noactive';
+      inputElement.setAttribute('class', newClass);
 
       // Verificar el ID para habilitar o deshabilitar la edición
-      if (newId === 'active') {
+      if (newClass === 'active') {
         inputElement.removeAttribute('readonly'); // Habilitar la edición
       } else {
         inputElement.setAttribute('readonly', 'true'); // Deshabilitar la edición
@@ -79,12 +77,12 @@ export class AdminGroupsComponent implements OnInit {
 
   originalColor: string = '';
 
-  changeColor(event: any) {
+  updateTable(event: any, index: number) {
     if (event.target.tagName === 'TD') {
       if (event.target.id === 'delete-row') {
         return;
       } else {
-        this.updateRow(event.target.id);
+        this.updateRow(event.target.id, index);
         if (event.target.style.backgroundColor !== 'green') {
           this.originalColor = event.target.style.backgroundColor;
           event.target.style.backgroundColor = 'green';
@@ -95,7 +93,7 @@ export class AdminGroupsComponent implements OnInit {
     }
   }
 
-  updateRow(targetId: string) {
+  updateRow(targetId: string, index: number) {
     let dayIndex = -1;
     switch (targetId) {
       case 'lunes':
@@ -125,52 +123,48 @@ export class AdminGroupsComponent implements OnInit {
     }
     // Verificar si se encontró un día válido
     if (dayIndex !== -1) {
-      // Cambiar el valor booleano asociado al día de la semana
-      this.days[dayIndex] = !this.days[dayIndex];
+      this.result[index].dias[dayIndex] = !this.result[index].dias[dayIndex]
     }
   }
 
   days: boolean[] = [false, false, false, false, false, false, false];
 
   rows: any[] = [
-    { hora_inicio: '', hora_fin: ''}, // Agrega más propiedades según sea necesario
+    { hora_inicio: '', hora_fin: ''},
   ];
 
-  result: any[]  = [];
-  i=0;
-  // Inicializar el resultado con los valores actuales de rows y days
-  initializeResult() {
-    if(this.rows.length !== this.result.length ) {
-      this.result.push({
-        horas: [this.rows[this.i].hora_inicio, this.rows[this.i].hora_fin],
-        dias: [...this.days]
-      });
-      this.i++;
-      this.days = [false, false, false, false, false, false, false]; // Resetear todos los valores de this.days a false
-    } 
+  result: any[] = this.rows.map(row => ({
+    horas: {hora_inicio:  '', hora_fin: ''},
+    dias: [...this.days]
+  }));
+
+  updateTime() {
+    for(let index = 0; index <  this.rows.length ; ++index){
+      this.result[index].horas.hora_inicio = this.rows[index].hora_inicio
+      this.result[index].horas.hora_fin = this.rows[index].hora_fin
+    }
   }
 
   addRow() {
-    // Inicializar un nuevo array de días con valores falsos
-    this.initializeResult();
     this.rows.push({
-      hora_inicio: '', // Utiliza la última hora de inicio en la matriz
-      hora_fin: '', // Utiliza la última hora de fin en la matriz
+      hora_inicio: '', 
+      hora_fin: '', 
     });
+    this.result.push({
+      horas: {hora_inicio:  '', hora_fin: ''},
+      dias: [...this.days]
+    })
   }
 
   deleteRow(index: number) {
     this.rows.splice(index, 1);
+    this.result.splice(index, 1);
   }
 
-  actualizarTabla() {}
-
   onModifyUserClick(): void {
-    this.initializeResult();
+    this.updateTime()
     const userData = AdminGroupsDataCollector.collectEventData(this.result);
-    console.log(userData);
     if (!userData.result) {
-      
       alert(userData.details);
       return;
     }
