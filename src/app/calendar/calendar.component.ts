@@ -290,10 +290,10 @@ export class CalendarComponent implements OnInit {
 
   eliminarEvento(evento: any): void {
     if(evento.tipo === 'evento'){
-      this.eventoService.deleteEvento(this.username, evento.id);
+      this.eventoService.deleteEvento(this.username, evento._id);
     }else if(evento.tipo === 'recordatorio'){
-      this.recordatorioService.deleteRecordatorio(this.username, evento.id);
+      this.recordatorioService.deleteRecordatorio(this.username, evento._id);
     }
-    this.eventos = this.eventos.filter(e => e.id !== evento.id);
+    this.eventos = this.eventos.filter(e => e._id !== evento._id);
   }
 }

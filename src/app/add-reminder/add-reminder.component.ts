@@ -187,7 +187,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
         selectedColor.value,
         selectedDescription?.value || '',
         this.sessionStorageService.get('username'),
-        this.recordatorio?.id || ''
+        this.recordatorio?._id || ''
       );
       this.closeAddReminderPopup();
     }

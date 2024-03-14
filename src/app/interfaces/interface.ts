@@ -1,16 +1,27 @@
 export interface Activity {
-    id: any;
+    _id: any;
     name: string;
+    description: string;
+    groups: [];
+    members: [];
+    roles: [],
+    privacy: string;
 }
 
 export interface Organization {
-  id: any;
+  _id: any;
   name: string;
+  description: string;
+  email: string;
+  contact: string;
+  domain: string;
+  privacy: string;
+  members: [];
   activities?: Activity[];
 }
 
 export interface User {
-  id: any,
+  _id: any,
   fullName: String,
   email: String,
   username: String
@@ -26,7 +37,7 @@ export interface User {
 }
 
 export interface Recordatorio {
-  id: any;
+  _id: any;
   titulo: string;
   fechaInicio: Date;
   fechaFin: Date;
@@ -37,7 +48,7 @@ export interface Recordatorio {
 }
 
 export interface Evento {
-  id: any;
+  _id: any;
   titulo: string;
   fechaInicio: Date;
   fechaFin: Date;

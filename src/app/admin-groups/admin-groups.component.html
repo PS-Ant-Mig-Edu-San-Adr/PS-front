@@ -40,18 +40,57 @@
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
                                 </div>
                             </div>
-                            <div class="event-data">
+                            <div class="event-data-horario">
                                 <p>Horario</p>
-                                <div class="input-container">
-                                    <input type="email" name="" id="noactive" #inputHorario placeholder="ej.: Lunes[8:30-10:30]" readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputHorario)"></i>
+                                <br>
+                                <div class="table-container">
+                                    <table (click)="changeColor($event)">
+                                        <thead>
+                                            <tr>
+                                                <th>Horas</th>
+                                                <th>Lunes</th>
+                                                <th>Martes</th>
+                                                <th>Miércoles</th>
+                                                <th>Jueves</th>
+                                                <th>Viernes</th>
+                                                <th>Sábado</th>
+                                                <th>Domingo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let row of rows; let i = index">
+                                                <th>
+                                                    <div class="time-interval-input">
+                                                        <input type="time" name="hora_inicio_{{i}}" [(ngModel)]="row.hora_inicio">
+                                                        <input type="time" name="hora_fin_{{i}}" [(ngModel)]="row.hora_fin">
+                                                    </div>
+                                                </th>
+                                                <td class="checkbox-cell" id="lunes"></td>
+                                                <td class="checkbox-cell" id="martes"></td>
+                                                <td class="checkbox-cell" id="miercoles"></td>
+                                                <td class="checkbox-cell" id="jueves"></td>
+                                                <td class="checkbox-cell" id="viernes"></td>
+                                                <td class="checkbox-cell" id="sabado"></td>
+                                                <td class="checkbox-cell" id="domingo"></td>
+                                                
+                                                <td class="checkbox-cell" id="delete-row">
+                                                    <div  (click)="deleteRow(i)">
+                                                        <i class="fa fa-minus"></i>
+                                                    </div>
+                                                </td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="add-row"><i class="fa fa-minus"></i><i class="fa fa-plus" (click)="addRow()"></i></div>
                                 </div>
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>
                 <div class="buttons">
                     <button (click)="manageMembers()">Gestionar miembros</button>
+                    <button (click)="onModifyUserClick()">Guardar</button>
                 </div>
             </div>
         </div>

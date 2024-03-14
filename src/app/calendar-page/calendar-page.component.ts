@@ -1,22 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { SharedPopupsService } from '../generalServices/sharedPopups.service';
-import { LoginService } from '../generalServices/auth-service/login.component.service';
-import { RegisterService } from '../generalServices/auth-service/register.component.service';
-import { OrganizationService } from '../generalServices/organization.service';
-import { ActivityService } from '../generalServices/activity.service';
-import { Organization } from '../interfaces/interface';
-import { HeaderComponent } from '../header/header.component';
-import { LoginComponent } from '../login/login.component';
-import { FooterComponent } from '../footer/footer.component';
-import { CommonModule } from '@angular/common';
-import { RegisterComponent } from '../register/register.component';
-import { CalendarComponent } from '../calendar/calendar.component';
-import { AddReminderService } from '../add-reminder/add-reminder.component.service';
-import { AddReminderComponent } from '../add-reminder/add-reminder.component';
-import { Recordatorio } from '../interfaces/interface';
-import { Evento } from '../interfaces/interface';
-import { EventDetailsService } from '../event-details/event-details.component.service';
-import { EventDetailsComponent } from '../event-details/event-details.component';
+import {Component, OnInit} from '@angular/core';
+import {SharedPopupsService} from '../generalServices/sharedPopups.service';
+import {OrganizationService} from '../generalServices/organization.service';
+import {ActivityService} from '../generalServices/activity.service';
+import {Evento, Organization, Recordatorio} from '../interfaces/interface';
+import {HeaderComponent} from '../header/header.component';
+import {LoginComponent} from '../login/login.component';
+import {FooterComponent} from '../footer/footer.component';
+import {CommonModule} from '@angular/common';
+import {RegisterComponent} from '../register/register.component';
+import {CalendarComponent} from '../calendar/calendar.component';
+import {AddReminderService} from '../add-reminder/add-reminder.component.service';
+import {AddReminderComponent} from '../add-reminder/add-reminder.component';
+import {EventDetailsService} from '../event-details/event-details.component.service';
+import {EventDetailsComponent} from '../event-details/event-details.component';
 import {AuthService} from "../generalServices/auth-service/auth.service";
 
 @Component({
