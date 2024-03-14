@@ -89,7 +89,7 @@ button {
     padding: 10px 15px;
     font-weight: bold;
     border-radius: 16px;
-    width: 40%;
+    width: 10%;
     align-self: center; 
 }
 
@@ -101,3 +101,23 @@ button {
 .noactive::placeholder {
     color: white;
 }
+
+.storage-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 20px;
+}
+  
+.save-changes {
+    margin-right: auto;
+    margin-left: calc(50% - 70px);
+}
+  
+.delete-account {
+    margin-right: 40px;
+    background-color: red;
+}
+  

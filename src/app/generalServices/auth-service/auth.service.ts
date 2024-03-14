@@ -50,6 +50,23 @@ export class AuthService {
     );
 }
 
+deleteUser(username: String): Observable<boolean> {
+  return this.httpClient.delete<{status: number}>(`http://localhost:3001/api/deleteUser/${username}`).pipe(
+    map(res => {
+      if (res.status === 200) {
+        this.logout();
+        return true;
+      } else {
+        return false;
+      }
+    }),
+    catchError(error => {
+      console.error('Error al realizar la solicitud de eliminar el usuario:', error);
+      return of(false);
+    })
+  );
+}
+
 
   // Métodos y observables para la funcionalidad de inicio de sesión
   openLoginPopup() {
