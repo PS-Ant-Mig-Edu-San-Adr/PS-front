@@ -7,25 +7,23 @@ import { Organization } from '../interfaces/interface';
   providedIn: 'root'
 })
 export class OrganizationService {
-  private apiUrl = 'URL_DEL_API'; // Aquí debes colocar la URL de tu API
+  private apiUrl = 'http://localhost:3001/api';
 
   constructor(private http: HttpClient) {}
 
   // Método para obtener todas las organizaciones
-  // getOrganizations(): Observable<Organization[]> {
-  //   return this.http.get<Organization[]>(`${this.apiUrl}/organizations`);
-  // }
-
-  getOrganizations(): any {
-    return null;
+  getOrganizations(): Observable<Organization[]> {
+    return this.http.get<Organization[]>(`${this.apiUrl}/organizaciones`);
   }
 
   // Método para obtener una organización por su ID
-  // getOrganizationById(id: number): Observable<Organization> {
-  //   return this.http.get<Organization>(`${this.apiUrl}/organizations/${id}`);
-  // }
-
-  getOrganizationById(id: number): any {
-    return null;
+  getOrganizationById(id: string): Observable<Organization> {
+    return this.http.get<Organization>(`${this.apiUrl}/organizaciones/${id}`);
   }
+
+  // Método para obtener organizaciones por nombre de usuario
+  getOrganizationsByUsername(username: string): Observable<{organizations: Organization[]}> {
+    return this.http.get<{organizations: Organization[]}>(`${this.apiUrl}/organizaciones/${username}`);
+  }
+
 }

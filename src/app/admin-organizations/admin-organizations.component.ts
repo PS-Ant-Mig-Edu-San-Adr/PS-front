@@ -10,8 +10,9 @@ import {ManageActivitiesPopUpComponent} from '../manage-activities-pop-up/manage
 import {ManageActivitiesPopUpService} from '../manage-activities-pop-up/manage-activities-pop-up.service';
 import {AuthService} from "../generalServices/auth-service/auth.service";
 import {AdminOrganizationsDataCollector} from './admin-organizations-data-collector';
-import {User} from "../interfaces/interface";
+import {Organization, User} from "../interfaces/interface";
 import {SessionStorageService} from 'angular-web-storage';
+import {OrganizationService} from "../generalServices/organization.service";
 
 @Component({
   selector: 'app-admin-organizations',
@@ -22,11 +23,13 @@ import {SessionStorageService} from 'angular-web-storage';
   styleUrl: './admin-organizations.component.css'
 })
 export class AdminOrganizationsComponent implements  OnInit{
+  protected organizations: Organization[] = [];
   constructor(
     public addActivitiesPopUP: ManageActivitiesPopUpService,
     public sharedService: SharedPopupsService,
     protected authService: AuthService,
     private sessionStorageService: SessionStorageService,
+    private organizationService: OrganizationService
     ) {}
   active: number = 2;
   user: User | undefined;
@@ -46,7 +49,27 @@ export class AdminOrganizationsComponent implements  OnInit{
     this.authService.getUser(this.sessionStorageService.get('username')).subscribe((user: User | undefined) => {
       this.user = user;
     });
+
+    this.loadOrganizations();
   }
+
+  loadOrganizations() {
+    const username = this.sessionStorageService.get('username');
+    if (username) {
+      this.organizationService.getOrganizationsByUsername(username).subscribe({
+        next: (response) => {
+          this.organizations = response.organizations;
+        },
+        error: (err) => {
+          console.error('Error loading organizations:', err);
+        }
+      });
+    } else {
+      // Manejo de casos donde el username no está disponible
+      console.log('Username not available while loading organizations' );
+    }
+  }
+
   addActivities(){
     this.addActivitiesPopUP.openAddActivityPopup();
   }

@@ -1,78 +1,82 @@
 <div>
-    <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
-    <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
-    <app-manage-activities-pop-up *ngIf="addActivitiesPopUP.isOpen$ | async"></app-manage-activities-pop-up>
-    <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
-        <app-header></app-header>
-        <div class="admin-container">
-            <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
-            <div class="admin-organizations-content-container">
-                <div class="content">
-                    <app-admin-buttons [active]="active"></app-admin-buttons>
-                    <div class="admin-content">
-                        <div class="header-admin-organizations-container">
-                            <div class="filter">
-                                <p><strong>ORGANIZACIONES</strong></p>
-                                <select name="" id=""></select>
-                            </div>
-                            <button>Gestionar Grupos</button>
-                        </div>
-                        <div class="event-description">
-                            <div class="event-data">
-                                <p>Nombre</p>
-                                <div class="input-container">
-                                    <input type="text" name="" id="noactive" #inputTitulo placeholder="ej.: ULPGC" readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
-                                </div>
-                                </div>
-                            <div class="event-data">
-                                <p>Descripción</p>
-                                <div class="input-container">
-                                    <input type="text" name="" id="noactive" #inputDescripcion placeholder="ej.: ..." readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
-                                </div>
-                            </div>
-                            <div class="event-data">
-                                <p>Correo electrónico</p>
-                                <div class="input-container">
-                                    <input type="email" name="" id="noactive"  #inputCorreo placeholder="ej.:pepito@gmail.com" readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputCorreo)"></i>
-                                </div>
-                            </div>
-                            <div class="event-data">
-                                <p>Dominio</p>
-                                <div class="input-container">
-                                    <input type="url" name="" id="noactive" #inputDominio placeholder="ej.:timify.es"  readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputDominio)"></i>
-                                </div>
-                            </div>
-                            <div class="event-data">
-                                <p>Contacto</p>
-                                <div class="input-container">
-                                    <input type="text" name="" id="noactive" #inputContacto placeholder="ej.: +XX XXXXXXXXX" readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputContacto)"></i>
-                                </div>
-                            </div>
-                            <div class="event-data">
-                                <p>Privacidad</p>
-                                <div class="input-container">
-                                    <select name="" id="noactive"  #selectPrivacidad disabled>
-                                        <option value="opcion1">Público</option>
-                                        <option value="opcion2">Estudiantes</option>
-                                        <option value="opcion3">Borja Sabe</option>
-                                    </select>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(selectPrivacidad)"></i>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="buttons">
-                    <button (click)="addActivities()">Crear Actividad</button>
-                </div>
+  <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
+  <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
+  <app-manage-activities-pop-up *ngIf="addActivitiesPopUP.isOpen$ | async"></app-manage-activities-pop-up>
+  <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+    <app-header></app-header>
+    <div class="admin-container">
+      <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
+      <div class="admin-organizations-content-container">
+        <div class="content">
+          <app-admin-buttons [active]="active"></app-admin-buttons>
+          <div class="admin-content">
+            <div class="header-admin-organizations-container">
+              <div class="filter">
+                <p><strong>ORGANIZACIONES</strong></p>
+                <select name="organizationSelect" id="organizationSelect">
+                  <option *ngFor="let organization of organizations"
+                          [value]="organization.id">{{ organization.name }}
+                  </option>
+                </select>
+              </div>
+              <button>Gestionar Grupos</button>
             </div>
+            <div class="event-description">
+              <div class="event-data">
+                <p>Nombre</p>
+                <div class="input-container">
+                  <input type="text" name="" id="noactive" #inputTitulo placeholder="ej.: ULPGC" readonly>
+                  <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
+                </div>
+              </div>
+              <div class="event-data">
+                <p>Descripción</p>
+                <div class="input-container">
+                  <input type="text" name="" id="noactive" #inputDescripcion placeholder="ej.: ..." readonly>
+                  <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
+                </div>
+              </div>
+              <div class="event-data">
+                <p>Correo electrónico</p>
+                <div class="input-container">
+                  <input type="email" name="" id="noactive" #inputCorreo placeholder="ej.:pepito@gmail.com" readonly>
+                  <i class="fa fa-pencil" (click)="toggleEditMode(inputCorreo)"></i>
+                </div>
+              </div>
+              <div class="event-data">
+                <p>Dominio</p>
+                <div class="input-container">
+                  <input type="url" name="" id="noactive" #inputDominio placeholder="ej.:timify.es" readonly>
+                  <i class="fa fa-pencil" (click)="toggleEditMode(inputDominio)"></i>
+                </div>
+              </div>
+              <div class="event-data">
+                <p>Contacto</p>
+                <div class="input-container">
+                  <input type="text" name="" id="noactive" #inputContacto placeholder="ej.: +XX XXXXXXXXX" readonly>
+                  <i class="fa fa-pencil" (click)="toggleEditMode(inputContacto)"></i>
+                </div>
+              </div>
+              <div class="event-data">
+                <p>Privacidad</p>
+                <div class="input-container">
+                  <select name="" id="noactive" #selectPrivacidad disabled>
+                    <option value="opcion1">Público</option>
+                    <option value="opcion2">Estudiantes</option>
+                    <option value="opcion3">Borja Sabe</option>
+                  </select>
+                  <i class="fa fa-pencil" (click)="toggleEditMode(selectPrivacidad)"></i>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
-        <app-footer></app-footer>
+        <div class="buttons">
+          <button (click)="addActivities()">Crear Actividad</button>
+        </div>
+      </div>
     </div>
+    <app-footer></app-footer>
+  </div>
 </div>

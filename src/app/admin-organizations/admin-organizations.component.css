@@ -48,7 +48,7 @@
 .filter select {
     margin-top: 8px;
     width: 200px;
-    height: 30px;
+    height: fit-content;
 }
 
 .event-description {
@@ -63,7 +63,7 @@
     display: flex;
     flex-direction: row;
     gap: 80px;
-    width: 50%; 
+    width: 50%;
     align-items: center;
 }
 
@@ -119,7 +119,7 @@ input:focus {
 
 #noactive {
     background-color: gray;
-    color: white;   
+    color: white;
 }
 
 #noactive::placeholder {
@@ -134,4 +134,3 @@ select {
     border-radius: 5px;
     background-color: #fff;
 }
-  
