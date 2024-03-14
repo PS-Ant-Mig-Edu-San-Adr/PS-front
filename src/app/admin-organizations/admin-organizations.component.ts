@@ -102,11 +102,11 @@ export class AdminOrganizationsComponent implements  OnInit{
 
   toggleEditMode(inputElement: HTMLElement) {
     if (inputElement) {
-      const inputId = inputElement.getAttribute('id');
+      const inputId = inputElement.getAttribute('class');
 
       // Cambiar entre "noactive" y "active"
       const newId = inputId === 'noactive' ? 'active' : 'noactive';
-      inputElement.setAttribute('id', newId);
+      inputElement.setAttribute('class', newId);
 
       // Verificar el tipo de elemento y habilitar o deshabilitar la edición en consecuencia
       if (newId === 'active') {

@@ -106,37 +106,29 @@ i {
     cursor: pointer;
 }
 
-input {
-  border: none;
-  outline: none;
-  border-radius: 15px;
-  padding: 1em;
-  background-color: #ccc;
-  box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
-  transition: 300ms ease-in-out;
+.event-data  input {
+    border: 2px solid transparent;
+    width: 15em;
+    height: 2.5em;
+    padding-left: 0.8em;
+    outline: none;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: all 0.5s;
+    border: 1px solid black;
 }
 
-input:focus {
-  background-color: white;
-  transform: scale(1.05);
-  box-shadow: 13px 13px 100px #969696,
-             -13px -13px 100px #ffffff;
-}
-
-#noactive {
-    background-color: gray;
-    color: white;
-}
-
-#noactive::placeholder {
-    color: white;
+.active:hover, .event-data:focus {
+    box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+    background-color: white;
+    outline: none;
 }
 
 select {
     width: 100%;
     padding: 8px 12px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid black;
     border-radius: 5px;
-    background-color: #fff;
 }
