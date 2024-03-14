@@ -112,7 +112,7 @@ i {
 }
 
 
-input {
+.event-data input {
     border: none;
     outline: none;
     border-radius: 15px;
@@ -129,12 +129,12 @@ input:focus {
                 -13px -13px 100px #ffffff;
 }
 
-#noactive {
+.noactive {
     background-color: gray;
     color: white;   
 }
 
-#noactive::placeholder {
+.noactive::placeholder {
     color: white;
 }
 
@@ -175,5 +175,18 @@ th, td {
 .add-row i {
     position: absolute;
     right: 0;
+    font-size: x-large;
+}
+
+
+.time-interval-input input   {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+.time-interval-input  {
+    align-items: center;
     font-size: x-large;
 }
