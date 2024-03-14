@@ -70,3 +70,33 @@ export interface Evento {
   adjuntos?: string;
   grupo?: number;
 }
+
+export interface Calendar {
+  _id: any;
+  userID: any;
+  privacy: string;
+  events?: Evento[];
+  reminders?: Recordatorio[];
+}
+
+export interface Time {
+  startTime: Date;
+  endTime: Date;
+}
+
+export interface Schedule {
+  days: any[]; // Aquí deberías definir el tipo correcto para los días (por ejemplo: string[])
+  times: Time[];
+}
+
+
+export interface Group {
+  _id: any;
+  name: string;
+  description: string;
+  members?: any[];
+  events?: any[];
+  roles?: any[];
+  privacy: string;
+  schedules?: any[];
+}
