@@ -1,20 +1,17 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { SharedPopupsService } from '../generalServices/sharedPopups.service';
-import { HeaderComponent } from '../header/header.component';
-import { LoginComponent } from '../login/login.component';
-import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../generalServices/auth-service/login.component.service';
-import { RegisterService } from '../generalServices/auth-service/register.component.service';
-import { CommonModule } from '@angular/common';
-import { RegisterComponent } from '../register/register.component';
-import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component';
-import { ManageActivitiesPopUpComponent } from '../manage-activities-pop-up/manage-activities-pop-up.component';
-import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage-activities-pop-up.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {SharedPopupsService} from '../generalServices/sharedPopups.service';
+import {HeaderComponent} from '../header/header.component';
+import {LoginComponent} from '../login/login.component';
+import {FooterComponent} from '../footer/footer.component';
+import {CommonModule} from '@angular/common';
+import {RegisterComponent} from '../register/register.component';
+import {AdminButtonsComponent} from '../admin-buttons/admin-buttons.component';
+import {ManageActivitiesPopUpComponent} from '../manage-activities-pop-up/manage-activities-pop-up.component';
+import {ManageActivitiesPopUpService} from '../manage-activities-pop-up/manage-activities-pop-up.service';
 import {AuthService} from "../generalServices/auth-service/auth.service";
-import { AdminOrganizationsDataCollector } from './admin-organizations-data-collector';
-import { User } from "../interfaces/interface";
-import { SessionStorageService } from 'angular-web-storage';
-import { AdminService } from '../generalServices/admin.service';
+import {AdminOrganizationsDataCollector} from './admin-organizations-data-collector';
+import {User} from "../interfaces/interface";
+import {SessionStorageService} from 'angular-web-storage';
 
 @Component({
   selector: 'app-admin-organizations',
@@ -26,8 +23,8 @@ import { AdminService } from '../generalServices/admin.service';
 })
 export class AdminOrganizationsComponent implements  OnInit{
   constructor(
-    public addActivitiesPopUP: ManageActivitiesPopUpService, 
-    public sharedService: SharedPopupsService, 
+    public addActivitiesPopUP: ManageActivitiesPopUpService,
+    public sharedService: SharedPopupsService,
     protected authService: AuthService,
     private sessionStorageService: SessionStorageService,
     ) {}
@@ -98,7 +95,7 @@ export class AdminOrganizationsComponent implements  OnInit{
       return;
     }
 
-    
+
 
   }
 }

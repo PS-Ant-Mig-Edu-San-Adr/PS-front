@@ -1,6 +1,4 @@
-import {Component, OnInit } from '@angular/core';
-import {RegisterService} from '../generalServices/auth-service/register.component.service';
-import {LoginService} from '../generalServices/auth-service/login.component.service';
+import {Component, OnInit} from '@angular/core';
 import {SharedPopupsService} from "../generalServices/sharedPopups.service";
 import {LoginComponent} from "../login/login.component";
 import {RegisterComponent} from "../register/register.component";
