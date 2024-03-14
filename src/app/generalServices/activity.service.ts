@@ -1,32 +1,40 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Activity } from '../interfaces/interface';
+import { Observable, catchError, map, of } from 'rxjs';
+import { Activity, Member } from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActivityService {
-  private apiUrl = 'URL_DEL_API'; // Aquí debes colocar la URL de tu API
+  private apiUrl = 'http://localhost:3001/api';
 
   constructor(private http: HttpClient) {}
 
-  // Método para obtener todas las actividades
-  // getActivities(): Observable<Activity[]> {
-  //   return this.http.get<Activity[]>(`${this.apiUrl}/activities`);
-  // }
+  addActivity(
+    id: string,
+    name: string,
+    description: string,
+    privacy: string,
+    members: Array<Member>
+  ): Observable<any> {
 
-  getActivities(): any {
-    return null;
-  }
+    const activity = {
+      name,
+      description,
+      privacy,
+      members
+    };
 
-  // Método para obtener las actividades de una organización por su ID
-  // getActivitiesByOrganizationId(organizationId: number): Observable<Activity[]> {
-  //   return this.http.get<Activity[]>(`${this.apiUrl}/organizations/${organizationId}/activities`);
-  // }
-
-  getActivitiesByOrganizationId(organizationId: number): any {
-    return null;
+    return this.http.post<any>(`${this.apiUrl}/activities/${id}`, activity).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error) => {
+        console.error('Error al realizar la solicitud de añadir la organización:', error);
+        return of(undefined);
+      })
+    );
   }
 
 }

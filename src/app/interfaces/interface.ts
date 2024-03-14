@@ -25,7 +25,7 @@ export interface Organization {
   domain: string;
   privacy: string;
   members: Member[];
-  activities?: Activity[];
+  activities: Activity[];
 }
 
 export interface User {
