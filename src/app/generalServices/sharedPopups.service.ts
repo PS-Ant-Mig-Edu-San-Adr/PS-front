@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Renderer2, ElementRef } from '@angular/core';
-import { LoginService } from './auth-service/login.component.service';
-import { RegisterService } from './auth-service/register.component.service';
-import { ManageMembersService } from '../manage-members-pop-up/manage-members-pop-up.component.service';
-import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage-activities-pop-up.service';
-import { GroupAddPopUpService } from '../group-add-pop-up/group-add-pop-up.service';
-import { AddReminderService } from '../add-reminder/add-reminder.component.service';
-import { EventDetailsService } from '../event-details/event-details.component.service';
+import {ElementRef, Injectable, Renderer2} from '@angular/core';
+import {ManageMembersService} from '../manage-members-pop-up/manage-members-pop-up.component.service';
+import {ManageActivitiesPopUpService} from '../manage-activities-pop-up/manage-activities-pop-up.service';
+import {GroupAddPopUpService} from '../group-add-pop-up/group-add-pop-up.service';
+import {AddReminderService} from '../add-reminder/add-reminder.component.service';
+import {EventDetailsService} from '../event-details/event-details.component.service';
 import {AuthService} from "./auth-service/auth.service";
+
 @Injectable({
   providedIn: 'root',
 })

@@ -1,19 +1,18 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { SharedPopupsService } from '../generalServices/sharedPopups.service';
-import { HeaderComponent } from '../header/header.component';
-import { LoginComponent } from '../login/login.component';
-import { FooterComponent } from '../footer/footer.component';
-import { LoginService } from '../generalServices/auth-service/login.component.service';
-import { RegisterService } from '../generalServices/auth-service/register.component.service';
-import { CommonModule } from '@angular/common';
-import { RegisterComponent } from '../register/register.component';
-import { AdminButtonsComponent } from '../admin-buttons/admin-buttons.component';
-import { ManageActivitiesPopUpComponent } from '../manage-activities-pop-up/manage-activities-pop-up.component';
-import { ManageActivitiesPopUpService } from '../manage-activities-pop-up/manage-activities-pop-up.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {SharedPopupsService} from '../generalServices/sharedPopups.service';
+import {HeaderComponent} from '../header/header.component';
+import {LoginComponent} from '../login/login.component';
+import {FooterComponent} from '../footer/footer.component';
+import {CommonModule} from '@angular/common';
+import {RegisterComponent} from '../register/register.component';
+import {AdminButtonsComponent} from '../admin-buttons/admin-buttons.component';
+import {ManageActivitiesPopUpComponent} from '../manage-activities-pop-up/manage-activities-pop-up.component';
+import {ManageActivitiesPopUpService} from '../manage-activities-pop-up/manage-activities-pop-up.service';
 import {AuthService} from "../generalServices/auth-service/auth.service";
-import { AdminOrganizationsDataCollector } from './admin-organizations-data-collector';
-import { User } from "../interfaces/interface";
-import { SessionStorageService } from 'angular-web-storage';
+import {AdminOrganizationsDataCollector} from './admin-organizations-data-collector';
+import {Organization, User} from "../interfaces/interface";
+import {SessionStorageService} from 'angular-web-storage';
+import {OrganizationService} from "../generalServices/organization.service";
 import { AdminService } from '../generalServices/admin.service';
 import { ManageMembersService } from '../manage-members-pop-up/manage-members-pop-up.component.service';
 import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-members-pop-up.component';
@@ -27,12 +26,14 @@ import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-mem
   styleUrl: './admin-organizations.component.css'
 })
 export class AdminOrganizationsComponent implements  OnInit{
+  protected organizations: Organization[] = [];
   constructor(
+    public addActivitiesPopUP: ManageActivitiesPopUpService,
+    public sharedService: SharedPopupsService,
     public manageMembersService: ManageMembersService,
-    public addActivitiesPopUP: ManageActivitiesPopUpService, 
-    public sharedService: SharedPopupsService, 
     protected authService: AuthService,
     private sessionStorageService: SessionStorageService,
+    private organizationService: OrganizationService
     ) {}
   active: number = 2;
   user: User | undefined;
@@ -56,7 +57,27 @@ export class AdminOrganizationsComponent implements  OnInit{
     this.authService.getUser(this.sessionStorageService.get('username')).subscribe((user: User | undefined) => {
       this.user = user;
     });
+
+    this.loadOrganizations();
   }
+
+  loadOrganizations() {
+    const username = this.sessionStorageService.get('username');
+    if (username) {
+      this.organizationService.getOrganizationsByUsername(username).subscribe({
+        next: (response) => {
+          this.organizations = response.organizations;
+        },
+        error: (err) => {
+          console.error('Error loading organizations:', err);
+        }
+      });
+    } else {
+      // Manejo de casos donde el username no está disponible
+      console.log('Username not available while loading organizations' );
+    }
+  }
+
 
   addActivities(){
     this.addActivitiesPopUP.openAddActivityPopup();
@@ -110,7 +131,7 @@ export class AdminOrganizationsComponent implements  OnInit{
       return;
     }
 
-    
+
 
   }
 }

@@ -13,8 +13,12 @@
                     <div class="admin-content">
                         <div class="header-admin-organizations-container">
                             <div class="filter">
-                                <p><strong>ORGANIZACIONES</strong></p>
-                                <select name="" id=""></select>
+                              <p><strong>ORGANIZACIONES</strong></p>
+                              <select name="organizationSelect" id="organizationSelect">
+                                <option *ngFor="let organization of organizations"
+                                        [value]="organization.id">{{ organization.name }}
+                                </option>
+                              </select>
                             </div>
                             <div class="filter-buttons">
                                 <button>Gestionar Grupos</button>
@@ -69,14 +73,14 @@
                                 </div>
                             </div>
 
-                        </div>
-                    </div>
-                </div>
-                <div class="buttons">
-                    <button (click)="addActivities()">Crear Actividad</button>
-                </div>
             </div>
+          </div>
         </div>
-        <app-footer></app-footer>
+        <div class="buttons">
+          <button (click)="addActivities()">Crear Actividad</button>
+        </div>
+      </div>
     </div>
+    <app-footer></app-footer>
+  </div>
 </div>
