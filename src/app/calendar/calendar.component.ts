@@ -113,8 +113,8 @@ export class CalendarComponent implements OnInit {
 
 
   seMuestraEvento(evento: (Recordatorio | Evento), tiempo: any, vista: string, diaIndex?: number): boolean {
-    const eventoInicio: Date = evento.fechaInicio;
-    const eventoFin: Date = evento.fechaFin;
+    const eventoInicio: Date = evento.startDate;
+    const eventoFin: Date = evento.endDate;
     const hoy = new Date();
     const eventoHora = eventoInicio.getHours();
     let horaString;
@@ -137,11 +137,11 @@ export class CalendarComponent implements OnInit {
         const diaSemanaHoy = hoy.getDay();
         const fechaSeleccionadaDia = new Date(this.anoActual, this.mesActual, monthDay, hoy.getHours(), hoy.getMinutes(), hoy.getSeconds());
         fechaSeleccionadaDia.setMinutes(fechaSeleccionadaDia.getMinutes() + 2);
-        if ((evento.repetir === 'Diario' && fechaSeleccionadaDia >= hoy)||
-            (evento.repetir === 'Ninguno' && esMismoDia(eventoInicio, hoy)) ||
-            (evento.repetir === 'Semanal' && diaSemanaEvento === diaSemanaHoy && fechaSeleccionadaDia >= hoy) ||
-            (evento.repetir === 'Mensual' && eventoInicio.getDate() === hoy.getDate() && fechaSeleccionadaDia >= hoy) ||
-            (evento.repetir === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate()) && fechaSeleccionadaDia >= hoy) {
+        if ((evento.repeat === 'Diario' && fechaSeleccionadaDia >= hoy)||
+            (evento.repeat === 'Ninguno' && esMismoDia(eventoInicio, hoy)) ||
+            (evento.repeat === 'Semanal' && diaSemanaEvento === diaSemanaHoy && fechaSeleccionadaDia >= hoy) ||
+            (evento.repeat === 'Mensual' && eventoInicio.getDate() === hoy.getDate() && fechaSeleccionadaDia >= hoy) ||
+            (evento.repeat === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate()) && fechaSeleccionadaDia >= hoy) {
           return eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1
         }else{
           return false;
@@ -170,7 +170,7 @@ export class CalendarComponent implements OnInit {
             return diaDelMes >= primerDiaSemana && diaDelMes <= ultimoDiaSemana;
           };
 
-          switch (evento.repetir) {
+          switch (evento.repeat) {
             case 'Diario':
               return eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1 && fechaSeleccionadaSemana >= hoy;
 
@@ -196,7 +196,7 @@ export class CalendarComponent implements OnInit {
             const añoEvento = eventoInicio.getFullYear();
             const fechaSeleccionada = new Date(this.anoActual, this.mesActual, tiempo.value, 23, 59);
 
-            switch (evento.repetir) {
+            switch (evento.repeat) {
               case 'Diario':
                 return tiempo.type === 'normal' && fechaSeleccionada >= hoy;
 
@@ -288,10 +288,11 @@ export class CalendarComponent implements OnInit {
   }
 
 
-  eliminarEvento(evento: any): void {
-    if(evento.tipo === 'evento'){
+  eliminarEvento(evento: Recordatorio | Evento): void {
+    if(evento.type === 'evento'){
       this.eventoService.deleteEvento(this.username, evento._id);
-    }else if(evento.tipo === 'recordatorio'){
+    }else if(evento.type === 'recordatorio'){
+      console.log('evento', evento);
       this.recordatorioService.deleteRecordatorio(this.username, evento._id);
     }
     this.eventos = this.eventos.filter(e => e._id !== evento._id);
