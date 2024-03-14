@@ -12,7 +12,7 @@ import {AuthService} from "../generalServices/auth-service/auth.service";
 import { AdminCreateOrganizationDataCollector } from './admin-create-organization-data-collector';
 import { User } from "../interfaces/interface";
 import { SessionStorageService } from 'angular-web-storage';
-import { AdminService } from '../generalServices/admin.service';
+import { OrganizationService } from '../generalServices/organization.service';
 
 
 @Component({
@@ -25,7 +25,7 @@ import { AdminService } from '../generalServices/admin.service';
 })
 export class AdminCreateOrganizationComponent implements OnInit{
   constructor(public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService,
-  protected authService: AuthService, private sessionStorageService: SessionStorageService, public adminService: AdminService) {}
+  protected authService: AuthService, private sessionStorageService: SessionStorageService, public organizationService: OrganizationService) {}
   
   @ViewChild('inputName', { static: false }) inputName!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription', { static: false }) inputDescription!: ElementRef<HTMLInputElement>;
@@ -74,7 +74,7 @@ export class AdminCreateOrganizationComponent implements OnInit{
       return;
     }
 
-    this.adminService.createOrganization(
+    this.organizationService.createOrganization(
         username, 
         this.inputName.nativeElement.value,
         this.inputDescription.nativeElement.value,

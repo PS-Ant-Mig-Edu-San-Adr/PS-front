@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 import { Organization } from '../interfaces/interface';
 
 @Injectable({
@@ -24,6 +24,51 @@ export class OrganizationService {
   // Método para obtener organizaciones por nombre de usuario
   getOrganizationsByUsername(username: string): Observable<{organizations: Organization[]}> {
     return this.http.get<{organizations: Organization[]}>(`${this.apiUrl}/organizaciones/${username}`);
+  }
+
+  createOrganization(
+    username: String,
+    name: string,
+    description: string,
+    email: string,
+    domain: string,
+    contact: string,
+    privacy: string
+  ): Observable<any> {
+
+    const body = {
+      name,
+      description,
+      email,
+      domain,
+      contact,
+      privacy
+    };
+
+    return this.http.post<any>(`${this.apiUrl}/organizaciones/${username}`, body).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error) => {
+        console.error('Error al realizar la solicitud de añadir la organización:', error);
+        return of(undefined);
+      })
+    );
+  }
+
+  putOrganization( 
+    organization: Organization,
+    body: any
+  ): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/organizaciones/${organization._id}`, body).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error) => {
+        console.error('Error al realizar la solicitud de actualizar la organización:', error);
+        return of(undefined);
+      })
+    );
   }
 
 }
