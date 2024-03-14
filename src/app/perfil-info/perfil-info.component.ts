@@ -190,11 +190,20 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
         // Opcionalmente, desloguear al usuario después de borrar su perfil
         // Aquí deberías implementar la lógica para cerrar la sesión del usuario y limpiar cualquier dato de sesión almacenado
         this.sessionStorageService.clear();
-        this.routerService.navigate(['/']);
+        this.routerService.navigate(['/register']);
       } else {
         alert('There was an error deleting your profile.');
       }
     });
+  }
+
+  logout(): void {
+    // Limpia cualquier dato de sesión o token aquí
+    this.sessionStorageService.clear();
+
+    // Opcional: Aquí podrías también hacer una solicitud al servidor para invalidar el token de sesión si es necesario
+
+    this.routerService.navigate(['/']);
   }
   
 }

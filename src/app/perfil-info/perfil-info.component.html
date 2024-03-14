@@ -54,7 +54,11 @@
                 </div>
                 <div class="storage-buttons">
                     <button class="save-changes" (click)="onModifyUserClick()">Guardar Cambios</button>
-                    <button class="delete-account" (click)="onDeleteUserClick()">Eliminar Cuenta</button>
+                    <div class="session-buttons">
+                        <button (click)="logout()">Log Out</button>
+                        <button class="delete-account" (click)="onDeleteUserClick()">Eliminar Cuenta</button>
+                    </div>
+                    
                 </div>
             </div>
         </div>
