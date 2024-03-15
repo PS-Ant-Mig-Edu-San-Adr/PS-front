@@ -45,16 +45,15 @@
 .calendar__item {
   text-align: center;
   line-height: 2;
-  color: black;
+  color: white;
+  cursor: pointer;
 }
-.calendar__today {
-  background: lightcoral;
-  color: rgb(145, 118, 118);
-  width: 50%;
-  border-radius: 50%;
-  margin: auto;
+.calendar__selected {
+  background-color: #4299E1;
+  color: white;
 }
+
 .calendar__last-days, .calendar__next-days {
   opacity: 0.3;
-  color: black;
+  color: rgb(202, 196, 196);
 }

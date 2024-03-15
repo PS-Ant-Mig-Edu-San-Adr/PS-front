@@ -19,12 +19,15 @@
             </div>
 
             <div class="calendar__dates">
+                <!-- Last month's days -->
                 <div *ngFor="let day of lastDays" class="calendar__date calendar__item calendar__last-days">
                     {{ day }}
                 </div>
-                <div *ngFor="let date of dates" class="calendar__date calendar__item" [class.calendar__today]="date === currentDay">
+                <!-- Current month's days -->
+                <div *ngFor="let date of dates" class="calendar__date calendar__item" [class.calendar__selected]="date === selectedDay" (click)="selectDay(date)">
                     {{ date }}
                 </div>
+                <!-- Next month's days -->
                 <div *ngFor="let day of nextDays" class="calendar__date calendar__item calendar__next-days">
                     {{ day }}
                 </div>

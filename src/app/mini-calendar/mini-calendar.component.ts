@@ -20,6 +20,13 @@ export class MiniCalendarComponent implements OnInit {
   nextDays: number[] = []; // For next month's days if needed
   month: string = this.monthNames[this.monthNumber];
   year: number = this.currentYear;
+  selectedDay: number | null = null;
+
+  selectDay(day: number): void {
+    this.selectedDay = day;
+    // Optional: Emit an event if you need to notify a parent component
+    // this.daySelected.emit(day);
+  }
 
   ngOnInit(): void {
     this.writeMonth(this.monthNumber);
