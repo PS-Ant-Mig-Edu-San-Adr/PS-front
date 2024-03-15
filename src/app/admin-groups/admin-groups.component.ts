@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminGroupsDataCollector } from "./admin-groups-data-collector";
 import {Group, User} from "../interfaces/interface";
 import {SessionStorageService} from 'angular-web-storage';
+import { GroupService } from '../generalServices/group.service';
 
 @Component({
   selector: 'app-admin-groups',
@@ -36,7 +37,8 @@ export class AdminGroupsComponent implements OnInit {
     public manageMembersService: ManageMembersService,
     public sharedService: SharedPopupsService,
     private sessionStorageService: SessionStorageService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    public groupService: GroupService
   ) {
     
   }
@@ -167,28 +169,29 @@ export class AdminGroupsComponent implements OnInit {
   }
 
   putGroup(): void {
-    this.updateTime()
+    this.updateTime();
     const userData = AdminGroupsDataCollector.collectEventData(this.result);
     if (!userData.result) {
       alert(userData.details);
       return;
     }
-
+  
     const username = this.user?.username;
     if (!username) {
       alert('Please log in before modifying.');
       return;
     }
-
-    this.groupService.putGroup(userData.result).subscribe((res: any) => {
+  
+    const organizationId = userData.result.organizationId; // Asegúrate de tener el ID de la organización
+    const activityId = userData.result.activityId; // Asegúrate de tener el ID de la actividad
+  
+    this.groupService.putGroup(userData.result, organizationId, activityId).subscribe((res: any) => {
       if (res) {
         alert(res.details);
       } else {
         alert('Error updating organization.');
       }
-    })
-
-
-
+    });
   }
+  
 }
