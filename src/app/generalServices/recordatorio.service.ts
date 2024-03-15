@@ -12,15 +12,15 @@ export class RecordatorioService {
     try {
       const response: any = await this.httpClient.get(`http://localhost:3001/api/recordatorios/${username}`).toPromise();
       if (response.status === 200) {
-        return response.reminders.map((reminder: any) => ({
-          id: reminder._id,
-          titulo: reminder.title,
-          fechaInicio: new Date(reminder.startDate),
-          fechaFin: new Date(reminder.endDate),
-          descripcion: reminder.description,
-          tipo: "recordatorio",
-          color: reminder.color || '',
-          repetir: reminder.repeat || ''
+        return response.reminders.map((reminder: Recordatorio) => ({
+          _id: reminder._id,
+          title: reminder.title,
+          startDate: new Date(reminder.startDate),
+          endDate: new Date(reminder.endDate),
+          description: reminder.description,
+          type: "recordatorio",
+          color: reminder.color,
+          repeat: reminder.repeat
         }));
       } else {
         return [];

@@ -45,27 +45,27 @@ export class EventDetailsComponent implements OnChanges{
   }
 
   loadReminderData(reminder: Recordatorio) {
-    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.fechaInicio.toString(), reminder.fechaFin.toString(), reminder.repetir).inicio;
-    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.fechaFin.toString(), reminder.fechaFin.toString(), reminder.repetir).fin;
-    this.selectedRepeat = reminder.repetir ?? 'Ninguno';
-    this.selectedTitle = reminder.titulo;
+    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.startDate.toString(), reminder.endDate.toString(), reminder.repeat).inicio;
+    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.endDate.toString(), reminder.endDate.toString(), reminder.repeat).fin;
+    this.selectedRepeat = reminder.repeat ?? 'Ninguno';
+    this.selectedTitle = reminder.title;
     this.selectedColor = reminder.color ?? 'red';
-    this.selectedDescription = reminder.descripcion ?? '';
+    this.selectedDescription = reminder.description ?? '';
 
   }
 
   loadEventData(event: Evento) {
-    this.selectedDateStart = this.formatDateToDateTimeLocal(event.fechaInicio.toString(), event.fechaFin.toString(), event.repetir).inicio;
+    this.selectedDateStart = this.formatDateToDateTimeLocal(event.startDate.toString(), event.endDate.toString(), event.repeat).inicio;
     console.log(this.selectedDateStart);
-    this.selectedDateEnd = this.formatDateToDateTimeLocal(event.fechaFin.toString(), event.fechaFin.toString(), event.repetir).fin;
-    this.selectedRepeat = event.repetir ?? 'Ninguno';
-    this.selectedTitle = event.titulo;
+    this.selectedDateEnd = this.formatDateToDateTimeLocal(event.endDate.toString(), event.startDate.toString(), event.repeat).fin;
+    this.selectedRepeat = event.repeat ?? 'Ninguno';
+    this.selectedTitle = event.title;
     this.selectedColor = event.color ?? 'red';
-    this.selectedDescription = event.descripcion ?? '';
-    this.eventStatus = event.estado ?? 'Activo';
-    this.attachmentUrl = event.adjuntos ?? '';
-    this.eventGroup = event.grupo ?? 0;
-    this.additionalNotes = event.notas ?? '';
+    this.selectedDescription = event.description ?? '';
+    this.eventStatus = event.status ?? 'Activo';
+    this.attachmentUrl = event.attachments ?? '';
+    this.eventGroup = event.group ?? 0;
+    this.additionalNotes = event.notes ?? '';
   }
 
 

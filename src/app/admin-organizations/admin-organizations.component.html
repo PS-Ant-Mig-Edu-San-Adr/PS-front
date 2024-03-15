@@ -1,8 +1,8 @@
 <div>
     <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
     <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
-    <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
-    <app-manage-activities-pop-up *ngIf="addActivitiesPopUP.isOpen$ | async"></app-manage-activities-pop-up>
+    <app-manage-members-pop-up [organization]="selectedOrganization" *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
+    <app-manage-activities-pop-up [user]="user" [organization]="selectedOrganization" *ngIf="addActivitiesPopUP.isOpen$ | async"></app-manage-activities-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
         <div class="admin-container">
@@ -29,42 +29,42 @@
                             <div class="event-data">
                                 <p>Nombre</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id="noactive" #inputTitulo [value]="selectedOrganization?.name" readonly>
+                                    <input type="text" name="" class="noactive" #inputTitulo [value]="selectedOrganization?.name" readonly>
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
                                 </div>
                                 </div>
                             <div class="event-data">
                                 <p>Descripción</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id="noactive" #inputDescripcion [value]="selectedOrganization?.description" readonly>
+                                    <input type="text" name="" class="noactive" #inputDescripcion [value]="selectedOrganization?.description" readonly>
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Correo electrónico</p>
                                 <div class="input-container">
-                                    <input type="email" name="" id="noactive"  #inputCorreo [value]="selectedOrganization?.email" readonly>
+                                    <input type="email" name="" class="noactive"  #inputCorreo [value]="selectedOrganization?.email" readonly>
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputCorreo)"></i>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Dominio</p>
                                 <div class="input-container">
-                                    <input type="url" name="" id="noactive" #inputDominio [value]="selectedOrganization?.domain"  readonly>
+                                    <input type="url" name="" class="noactive" #inputDominio [value]="selectedOrganization?.domain"  readonly>
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputDominio)"></i>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Contacto</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id="noactive" #inputContacto [value]="selectedOrganization?.contact" readonly>
+                                    <input type="text" name="" class="noactive" #inputContacto [value]="selectedOrganization?.contact" readonly>
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputContacto)"></i>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Privacidad</p>
                                 <div class="input-container">
-                                    <select name="" id="noactive" #selectPrivacidad disabled>
+                                    <select name="" class="noactive" #selectPrivacidad disabled>
                                         <option [selected]="selectedOrganization?.privacy === 'Público'" value="Público">Público</option>
                                         <option [selected]="selectedOrganization?.privacy === 'Privado'" value="Privado">Privado</option>
                                       </select>

@@ -8,6 +8,14 @@ export interface Activity {
     privacy: string;
 }
 
+export interface Member {
+  name: string | String;
+  _id: string;
+  email: string | String;
+  role: string;
+  username: string | String;
+}
+
 export interface Organization {
   _id: any;
   name: string;
@@ -16,8 +24,8 @@ export interface Organization {
   contact: string;
   domain: string;
   privacy: string;
-  members: [];
-  activities?: Activity[];
+  members: Member[];
+  activities: Activity[];
 }
 
 export interface User {
@@ -38,27 +46,57 @@ export interface User {
 
 export interface Recordatorio {
   _id: any;
-  titulo: string;
-  fechaInicio: Date;
-  fechaFin: Date;
-  descripcion?: string;
-  tipo?: string;
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  description?: string;
+  type?: string;
   color?: string;
-  repetir?: string;
+  repeat?: string;
 }
 
 export interface Evento {
   _id: any;
-  titulo: string;
-  fechaInicio: Date;
-  fechaFin: Date;
-  descripcion?: string;
-  ubicacion?: string;
-  tipo?: string;
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  description?: string;
+  location?: string;
+  type?: string;
   color?: string;
-  repetir?: string;
-  notas?: string;
-  estado?: string;
-  adjuntos?: string;
-  grupo?: number;
+  repeat?: string;
+  notes?: string;
+  status?: string;
+  attachments?: string;
+  group?: number;
+}
+
+export interface Calendar {
+  _id: any;
+  userID: any;
+  privacy: string;
+  events?: Evento[];
+  reminders?: Recordatorio[];
+}
+
+export interface Time {
+  startTime: Date;
+  endTime: Date;
+}
+
+export interface Schedule {
+  days: any[]; // Aquí deberías definir el tipo correcto para los días (por ejemplo: string[])
+  times: Time[];
+}
+
+
+export interface Group {
+  _id: any;
+  name: string;
+  description: string;
+  members?: any[];
+  events?: any[];
+  roles?: any[];
+  privacy: string;
+  schedules?: any[];
 }

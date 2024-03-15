@@ -25,7 +25,8 @@
 }
 
 .perfil-img-container img {
-    width: 25%;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
 }
 
@@ -108,7 +109,6 @@ button {
     justify-content: flex-end;
     align-items: center;
     width: 100%; 
-    padding: 10px;
     margin-bottom: 20px;
 }
   

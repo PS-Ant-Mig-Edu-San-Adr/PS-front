@@ -25,8 +25,8 @@
               </div>
               <ng-container *ngFor="let evento of eventos">
                 <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'dia', fechaActual.getDate())" (click)="showDetailsFunction(evento)">
-                  <a (click)="showDetailsFunction(evento)">{{ evento.titulo }}</a>
-                  <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
+                  <a (click)="showDetailsFunction(evento)">{{ evento.title }}</a>
+                  <div *ngIf="evento.type === 'recordatorio'" class="evento-buttons">
                     <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
                     <button (click)="editReminderFunction(evento)"><i class="fas fa-pencil-alt"></i></button>
                   </div>
@@ -49,8 +49,8 @@
                 <button class="dia-button" (click)="addReminderFunction({dia: i, hora: hora, type: 'semana'})"><i class="fas fa-plus"></i></button>
                 <ng-container *ngFor="let evento of eventos">
                   <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', diaDelMesEnSemanaActual(i))"> 
-                    <a (click)="showDetailsFunction(evento)">{{ evento.titulo }}</a>
-                    <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
+                    <a (click)="showDetailsFunction(evento)">{{ evento.title }}</a>
+                    <div *ngIf="evento.type === 'recordatorio'" class="evento-buttons">
                       <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
                       <button (click)="editReminderFunction(evento)"><i class="fas fa-pencil-alt"></i></button>
                     </div>
@@ -72,8 +72,8 @@
             </div>
             <ng-container *ngFor="let evento of eventos">
               <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, dia, 'mes')">
-                <a (click)="showDetailsFunction(evento)">{{ evento.titulo }}</a>
-                <div *ngIf="evento.tipo === 'recordatorio'" class="evento-buttons">
+                <a (click)="showDetailsFunction(evento)">{{ evento.title }}</a>
+                <div *ngIf="evento.type === 'recordatorio'" class="evento-buttons">
                   <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
                   <button (click)="editReminderFunction(evento)"><i class="fas fa-pencil-alt"></i></button>
                 </div>

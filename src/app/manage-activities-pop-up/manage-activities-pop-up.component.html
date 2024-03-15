@@ -4,22 +4,26 @@
     <h1>ACTIVIDAD</h1>
     <div class="manage-activities-content">
         <div class="manage-activities-name">
+            <h4>Organización: </h4>
+            <h4>{{ organization?.name }}</h4>
+        </div>
+        <div class="manage-activities-name">
             <h4>Nombre: </h4>
-            <input type="text" required>
+            <input type="text" #name required>
         </div>
         <div class="manage-activities-privacy">
             <h4>Privacidad:</h4>
-            <select name="" id="">
-                <option value="" class="select_option">Público</option>
-                <option value="" class="select_option">Privado</option>
+            <select name="" id="" #privacy>
+                <option value="Público" class="select_option">Público</option>
+                <option value="Privado" class="select_option">Privado</option>
             </select>
         </div>
         <div class="manage-activities-description">
             <h4>Descripción:</h4>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="" id="" cols="30" rows="10" #description></textarea>
         </div>
     </div>
     <div class="manage-activities-add">
-        <button>Añadir</button>
+        <button (click)="addActivity()">Añadir</button>
     </div>
 </div>

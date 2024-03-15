@@ -11,7 +11,8 @@ import { ManageMembersPopUpComponent } from '../manage-members-pop-up/manage-mem
 import { AuthService } from "../generalServices/auth-service/auth.service";
 import { FormsModule } from '@angular/forms';
 import { AdminGroupsDataCollector } from "./admin-groups-data-collector";
-
+import {Group, User} from "../interfaces/interface";
+import {SessionStorageService} from 'angular-web-storage';
 
 @Component({
   selector: 'app-admin-groups',
@@ -34,12 +35,13 @@ export class AdminGroupsComponent implements OnInit {
   constructor(
     public manageMembersService: ManageMembersService,
     public sharedService: SharedPopupsService,
+    private sessionStorageService: SessionStorageService,
     protected authService: AuthService
   ) {
     
   }
   active: number = 4;
-
+  user: User | undefined;
   ngOnInit() {
     this.sharedService.authService.isLoginOpen$().subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
@@ -50,6 +52,9 @@ export class AdminGroupsComponent implements OnInit {
     });
     this.sharedService.manageMembersService.isOpen$.subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
+    });
+    this.authService.getUser(this.sessionStorageService.get('username')).subscribe((user: User | undefined) => {
+      this.user = user;
     });
   }
   manageMembers() {
@@ -130,28 +135,28 @@ export class AdminGroupsComponent implements OnInit {
   days: boolean[] = [false, false, false, false, false, false, false];
 
   rows: any[] = [
-    { hora_inicio: '', hora_fin: ''},
+    { startTime: '', endTime: ''},
   ];
 
   result: any[] = this.rows.map(row => ({
-    horas: {hora_inicio:  '', hora_fin: ''},
+    horas: {startTime:  '', endTime: ''},
     dias: [...this.days]
   }));
 
   updateTime() {
     for(let index = 0; index <  this.rows.length ; ++index){
-      this.result[index].horas.hora_inicio = this.rows[index].hora_inicio
-      this.result[index].horas.hora_fin = this.rows[index].hora_fin
+      this.result[index].horas.startTime = this.rows[index].startTime
+      this.result[index].horas.endTime = this.rows[index].endTime
     }
   }
 
   addRow() {
     this.rows.push({
-      hora_inicio: '', 
-      hora_fin: '', 
+      startTime: '', 
+      endTime: '', 
     });
     this.result.push({
-      horas: {hora_inicio:  '', hora_fin: ''},
+      horas: {startTime:  '', endTime: ''},
       dias: [...this.days]
     })
   }
@@ -161,12 +166,29 @@ export class AdminGroupsComponent implements OnInit {
     this.result.splice(index, 1);
   }
 
-  onModifyUserClick(): void {
+  putGroup(): void {
     this.updateTime()
     const userData = AdminGroupsDataCollector.collectEventData(this.result);
     if (!userData.result) {
       alert(userData.details);
       return;
     }
+
+    const username = this.user?.username;
+    if (!username) {
+      alert('Please log in before modifying.');
+      return;
+    }
+
+    this.groupService.putGroup(userData.result).subscribe((res: any) => {
+      if (res) {
+        alert(res.details);
+      } else {
+        alert('Error updating organization.');
+      }
+    })
+
+
+
   }
 }
