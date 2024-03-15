@@ -182,16 +182,6 @@ export class AdminGroupsComponent implements OnInit {
       return;
     }
   
-    const organizationId = userData.result.organizationId; // Asegúrate de tener el ID de la organización
-    const activityId = userData.result.activityId; // Asegúrate de tener el ID de la actividad
-  
-    this.groupService.putGroup(userData.result, organizationId, activityId).subscribe((res: any) => {
-      if (res) {
-        alert(res.details);
-      } else {
-        alert('Error updating organization.');
-      }
-    });
   }
   
 }
