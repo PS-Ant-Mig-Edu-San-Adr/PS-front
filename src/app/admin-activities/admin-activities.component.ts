@@ -11,6 +11,10 @@ import {ManageMembersPopUpComponent} from '../manage-members-pop-up/manage-membe
 import {GroupAddPopUpComponent} from '../group-add-pop-up/group-add-pop-up.component';
 import {GroupAddPopUpService} from '../group-add-pop-up/group-add-pop-up.service';
 import {AuthService} from "../generalServices/auth-service/auth.service";
+import { HttpClient } from '@angular/common/http';
+import { Organization } from '../interfaces/interface';
+import { OrganizationService } from '../generalServices/organization.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-admin-activities',
@@ -22,10 +26,18 @@ import {AuthService} from "../generalServices/auth-service/auth.service";
 })
 export class AdminActivitiesComponent implements  OnInit {
   constructor(public addGroup: GroupAddPopUpService, protected authService: AuthService,
-              public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService) {}
+              public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService,
+              private organizationService: OrganizationService) {}
   active: number = 3;
+  organizations: Organization[] = [];
+  
 
   ngOnInit() {
+
+    this.organizationService.getOrganizations().subscribe(data => {
+        console.log(data);
+      });
+
     this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });

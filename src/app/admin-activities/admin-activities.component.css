@@ -36,17 +36,18 @@
 
 .event-filter {
     display: flex;
+    justify-content: space-between;
     margin-top: 16px;
     position: relative;
 }
 
 .event-filter > *:nth-child(3) {
-    position: absolute;
+    position: relative;
     right: 0;
 }
 
 .event-filter > *:nth-child(2) {
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
 }
