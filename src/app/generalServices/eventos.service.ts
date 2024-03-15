@@ -14,19 +14,20 @@ export class EventosService {
       const response: any = await this.httpClient.get(`http://localhost:3001/api/eventos/${username}`).toPromise();
       if (response.status === 200) {
         // Mapear los resultados para que cumplan con la interfaz Recordatorio
-        const eventos: Evento[] = response.events.map((event: any) => ({
-          id: event._id,
-          titulo: event.title,
-          fechaInicio: new Date(event.startDate),
-          fechaFin: new Date(event.endDate),
-          descripcion: event.description || '',
-          tipo: "evento",
-          color: event.color || '',
-          repetir: event.repeat || '',
-          estado: event.status || '',
-          adjuntos: event.attachments || '',
-          grupo: event.group || 0,
-          notas: event.notes || ''
+        const eventos: Evento[] = response.events.map((event: Evento) => ({
+          _id: event._id,
+          title: event.title,
+          startDate: new Date(event.startDate),
+          endDate: new Date(event.endDate),
+          description: event.description,
+          location: event.location,
+          type: "evento",
+          color: event.color,
+          repeat: event.repeat,
+          notes: event.notes,
+          status: event.status,
+          attachments: event.attachments,
+          group: event.group
         }));
         return eventos;
       } else {

@@ -14,7 +14,7 @@ export class RegisterService {
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   private registerStatusSubject = new BehaviorSubject<boolean>(false);
   private registerObjectSubject = new BehaviorSubject<User>({
-    id: '',
+    _id: '',
     fullName: '',
     email: '',
     username: '',

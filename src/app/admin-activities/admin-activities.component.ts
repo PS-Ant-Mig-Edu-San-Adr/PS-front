@@ -63,11 +63,11 @@ export class AdminActivitiesComponent implements  OnInit {
   @ViewChild('inputNoActive', { static: false }) inputNoActive!: ElementRef;
   toggleEditMode(inputElement: HTMLInputElement) {
     if (inputElement) {
-      const inputId = inputElement.getAttribute('id');
+      const inputId = inputElement.getAttribute('class');
 
       // Cambiar entre "noactive" y "active"
       const newId = inputId === 'noactive' ? 'active' : 'noactive';
-      inputElement.setAttribute('id', newId);
+      inputElement.setAttribute('class', newId);
 
       // Verificar el ID para habilitar o deshabilitar la edición
       if (newId === 'active') {

@@ -15,7 +15,7 @@ export class LoginService {
   private isOpenSubject = new BehaviorSubject<boolean>(false);
   private loginStatusSubject = new BehaviorSubject<boolean>(false);
   private loginObjectSubject = new BehaviorSubject<User>({
-    id: '',
+    _id: '',
     fullName: '',
     email: '',
     username: '',

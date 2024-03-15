@@ -12,7 +12,7 @@ import {SessionStorageService} from 'angular-web-storage';
 import {PerfilInfoService} from './perfil-info.component.service';
 import {FormsModule} from '@angular/forms';
 import {AuthService} from "../generalServices/auth-service/auth.service";
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-info',
@@ -27,7 +27,8 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
   constructor(public sharedService: SharedPopupsService,
     public authService: AuthService,
     public sessionStorageService: SessionStorageService,
-    public perfilInfoService: PerfilInfoService
+    public perfilInfoService: PerfilInfoService,
+    public routerService: Router
   ) {}
 
   @ViewChild('inputUserName', { static: false }) inputUsername!: ElementRef<HTMLInputElement>;
@@ -169,4 +170,40 @@ export class PerfilInfoComponent implements OnInit, AfterViewInit {
     });
 
   }
+
+  onDeleteUserClick(): void {
+    const username = this.sessionStorageService.get('username');
+    if (!username) {
+      alert('Please log in before attempting to delete your profile.');
+      return;
+    }
+  
+    // Confirmar antes de proceder con la eliminación
+    const isConfirmed = confirm('Are you sure you want to delete your profile? This action cannot be undone.');
+    if (!isConfirmed) {
+      return;
+    }
+  
+    this.authService.deleteUser(username).subscribe((res) => {
+      if (res) {
+        alert('Profile deleted successfully.');
+        // Opcionalmente, desloguear al usuario después de borrar su perfil
+        // Aquí deberías implementar la lógica para cerrar la sesión del usuario y limpiar cualquier dato de sesión almacenado
+        this.sessionStorageService.clear();
+        this.routerService.navigate(['/register']);
+      } else {
+        alert('There was an error deleting your profile.');
+      }
+    });
+  }
+
+  logout(): void {
+    // Limpia cualquier dato de sesión o token aquí
+    this.sessionStorageService.clear();
+
+    // Opcional: Aquí podrías también hacer una solicitud al servidor para invalidar el token de sesión si es necesario
+
+    this.routerService.navigate(['/']);
+  }
+  
 }

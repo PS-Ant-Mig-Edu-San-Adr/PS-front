@@ -17,7 +17,7 @@
         <input type="text" id="end-date" disabled [value]="selectedDateEnd">
     </div>
 
-    <div *ngIf="detalles && detalles.tipo === 'evento'">
+    <div *ngIf="detalles && detalles.type === 'evento'">
         <div class="extra-details">
             <label for="event-status">Estado del evento:</label>
             <input type="text" id="event-status" disabled [value]="eventStatus">

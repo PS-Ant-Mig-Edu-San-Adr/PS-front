@@ -1,27 +1,52 @@
 <div class="manage-members-container">
-    <button (click)="closeManageMembersPopup()" class="close-button">X</button>
-    <h1>MIEMBROS</h1>
-    <div class="manage-members-content">
-        <div class="input-manage-members">
-            <input type="text" name="" id="" placeholder="Buscar Usuario">
-            <i class="fa-solid fa-plus"></i>
-        </div>
-        <div class="members-data">
-            <table>
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>DNI</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <!-- Aqui van los datos -->
-                </tbody>
-              </table>
-        </div>
-    </div>
-    
+  <button (click)="closeManageMembersPopup()" class="close-button">X</button>
+  <h1>MIEMBROS</h1>
+  <div class="manage-members-content">
 
+    <div class="input-filtering">
+      <div class="input-manage-members">
+        <input type="text" name="" id="searchInput" #inputUserName placeholder="Buscar Usuario" (input)="filterNames()">
+        <i #icono class="fa-solid fa-plus"></i>
+      </div>
+
+      <ul id="namesDropdown" #namesDropdown class="dropdown" style="display:none;">
+        <li (click)="userClick(user)" *ngFor="let user of users">
+          <img [src]="user.avatar" alt="user">
+          <div class="user-info">
+            <p>{{user.fullName}}</p>
+            <p>{{user.email}}</p>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="members-data">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Rol</th> <!-- Se añade el encabezado para el campo de rol -->
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="organization && organization.members">
+            <tr *ngFor="let member of organization.members">
+              <td>{{ member.name }}</td>
+              <td>{{ member.username }}</td>
+              <td>{{ member.email }}</td>
+              <td>
+                <select (change)="changeRole(member, $event)" [disabled]="checkIfUserIsAdmin(member)">
+                  <option value="admin" [selected]="member.role === 'admin'">Admin</option>
+                  <option value="member" [selected]="member.role === 'member'">Miembro</option>
+                </select>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

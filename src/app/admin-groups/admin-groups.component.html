@@ -14,29 +14,29 @@
                         <div class="event-filter">
                             <div class="filter">
                                 <p><strong>ORGANIZACIONES</strong></p>
-                                <select name="" id=""></select>
+                                <select name="" id="organizacion"></select>
                             </div>
                             <div class="filter">
                                 <p><strong>ACTIVIDADES</strong></p>
-                                <select name="" id=""></select>
+                                <select name="" id="actividad"></select>
                             </div>
                             <div class="filter">
                                 <p><strong>GRUPOS</strong></p>
-                                <select name="" id=""></select>
+                                <select name="" id="grupo"></select>
                             </div>
                         </div>
                         <div class="event-description">
                             <div class="event-data">
                                 <p>Titulo</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id="noactive" #inputTitulo placeholder="ej.: Producción de Software" readonly>
+                                    <input type="text" name="" class="noactive" id="input-titulo" #inputTitulo placeholder="ej.: Producción de Software" readonly>
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Descripción</p>
                                 <div class="input-container">
-                                    <input type="text" name="" id="noactive"  #inputDescripcion placeholder="ej.: ..." readonly>
+                                    <input type="text" name=""  class="noactive"  id="input-descripcion"  #inputDescripcion placeholder="ej.: ..." readonly>
                                     <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                 <p>Horario</p>
                                 <br>
                                 <div class="table-container">
-                                    <table (click)="changeColor($event)">
+                                    <table>
                                         <thead>
                                             <tr>
                                                 <th>Horas</th>
@@ -62,26 +62,27 @@
                                                 <th>
                                                     <div class="time-interval-input">
                                                         <input type="time" name="hora_inicio_{{i}}" [(ngModel)]="row.hora_inicio">
+                                                        <p>-</p>
                                                         <input type="time" name="hora_fin_{{i}}" [(ngModel)]="row.hora_fin">
                                                     </div>
                                                 </th>
-                                                <td class="checkbox-cell" id="lunes"></td>
-                                                <td class="checkbox-cell" id="martes"></td>
-                                                <td class="checkbox-cell" id="miercoles"></td>
-                                                <td class="checkbox-cell" id="jueves"></td>
-                                                <td class="checkbox-cell" id="viernes"></td>
-                                                <td class="checkbox-cell" id="sabado"></td>
-                                                <td class="checkbox-cell" id="domingo"></td>
-                                                
-                                                <td class="checkbox-cell" id="delete-row">
-                                                    <div  (click)="deleteRow(i)">
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="lunes"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="martes"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="miercoles"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="jueves"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="viernes"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="sabado"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="domingo"></td>
+                                                                                    
+                                                <td class="checkbox-cell" (click)="deleteRow(i)" id="delete-row">
+                                                    <div>
                                                         <i class="fa fa-minus"></i>
                                                     </div>
                                                 </td>
-                                                
                                             </tr>
                                         </tbody>
                                     </table>
+                                    
                                     <div class="add-row"><i class="fa fa-minus"></i><i class="fa fa-plus" (click)="addRow()"></i></div>
                                 </div>
                             </div>                            
@@ -90,7 +91,7 @@
                 </div>
                 <div class="buttons">
                     <button (click)="manageMembers()">Gestionar miembros</button>
-                    <button (click)="onModifyUserClick()">Guardar</button>
+                    <button (click)="putGroup()">Guardar</button>
                 </div>
             </div>
         </div>

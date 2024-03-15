@@ -52,12 +52,12 @@ export class AddReminderComponent implements OnInit, OnDestroy{
   }
 
   loadReminderData(reminder: Recordatorio) {
-    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.fechaInicio.toString());
-    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.fechaFin.toString());
-    this.selectedRepeat = reminder.repetir ?? 'Ninguno';
-    this.selectedTitle = reminder.titulo;
+    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.startDate.toString());
+    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.endDate.toString());
+    this.selectedRepeat = reminder.repeat ?? 'Ninguno';
+    this.selectedTitle = reminder.title;
     this.selectedColor = reminder.color ?? 'red';
-    this.selectedDescription = reminder.descripcion ?? '';
+    this.selectedDescription = reminder.description ?? '';
 
   }
 
@@ -187,7 +187,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
         selectedColor.value,
         selectedDescription?.value || '',
         this.sessionStorageService.get('username'),
-        this.recordatorio?.id || ''
+        this.recordatorio?._id || ''
       );
       this.closeAddReminderPopup();
     }

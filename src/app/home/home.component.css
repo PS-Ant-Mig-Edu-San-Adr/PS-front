@@ -58,21 +58,19 @@
 }
 
 .card-header {
-    padding: 20px 10px;
-    font-size: x-large;
+    padding: 10px 5px;
+    font-size: large;
     text-align: center;
     font-weight: 800;
 }
 
 .card-body {
-    padding: 20px 40px;
+    padding: 10px 5px;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     text-align: center;
-    font-size: large;
-    font-weight: 600
 }
 
 .card-photo {
@@ -184,15 +182,17 @@
     color: white;
 }
 
-.card:hover {
-    filter: none !important;
-    z-index: 10;
-    transform: scale(1.05);
-    transition: filter 0.5s ease, transform 0.3s ease, z-index 0s;
-    border: 1px solid black;
-}
 
-.home-cards-grid:hover .card:not(:hover) {
-    filter: blur(6px);
-    transition: filter 0.5s ease;
+
+
+@media screen and (min-width: 1500px) {
+    .card-header {
+        font-weight: 900; 
+        font-size: x-large; 
+    }
+
+    .card-body {
+        font-weight: 600; 
+        font-size: larger; 
+    }
 }
