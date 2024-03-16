@@ -40,6 +40,9 @@ export class OrganizationService {
       );
   }
 
+
+
+
   // Método para obtener organizaciones por nombre de usuario
   getOrganizationsByUsername(username: string): Observable<{organizations: Organization[]}> {
     return this.http.get<{organizations: Organization[]}>(`${this.apiUrl}/organizaciones/${username}`);

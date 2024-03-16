@@ -19,6 +19,7 @@ import {OrganizationService} from "../generalServices/organization.service";
 })
 export class OrganizationsComponent implements OnInit {
   organizations: Organization[] = [];
+  shownOrganizations: Organization[] = [];
 
   constructor(public sharedService: SharedPopupsService,
               protected authService: AuthService,
@@ -40,7 +41,7 @@ export class OrganizationsComponent implements OnInit {
 
   searchOrganizations(searchTerm: string) {
     if (searchTerm.trim() !== '') {
-      this.searchOrganizationsByName(searchTerm);
+      this.shownOrganizations = this.filterOrganizationsByName(searchTerm);
     } else {
       this.loadAllOrganizations();
     }
@@ -51,12 +52,26 @@ export class OrganizationsComponent implements OnInit {
     this.organizationService.getOrganizations().subscribe(
       (organizations: Organization[]) => {
         this.organizations = organizations;
+        this.shownOrganizations = organizations;
       },
       (error) => {
         console.error('Error al obtener todas las organizaciones:', error);
       }
     );
     console.log("This is the organizations: ", this.organizations);
+  }
+
+  private filterOrganizationsByName(searchTerm: string): Organization[] {
+    const filteredOrganizations: Organization[] = [];
+    const regex = new RegExp(searchTerm, 'i'); // 'i' para que la búsqueda sea insensible a mayúsculas/minúsculas
+
+    this.organizations.forEach((organization: Organization) => {
+      if (regex.test(organization.name)) {
+        filteredOrganizations.push(organization);
+      }
+    });
+
+    return filteredOrganizations;
   }
 
   private searchOrganizationsByName(searchTerm: string) {
