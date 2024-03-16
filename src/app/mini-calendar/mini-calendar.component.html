@@ -1,0 +1,37 @@
+<div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+    <div class="mini-calendar">
+        <div class="calendar">
+            <div class="calendar__info">
+                <div class="calendar__prev" (click)="lastMonth()">&#9664;</div>
+                <div class="calendar__month">{{ month }}</div>
+                <div class="calendar__year">{{ year }}</div>
+                <div class="calendar__next" (click)="nextMonth()">&#9654;</div>
+            </div>
+
+            <div class="calendar__week">
+                <div class="calendar__day calendar__item">Mon</div>
+                <div class="calendar__day calendar__item">Tue</div>
+                <div class="calendar__day calendar__item">Wed</div>
+                <div class="calendar__day calendar__item">Thu</div>
+                <div class="calendar__day calendar__item">Fri</div>
+                <div class="calendar__day calendar__item">Sat</div>
+                <div class="calendar__day calendar__item">Sun</div>
+            </div>
+
+            <div class="calendar__dates">
+                <!-- Last month's days -->
+                <div *ngFor="let day of lastDays" class="calendar__date calendar__item calendar__last-days">
+                    {{ day }}
+                </div>
+                <!-- Current month's days -->
+                <div *ngFor="let date of dates" class="calendar__date calendar__item" [class.calendar__selected]="date === selectedDay" (click)="selectDay(date)">
+                    {{ date }}
+                </div>
+                <!-- Next month's days -->
+                <div *ngFor="let day of nextDays" class="calendar__date calendar__item calendar__next-days">
+                    {{ day }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

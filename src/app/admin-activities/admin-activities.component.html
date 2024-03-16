@@ -1,7 +1,7 @@
 <div>
     <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
     <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
-    <app-group-add-pop-up *ngIf="addGroup.isOpen$ | async"></app-group-add-pop-up>
+    <app-group-add-pop-up [activity]="selectedActivity" [organization]="selectedOrganization" [user]="user" *ngIf="addGroup.isOpen$ | async"></app-group-add-pop-up>
     <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
@@ -15,11 +15,19 @@
                         <div class="event-filter">
                             <div class="filter">
                                 <p><strong>ORGANIZACIONES</strong></p>
-                                <select name="" id=""></select>
+                                <select #selectOrgElement (click)="loadActivity(selectOrgElement)">
+                                    <option *ngFor="let organization of organizations" [value]="organization.name">
+                                        {{ organization.name }}
+                                    </option>                                
+                                </select>
                             </div>
                             <div class="filter">
                                 <p><strong>ACTIVIDADES</strong></p>
-                                <select name="" id=""></select>
+                                <select #selectActivityElement (click)="loadActivityInfo(selectActivityElement)">
+                                    <option *ngFor="let activity of activities" [ngClass]="activity.name">
+                                        {{ activity.name }}
+                                    </option>    
+                                </select>
                             </div>
                             <button (click)="manageMembers()">Gestionar Miembros</button>
                         </div>
@@ -27,24 +35,17 @@
                             <div class="event-data">
                                 <p>Titulo</p>
                                 <div class="input-container">
-                                  <input type="text" name="" class="noactive" #inputTitulo placeholder="ej.: Producción de Software" readonly>
-                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
+                                  <input type="text" name="" class="noactive" #inputName placeholder="ej.: Producción de Software" readonly>
+                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputName)"></i>
                                 </div>
                               </div>
                               <div class="event-data">
                                 <p>Descripción</p>
                                 <div class="input-container">
-                                  <input type="text" name="" class="noactive" #inputDescripcion placeholder="ej.: ..." readonly>
-                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
+                                  <input type="text" name="" class="noactive" #inputDescription placeholder="ej.: ..." readonly>
+                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputDescription)"></i>
                                 </div>
                               </div>
-                              <div class="event-data">
-                                <p>Grupos</p>
-                                <div class="input-container">
-                                  <input type="email" name="" class="noactive" #inputGrupos placeholder="ej.: Grupo 41, Grupo 42" readonly>
-                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputGrupos)"></i>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

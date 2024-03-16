@@ -4,22 +4,30 @@
     <h1>GRUPO</h1>
     <div class="group-add-content">
         <div class="group-add-name">
+            <h4>Organización: </h4>
+            <h4>{{ organization?.name }}</h4>
+        </div>
+        <div class="group-add-name">
+            <h4>Actividad: </h4>
+            <h4>{{ activity?.name }}</h4>
+        </div>
+        <div class="group-add-name">
             <h4>Nombre: </h4>
-            <input type="text" required>
+            <input type="text" required #name>
         </div>
         <div class="group-add-privacy">
             <h4>Privacidad:</h4>
-            <select name="" id="">
-                <option value="">Público</option>
-                <option value="">Privado</option>
+            <select name="" id="" #privacy>
+                <option value="Público">Público</option>
+                <option value="Privado">Privado</option>
             </select>
         </div>
         <div class="group-add-description">
             <h4>Descripción:</h4>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="" id="" cols="30" rows="10" #description></textarea>
         </div>
     </div>
     <div class="group-add-add">
-        <button>Añadir</button>
+        <button (click)="addGroup()">Añadir</button>
     </div>
 </div>
