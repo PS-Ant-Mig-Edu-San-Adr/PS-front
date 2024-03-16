@@ -26,6 +26,7 @@ export class ActivitiesComponent implements OnInit {
   shownActivities: Activity[] = [];
   organizationId: string = '';
   organization: Organization | null = null; // Propiedad para almacenar la organización actual
+  usersList: Member[] = [];
 
   constructor(
     private sharedService: SharedPopupsService,
@@ -71,6 +72,7 @@ export class ActivitiesComponent implements OnInit {
           this.organization = organization; // Almacena la organización actual
           this.activities = organization.activities;
           this.shownActivities = organization.activities;
+          this.usersList = organization.members; // Asigna la lista de miembros a usersList
         } else {
           console.warn('La organización está vacía o no se encontró.');
         }
