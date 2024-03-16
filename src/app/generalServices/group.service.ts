@@ -35,24 +35,24 @@ export class GroupService {
     }
   }
   
-  async putGroup(group: Group, organizationId: string, activityId: string): Promise<boolean> {
-    try {
-      const body = {
-        name: group.name,
-        description: group.description,
-        members: group.members,
-        events: group.events,
-        privacy: group.privacy,
-        schedules: group.schedules,
-        organizationId: organizationId,
-        activityId: activityId
-      }
-      const response: any = await this.httpClient.put(`http://localhost:3001/api/groups`, body).toPromise();
-      return response.status === 200;
-    } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
-      return false;
+  putGroup(description: string, schedules:any, name: string, organizationId: string, activityId: string, groupId: string): Observable<any> {
+
+    const body = {
+      name: name,
+      description: description,
+      schedules: schedules
     }
+    return this.httpClient.put(`http://localhost:3001/api/groups/${organizationId}/${activityId}/${groupId}`, body).pipe(
+      map((res: any) => {
+        console.log(res);
+        return res;
+        
+      }),
+      catchError((error) => {
+        console.error('Error al realizar la solicitud de modificar la organización:', error);
+        return of(undefined);
+      })
+    );
   }
 
   postGroup(organizationId: string, activityId: string, name: string, description: string, privacy: string, members: Array<Member>): Observable<any> {
