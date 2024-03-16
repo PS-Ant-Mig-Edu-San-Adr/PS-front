@@ -38,7 +38,7 @@ export class AdminGroupsComponent implements OnInit {
     private sessionStorageService: SessionStorageService,
     protected authService: AuthService
   ) {
-    
+
   }
   active: number = 4;
   user: User | undefined;
@@ -152,8 +152,8 @@ export class AdminGroupsComponent implements OnInit {
 
   addRow() {
     this.rows.push({
-      startTime: '', 
-      endTime: '', 
+      startTime: '',
+      endTime: '',
     });
     this.result.push({
       horas: {startTime:  '', endTime: ''},
@@ -179,7 +179,7 @@ export class AdminGroupsComponent implements OnInit {
       alert('Please log in before modifying.');
       return;
     }
-
+/*
     this.groupService.putGroup(userData.result).subscribe((res: any) => {
       if (res) {
         alert(res.details);
@@ -187,7 +187,7 @@ export class AdminGroupsComponent implements OnInit {
         alert('Error updating organization.');
       }
     })
-
+*/
 
 
   }

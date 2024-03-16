@@ -20,6 +20,7 @@ export interface Organization {
   _id: any;
   name: string;
   description: string;
+  imageUrl: string;
   email: string;
   contact: string;
   domain: string;
