@@ -23,7 +23,8 @@ export const routes: Routes = [
   {path: 'schedules', component: SchedulesComponent},
   {path: 'minicalendar', component: MiniCalendarComponent},
   // ------------- Rutas protegidas -------------
-  {path: 'admin', component: AdminAddEventComponent, canActivate: [authGuard]},
+  {path: 'admin', redirectTo: '/adminEvents', pathMatch: 'full'},
+  {path: 'adminEvents', component: AdminAddEventComponent, canActivate: [authGuard]},
   {path: 'adminOrganizations', component: AdminOrganizationsComponent, canActivate: [authGuard]},
   {path: 'adminCreateOrganization', component: AdminCreateOrganizationComponent, canActivate: [authGuard]},
   {path: 'adminGroups', component: AdminGroupsComponent, canActivate: [authGuard]},
