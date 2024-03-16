@@ -11,7 +11,7 @@ import {ManageMembersPopUpComponent} from '../manage-members-pop-up/manage-membe
 import {GroupAddPopUpComponent} from '../group-add-pop-up/group-add-pop-up.component';
 import {GroupAddPopUpService} from '../group-add-pop-up/group-add-pop-up.service';
 import {AuthService} from "../generalServices/auth-service/auth.service";
-import { Activity, Organization } from '../interfaces/interface';
+import { Activity, Organization, User } from '../interfaces/interface';
 import { OrganizationService } from '../generalServices/organization.service';
 import { SessionStorageService } from 'angular-web-storage';
 import { ActivityService } from '../generalServices/activity.service';
@@ -33,7 +33,9 @@ export class AdminActivitiesComponent implements  OnInit {
   active: number = 3;
   organizations: Organization[] = [];
   activities: any;
-  selectedActivity: any = {};
+  selectedOrganization: Organization | undefined = undefined;
+  selectedActivity: Activity | undefined = undefined;
+  user: User | undefined = undefined;
   
   @ViewChild('inputName', {static: false}) inputName!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription', {static: false}) inputDescription!: ElementRef<HTMLTextAreaElement>;
@@ -51,6 +53,12 @@ export class AdminActivitiesComponent implements  OnInit {
         this.selectedActivity = this.activities[0];
         this.inputName.nativeElement.value = this.activities[0].name;
         this.inputDescription.nativeElement.value = this.activities[0].description;
+        this.selectedOrganization = this.organizations[0];
+        this.selectedActivity = this.activities[0];
+    });
+
+    this.authService.getUser(this.sessionStorageService.get("username")).subscribe((user: User | undefined) => {
+      this.user = user;
     });
 
     this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
@@ -81,6 +89,7 @@ export class AdminActivitiesComponent implements  OnInit {
     this.activities = selectedOrg.activities;
     this.inputName.nativeElement.value = this.activities[0].name;
     this.inputDescription.nativeElement.value = this.activities[0].description;
+    this.selectedOrganization = selectedOrg;
   }
 
   loadActivityInfo(selectElement: HTMLSelectElement){
@@ -90,6 +99,7 @@ export class AdminActivitiesComponent implements  OnInit {
     if (selectedAct) {
         this.inputName.nativeElement.value = selectedAct.name;
         this.inputDescription.nativeElement.value = selectedAct.description;
+        this.selectedActivity = selectedAct;
     }
   }
 

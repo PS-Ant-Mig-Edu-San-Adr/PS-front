@@ -2,9 +2,8 @@ export interface Activity {
     _id: any;
     name: string;
     description: string;
-    groups: [];
-    members: [];
-    roles: [],
+    groups: Group[];
+    members: Member[];
     privacy: string;
 }
 
@@ -20,6 +19,7 @@ export interface Organization {
   _id: any;
   name: string;
   description: string;
+  imageUrl: string;
   email: string;
   contact: string;
   domain: string;

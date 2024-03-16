@@ -13,13 +13,35 @@ export class OrganizationService {
 
   // Método para obtener todas las organizaciones
   getOrganizations(): Observable<Organization[]> {
-    return this.http.get<Organization[]>(`${this.apiUrl}/organizaciones`);
+    return this.http.get<{ organizations: Organization[] }>(`${this.apiUrl}/organizaciones`)
+      .pipe(
+        map(response => response.organizations),
+        catchError(error => {
+          console.error('Error al obtener las organizaciones:', error);
+          return of([]); // Devolver un array vacío en caso de error
+        })
+      );
   }
 
   // Método para obtener una organización por su ID
   getOrganizationById(id: string): Observable<Organization> {
     return this.http.get<Organization>(`${this.apiUrl}/organizaciones/${id}`);
   }
+
+  // Método para obtener una o más organizaciones por su nombre
+  getOrganizationsByName(name: string): Observable<Organization[]> {
+    return this.http.get<{ organizations: Organization[] }>(`${this.apiUrl}/organizaciones/byName/${name}`)
+      .pipe(
+        map(response => response.organizations),
+        catchError(error => {
+          console.error('Error al obtener las organizaciones:', error);
+          return of([]); // Devolver un array vacío en caso de error
+        })
+      );
+  }
+
+
+
 
   // Método para obtener organizaciones por nombre de usuario
   getOrganizationsByUsername(username: string): Observable<{organizations: Organization[]}> {
@@ -56,7 +78,7 @@ export class OrganizationService {
     );
   }
 
-  putOrganization( 
+  putOrganization(
     organization: Organization,
     body: any
   ): Observable<any> {
