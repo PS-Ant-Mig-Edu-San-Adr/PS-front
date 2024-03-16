@@ -23,7 +23,11 @@
               <div class="activity-footer">
                 <h4>Members: {{ activity.members.length }}</h4>
                 <h4>Groups: {{ activity.groups.length }}</h4>
-                <button>UNIRSE</button>
+                <button id="joinButton_{{ activity._id }}" (click)="handleJoinLeave(activity)">
+                  <span class="icon"></span>
+                  <span class="button-text" >{{ isMember(activity) ? 'ABANDONAR' : 'UNIRSE' }}</span>
+                </button>
+
               </div>
             </div>
           </ng-container>
@@ -33,7 +37,7 @@
         </div>
       </div>
 
-        <div class="users">
+      <div class="users">
         <h1>USUARIOS</h1>
         <div class="users-list">
           <ul>
@@ -48,6 +52,8 @@
       <h1>LA ORGANIZACIÓN NO EXISTE</h1>
     </div>
 
+    <!-- Elemento de advertencia -->
+    <div id="warningMessage" style="display: none; color: red;"></div>
 
     <app-footer></app-footer>
   </div>

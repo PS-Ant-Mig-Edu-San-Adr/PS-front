@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
-import {Organization} from '../interfaces/interface';
+import {Member, Organization} from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -102,5 +102,6 @@ export class OrganizationService {
       })
     );
   }
+
 
 }

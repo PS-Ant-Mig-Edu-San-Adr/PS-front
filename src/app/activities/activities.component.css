@@ -145,3 +145,82 @@ h1 {
 .users-list ul li {
     margin-bottom: 10px;
 }
+
+/*----------------ANIMATIONS FOR JOIN ACTIVITY -----------------*/
+
+.icon {
+  position: relative;
+  font-size: 20px;
+  color: white;
+  opacity: 0;
+}
+
+.success-animation {
+  animation: success-pulse 1s ;
+}
+
+.error-animation {
+  animation: error-shake 1s ;
+}
+
+
+.success-icon::before,
+.error-icon::before {
+  content: "";
+  font-size: 100%; /* Tamaño de la fuente */
+}
+
+
+.success-icon::before {
+  content: "\2713"; /* Código Unicode del símbolo de marca de verificación */
+}
+
+
+.error-icon::before {
+  content: "\2717"; /* Código Unicode del símbolo de marca de error */
+}
+
+/* Establece la visibilidad a oculta para button-text durante las animaciones */
+.success-icon .button-text,
+.error-icon .button-text {
+  display: none;
+}
+
+
+.success-icon,
+.error-icon {
+  opacity: 1;
+}
+
+
+@keyframes success-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes error-shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+

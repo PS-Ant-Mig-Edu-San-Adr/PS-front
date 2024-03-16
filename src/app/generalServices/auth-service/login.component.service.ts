@@ -54,8 +54,12 @@ export class LoginService {
         if (res.status === 200) {
           this.closeLoginPopup();
           this.sessionStorageService.set('token', res.token);
+          this.sessionStorageService.set('name', res.user.fullName);
           this.sessionStorageService.set('username', res.user.username);
           this.sessionStorageService.set('profilePict', res.user.avatar);
+          this.sessionStorageService.set('id', res.user._id);
+          this.sessionStorageService.set('email', res.user.email);
+
           this.loginStatusSubject.next(true);
           this.loginObjectSubject.next(res.user);
         } else {
