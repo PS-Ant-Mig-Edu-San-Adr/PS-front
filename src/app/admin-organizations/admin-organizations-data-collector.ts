@@ -1,4 +1,3 @@
-import { ElementRef, ViewChild } from "@angular/core";
 import { Organization, User } from "../interfaces/interface";
 
 export class AdminOrganizationsDataCollector {

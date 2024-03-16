@@ -37,4 +37,28 @@ export class ActivityService {
     );
   }
 
+
+  updateActivity(
+    organizationId: string,
+    activityId: string,
+    name: string,
+    description: string,
+  ): Observable<any> {
+
+    const activity = {
+      name,
+      description,
+    };
+
+    return this.http.put<any>(`${this.apiUrl}/activities/${organizationId}/${activityId}`, activity).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error) => {
+        console.error('Error al realizar la solicitud de añadir la organización:', error);
+        return of(undefined);
+      })
+    );
+  }
+
 }
