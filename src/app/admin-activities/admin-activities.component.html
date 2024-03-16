@@ -16,7 +16,7 @@
                             <div class="filter">
                                 <p><strong>ORGANIZACIONES</strong></p>
                                 <select #selectOrgElement (change)="loadActivity(selectOrgElement)">
-                                    <option *ngFor="let organization of organizations" [value]="organization.name" #org_option>
+                                    <option *ngFor="let organization of organizations" [value]="organization.name">
                                         {{ organization.name }}
                                     </option>                                
                                 </select>
@@ -24,7 +24,7 @@
                             <div class="filter">
                                 <p><strong>ACTIVIDADES</strong></p>
                                 <select #selectActivityElement (change)="loadActivityInfo(selectActivityElement)">
-                                    <option *ngFor="let activity of activities" [ngClass]="activity.name" #act_option>
+                                    <option *ngFor="let activity of activities" [ngClass]="activity.name">
                                         {{ activity.name }}
                                     </option>    
                                 </select>

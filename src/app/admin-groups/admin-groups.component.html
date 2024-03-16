@@ -14,30 +14,42 @@
                         <div class="event-filter">
                             <div class="filter">
                                 <p><strong>ORGANIZACIONES</strong></p>
-                                <select name="" id="organizacion"></select>
+                                <select #selectOrgElement (change)="loadActivity(selectOrgElement)">
+                                    <option *ngFor="let organization of organizations" [value]="organization.name">
+                                        {{ organization.name }}
+                                    </option>                                
+                                </select>
                             </div>
                             <div class="filter">
                                 <p><strong>ACTIVIDADES</strong></p>
-                                <select name="" id="actividad"></select>
+                                <select #selectActivityElement (change)="loadGroup(selectActivityElement)">
+                                    <option *ngFor="let activity of activities" [ngClass]="activity.name">
+                                        {{ activity.name }}
+                                    </option>    
+                                </select>
                             </div>
                             <div class="filter">
                                 <p><strong>GRUPOS</strong></p>
-                                <select name="" id="grupo"></select>
+                                <select #selectGroupElement (change)="loadGroupInfo(selectGroupElement)">
+                                    <option *ngFor="let group of groups" [ngClass]="group.name">
+                                        {{ group.name }}
+                                    </option>    
+                                </select>
                             </div>
                         </div>
                         <div class="event-description">
                             <div class="event-data">
                                 <p>Titulo</p>
                                 <div class="input-container">
-                                    <input type="text" name="" class="noactive" id="input-titulo" #inputTitulo placeholder="ej.: Producción de Software" readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
+                                    <input type="text" name="" class="noactive" id="input-titulo" #inputName placeholder="ej.: Producción de Software" readonly>
+                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputName)"></i>
                                 </div>
                             </div>
                             <div class="event-data">
                                 <p>Descripción</p>
                                 <div class="input-container">
-                                    <input type="text" name=""  class="noactive"  id="input-descripcion"  #inputDescripcion placeholder="ej.: ..." readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
+                                    <input type="text" name=""  class="noactive"  id="input-descripcion"  #inputDescription placeholder="ej.: ..." readonly>
+                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputDescription)"></i>
                                 </div>
                             </div>
                             <div class="event-data-horario">
@@ -61,18 +73,19 @@
                                             <tr *ngFor="let row of rows; let i = index">
                                                 <th>
                                                     <div class="time-interval-input">
-                                                        <input type="time" name="hora_inicio_{{i}}" [(ngModel)]="row.hora_inicio">
+                                                        <input type="time" name="hora_inicio_{{i}}" [(ngModel)]="row.startTime">
                                                         <p>-</p>
-                                                        <input type="time" name="hora_fin_{{i}}" [(ngModel)]="row.hora_fin">
+                                                        <input type="time" name="hora_fin_{{i}}" [(ngModel)]="row.endTime">
                                                     </div>
                                                 </th>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="lunes"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="martes"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="miercoles"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="jueves"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="viernes"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="sabado"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="domingo"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="lunes" [class.checked]="result[i].dias[0]"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="martes" [class.checked]="result[i].dias[1]"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="miercoles" [class.checked]="result[i].dias[2]"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="jueves" [class.checked]="result[i].dias[3]"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="viernes" [class.checked]="result[i].dias[4]"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="sabado" [class.checked]="result[i].dias[5]"></td>
+                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="domingo" [class.checked]="result[i].dias[6]"></td>
+                                                
                                                                                     
                                                 <td class="checkbox-cell" (click)="deleteRow(i)" id="delete-row">
                                                     <div>
