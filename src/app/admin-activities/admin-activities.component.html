@@ -15,12 +15,19 @@
                         <div class="event-filter">
                             <div class="filter">
                                 <p><strong>ORGANIZACIONES</strong></p>
-                                <select name="" id="">
+                                <select #selectOrgElement (click)="loadActivity(selectOrgElement)">
+                                    <option *ngFor="let organization of organizations" [value]="organization.name">
+                                        {{ organization.name }}
+                                    </option>                                
                                 </select>
                             </div>
                             <div class="filter">
                                 <p><strong>ACTIVIDADES</strong></p>
-                                <select name="" id=""></select>
+                                <select #selectActivityElement (click)="loadActivityInfo(selectActivityElement)">
+                                    <option *ngFor="let activity of activities" [ngClass]="activity.name">
+                                        {{ activity.name }}
+                                    </option>    
+                                </select>
                             </div>
                             <button (click)="manageMembers()">Gestionar Miembros</button>
                         </div>
@@ -28,24 +35,17 @@
                             <div class="event-data">
                                 <p>Titulo</p>
                                 <div class="input-container">
-                                  <input type="text" name="" class="noactive" #inputTitulo placeholder="ej.: Producción de Software" readonly>
-                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputTitulo)"></i>
+                                  <input type="text" name="" class="noactive" #inputName placeholder="ej.: Producción de Software" readonly>
+                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputName)"></i>
                                 </div>
                               </div>
                               <div class="event-data">
                                 <p>Descripción</p>
                                 <div class="input-container">
-                                  <input type="text" name="" class="noactive" #inputDescripcion placeholder="ej.: ..." readonly>
-                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputDescripcion)"></i>
+                                  <input type="text" name="" class="noactive" #inputDescription placeholder="ej.: ..." readonly>
+                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputDescription)"></i>
                                 </div>
                               </div>
-                              <div class="event-data">
-                                <p>Grupos</p>
-                                <div class="input-container">
-                                  <input type="email" name="" class="noactive" #inputGrupos placeholder="ej.: Grupo 41, Grupo 42" readonly>
-                                  <i class="fa fa-pencil" (click)="toggleEditMode(inputGrupos)"></i>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
