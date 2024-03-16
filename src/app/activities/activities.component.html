@@ -1,95 +1,54 @@
 <div>
-    <app-login *ngIf="authService.isLoginOpen$() | async"></app-login>
-    <app-register *ngIf="authService.isRegisterOpen$() | async"></app-register>
-    <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
-        <app-header></app-header>
-        <div class="activities-page">
-
-            <div class="information">
-                <div class="organization-activity-header">
-                    <h1>NOMBRE DE LA  ORGANIZACION</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                        in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                </div>
-
-                <h2>ACTIVIDADES</h2>
-
-                <div class="organization-activities">
-                    <div class="activity">
-                        <div class="activity-header">
-                            <h3>ACTIVITIE 1</h3>
-                            <p>description...</p>
-                        </div>
-
-                        <div class="activity-footer">
-                            <h4>MEMBERS: XX</h4>
-                            <h4>GROUPS: XX</h4>
-                            <button>UNIRSE</button>
-                        </div>
-
-                    </div>
-
-                    <div class="activity">
-                        <div class="activity-header">
-                            <h3>ACTIVITIE 1</h3>
-                            <p>description...</p>
-                        </div>
-
-                        <div class="activity-footer">
-                            <h4>MEMBERS: XX</h4>
-                            <h4>GROUPS: XX</h4>
-                            <button>UNIRSE</button>
-                        </div>
-
-                    </div>
-
-                    <div class="activity">
-                        <div class="activity-header">
-                            <h3>ACTIVITIE 1</h3>
-                            <p>description...</p>
-                        </div>
-                        <div class="activity-footer">
-                            <h4>MEMBERS: XX</h4>
-                            <h4>GROUPS: XX</h4>
-                            <button>UNIRSE</button>
-                        </div>
-                    </div>
-                    <div class="activity">
-                        <div class="activity-header">
-                            <h3>ACTIVITIE 1</h3>
-                            <p>description...</p>
-                        </div>
-
-                        <div class="activity-footer">
-                            <h4>MEMBERS: XX</h4>
-                            <h4>GROUPS: XX</h4>
-                            <button>UNIRSE</button>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="schedule-button">
-                    <button>Generar Horario</button>
-                </div>
-            </div>
-
-            <div class="users">
-                <h1>USUARIOS</h1>
-                <div class="users-list">
-                    <ul>
-                        <li>Usuario 1</li>
-                        <li>Usuario 2</li>
-                        <li>Usuario 3</li>
-                    </ul>
-                </div>
-
-            </div>
+  <app-login *ngIf="authService.isLoginOpen$() | async"></app-login>
+  <app-register *ngIf="authService.isRegisterOpen$() | async"></app-register>
+  <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+    <app-header></app-header>
+    <div class="activities-page" *ngIf="organization">
+      <!-- Contenido de la página de actividades -->
+      <div class="information">
+        <div class="organization-activity-header">
+          <h1>{{ organization.name }}</h1>
+          <p>{{ organization.description }}</p>
         </div>
-        <app-footer></app-footer>
+
+        <h2>ACTIVIDADES</h2>
+
+        <div class="organization-activities">
+          <ng-container *ngIf="activities.length > 0; else noActivities">
+            <div class="activity" *ngFor="let activity of activities">
+              <div class="activity-header">
+                <h3>{{ activity.name }}</h3>
+                <p> {{ activity.description }}</p>
+              </div>
+              <div class="activity-footer">
+                <h4>Members: {{ activity.members.length }}</h4>
+                <h4>Groups: {{ activity.groups.length }}</h4>
+                <button>UNIRSE</button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noActivities>
+            <p>Aún no hay actividades.</p>
+          </ng-template>
+        </div>
+      </div>
+
+        <div class="users">
+        <h1>USUARIOS</h1>
+        <div class="users-list">
+          <ul>
+            <li>Usuario 1</li>
+            <li>Usuario 2</li>
+            <li>Usuario 3</li>
+          </ul>
+        </div>
+      </div>
     </div>
+    <div *ngIf="!organization" class="organization-not-found">
+      <h1>LA ORGANIZACIÓN NO EXISTE</h1>
+    </div>
+
+
+    <app-footer></app-footer>
+  </div>
 </div>
