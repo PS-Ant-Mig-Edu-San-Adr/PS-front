@@ -14,6 +14,8 @@ import {AuthService} from "../generalServices/auth-service/auth.service";
 import { Activity, Organization, User } from '../interfaces/interface';
 import { OrganizationService } from '../generalServices/organization.service';
 import { SessionStorageService } from 'angular-web-storage';
+import { ActivityService } from '../generalServices/activity.service';
+import { Observable, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-admin-activities',
@@ -27,28 +29,22 @@ export class AdminActivitiesComponent implements  OnInit {
   constructor(public addGroup: GroupAddPopUpService, protected authService: AuthService,
               public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService,
               private organizationService: OrganizationService,
-              private sessionStorageService: SessionStorageService) {}
+              private sessionStorageService: SessionStorageService,
+              private activityService: ActivityService) {}
   active: number = 3;
   organizations: Organization[] = [];
-  activities: any;
+  activities: Activity[] = [];
   selectedOrganization: Organization | undefined = undefined;
   selectedActivity: Activity | undefined = undefined;
   user: User | undefined = undefined;
   
   @ViewChild('inputName', {static: false}) inputName!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription', {static: false}) inputDescription!: ElementRef<HTMLTextAreaElement>;
-  @ViewChild('inputGroupName', {static: false}) inputGroupName!: ElementRef<HTMLInputElement>;
+
 
   ngOnInit() {
 
-    this.organizationService.getOrganizationsByUsername(this.sessionStorageService.get("username")).subscribe(data => {
-        this.organizations = data.organizations;
-        this.activities = this.organizations[0].activities;
-        this.inputName.nativeElement.value = this.activities[0].name;
-        this.inputDescription.nativeElement.value = this.activities[0].description;
-        this.selectedOrganization = this.organizations[0];
-        this.selectedActivity = this.activities[0];
-    });
+    this.getData();
 
     this.authService.getUser(this.sessionStorageService.get("username")).subscribe((user: User | undefined) => {
       this.user = user;
@@ -76,6 +72,17 @@ export class AdminActivitiesComponent implements  OnInit {
     this.manageMembersService.openManageMembersPopup();
   }
 
+  getData(){
+    this.organizationService.getOrganizationsByUsername(this.sessionStorageService.get("username")).subscribe(data => {
+      this.organizations = data.organizations;
+      this.activities = this.organizations[0].activities;
+      this.selectedActivity = this.activities[0];
+      this.inputName.nativeElement.value = this.activities[0].name;
+      this.inputDescription.nativeElement.value = this.activities[0].description;
+      this.selectedOrganization = this.organizations[0];
+    });
+  }
+
   loadActivity(selectElement: HTMLSelectElement){
     const selectedIndex_org = selectElement.selectedIndex;
     const selectedOrg = this.organizations[selectedIndex_org];
@@ -83,6 +90,7 @@ export class AdminActivitiesComponent implements  OnInit {
     this.inputName.nativeElement.value = this.activities[0].name;
     this.inputDescription.nativeElement.value = this.activities[0].description;
     this.selectedOrganization = selectedOrg;
+    this.selectedActivity = this.selectedOrganization.activities[0];
   }
 
   loadActivityInfo(selectElement: HTMLSelectElement){
@@ -95,13 +103,44 @@ export class AdminActivitiesComponent implements  OnInit {
     }
   }
 
-  checkEmpty(){
+  checkEmpty(): boolean{
     if(!this.inputName.nativeElement.value){
       alert("Por favor, inserte un título para la actividad.");
+      return true;
+    }else{
+      return false;
     }
-    if(!this.inputGroupName.nativeElement.value){
-      alert("Por favor, inserte un nombre para el grupo.");
+  }
+
+  SaveChanges(){
+    if(!this.checkEmpty()){
+      const activity = this.activities.find((activity: Activity) => activity.name === this.inputName.nativeElement.value);
+      if(activity){
+        alert("La actividad ya existe");
+      }else {
+        this.putActivity().subscribe(result => {
+          if(result) this.getData();
+        });
+      }
     }
+  }
+
+  putActivity(): Observable<boolean> {
+    const activity_name = this.inputName.nativeElement.value as string;
+    const activity_description = this.inputDescription.nativeElement.value as string;
+  
+    return this.activityService.updateActivity(this.selectedOrganization?._id, this.selectedActivity?._id, activity_name, activity_description)
+      .pipe(
+        map((res: any) => {
+          if (res && res.success) {
+            alert(res.details);
+            return true;
+          } else {
+            alert('Error updating organization.');
+            return false;
+          }
+        })
+      );
   }
 
   @ViewChild('inputNoActive', { static: false }) inputNoActive!: ElementRef;

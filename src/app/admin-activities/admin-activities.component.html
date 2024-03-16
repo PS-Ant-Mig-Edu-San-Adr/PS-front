@@ -15,16 +15,16 @@
                         <div class="event-filter">
                             <div class="filter">
                                 <p><strong>ORGANIZACIONES</strong></p>
-                                <select #selectOrgElement (click)="loadActivity(selectOrgElement)">
-                                    <option *ngFor="let organization of organizations" [value]="organization.name">
+                                <select #selectOrgElement (change)="loadActivity(selectOrgElement)">
+                                    <option *ngFor="let organization of organizations" [value]="organization.name" #org_option>
                                         {{ organization.name }}
                                     </option>                                
                                 </select>
                             </div>
                             <div class="filter">
                                 <p><strong>ACTIVIDADES</strong></p>
-                                <select #selectActivityElement (click)="loadActivityInfo(selectActivityElement)">
-                                    <option *ngFor="let activity of activities" [ngClass]="activity.name">
+                                <select #selectActivityElement (change)="loadActivityInfo(selectActivityElement)">
+                                    <option *ngFor="let activity of activities" [ngClass]="activity.name" #act_option>
                                         {{ activity.name }}
                                     </option>    
                                 </select>
@@ -51,6 +51,7 @@
                 </div>
                 <div class="buttons">
                     <button (click)="GroupAddPopup()">Crear Grupos</button>
+                    <button (click)="SaveChanges()">Guardar Cambios</button>
                 </div>
             </div>
         </div>
