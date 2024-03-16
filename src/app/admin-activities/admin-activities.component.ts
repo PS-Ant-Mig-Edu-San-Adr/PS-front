@@ -15,6 +15,7 @@ import { Activity, Organization, User } from '../interfaces/interface';
 import { OrganizationService } from '../generalServices/organization.service';
 import { SessionStorageService } from 'angular-web-storage';
 import { ActivityService } from '../generalServices/activity.service';
+import { Observable, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-admin-activities',
@@ -32,30 +33,18 @@ export class AdminActivitiesComponent implements  OnInit {
               private activityService: ActivityService) {}
   active: number = 3;
   organizations: Organization[] = [];
-  activities: any;
+  activities: Activity[] = [];
   selectedOrganization: Organization | undefined = undefined;
   selectedActivity: Activity | undefined = undefined;
   user: User | undefined = undefined;
   
   @ViewChild('inputName', {static: false}) inputName!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription', {static: false}) inputDescription!: ElementRef<HTMLTextAreaElement>;
-  @ViewChild('inputGroupName', {static: false}) inputGroupName!: ElementRef<HTMLInputElement>;
-  @ViewChild('inputGroupDescription', {static: false}) inputGroupDescription!: ElementRef<HTMLTextAreaElement>;
-  @ViewChild('org_option', {static: false}) org_option!: ElementRef;
-  @ViewChild('act_option', {static: false}) act_option!: ElementRef;
 
 
   ngOnInit() {
 
-    this.organizationService.getOrganizationsByUsername(this.sessionStorageService.get("username")).subscribe(data => {
-        this.organizations = data.organizations;
-        this.activities = this.organizations[0].activities;
-        this.selectedActivity = this.activities[0];
-        this.inputName.nativeElement.value = this.activities[0].name;
-        this.inputDescription.nativeElement.value = this.activities[0].description;
-        this.selectedOrganization = this.organizations[0];
-        this.selectedActivity = this.activities[0];
-    });
+    this.getData();
 
     this.authService.getUser(this.sessionStorageService.get("username")).subscribe((user: User | undefined) => {
       this.user = user;
@@ -83,6 +72,17 @@ export class AdminActivitiesComponent implements  OnInit {
     this.manageMembersService.openManageMembersPopup();
   }
 
+  getData(){
+    this.organizationService.getOrganizationsByUsername(this.sessionStorageService.get("username")).subscribe(data => {
+      this.organizations = data.organizations;
+      this.activities = this.organizations[0].activities;
+      this.selectedActivity = this.activities[0];
+      this.inputName.nativeElement.value = this.activities[0].name;
+      this.inputDescription.nativeElement.value = this.activities[0].description;
+      this.selectedOrganization = this.organizations[0];
+    });
+  }
+
   loadActivity(selectElement: HTMLSelectElement){
     const selectedIndex_org = selectElement.selectedIndex;
     const selectedOrg = this.organizations[selectedIndex_org];
@@ -90,12 +90,12 @@ export class AdminActivitiesComponent implements  OnInit {
     this.inputName.nativeElement.value = this.activities[0].name;
     this.inputDescription.nativeElement.value = this.activities[0].description;
     this.selectedOrganization = selectedOrg;
+    this.selectedActivity = this.selectedOrganization.activities[0];
   }
 
   loadActivityInfo(selectElement: HTMLSelectElement){
     const selectedActName = selectElement.value;
     const selectedAct = this.activities.find((activity: Activity) => activity.name === selectedActName);
-    this.selectedActivity = selectedAct;
     if (selectedAct) {
         this.inputName.nativeElement.value = selectedAct.name;
         this.inputDescription.nativeElement.value = selectedAct.description;
@@ -103,78 +103,44 @@ export class AdminActivitiesComponent implements  OnInit {
     }
   }
 
-  checkEmpty(){
+  checkEmpty(): boolean{
     if(!this.inputName.nativeElement.value){
       alert("Por favor, inserte un título para la actividad.");
+      return true;
+    }else{
+      return false;
     }
-    if(!this.inputGroupName.nativeElement.value){
-      alert("Por favor, inserte un nombre para el grupo.");
-    }
-  }
-
-  CreateGroup(){
-    console.log(this.inputDescription.nativeElement);
-    /*
-    const userData = AdminOrganizationsDataCollector.collectUserData(
-      this.selectedOrganization!,
-      this.inputTitulo.nativeElement.value as string,
-      this.inputDescripcion.nativeElement.value as string,
-      this.inputCorreo.nativeElement.value as string,
-      this.inputContacto.nativeElement.value as string,
-      this.inputDominio.nativeElement.value as string,
-      this.selectPrivacidad.nativeElement.value as string
-    );
-
-    if (!userData.result) {
-      alert(userData.details);
-      return;
-    }
-
-    const username = this.user?.username;
-    if (!username) {
-      alert('Please log in before modifying.');
-      return;
-    }
-
-    if (!this.selectedOrganization) {
-      alert('No organization selected.');
-      return;
-    }
-
-    this.organizationService.putOrganization(this.selectedOrganization, userData.result).subscribe((res: any) => {
-      if (res) {
-        alert(res.details);
-      } else {
-        alert('Error updating organization.');
-      }
-    });
-
-    */
   }
 
   SaveChanges(){
-    const activity = this.activities.find((activity: Activity) => activity.name === this.inputName.nativeElement.value);
-    console.log();
-    if(activity){
-      alert("La actividad ya existe");
-    }else{
-      this.putActivity(this.selectedActivity);
+    if(!this.checkEmpty()){
+      const activity = this.activities.find((activity: Activity) => activity.name === this.inputName.nativeElement.value);
+      if(activity){
+        alert("La actividad ya existe");
+      }else {
+        this.putActivity().subscribe(result => {
+          if(result) this.getData();
+        });
+      }
     }
   }
 
-  putActivity(act: Activity): void {
+  putActivity(): Observable<boolean> {
     const activity_name = this.inputName.nativeElement.value as string;
     const activity_description = this.inputDescription.nativeElement.value as string;
-    console.log(act);
-    this.activityService.updateActivity(act._id, activity_name, activity_description).subscribe((res: any) => {
-      if (res) {
-        alert(res.details);
-      } else {
-        alert('Error updating organization.');
-      }
-    });
-
-
+  
+    return this.activityService.updateActivity(this.selectedOrganization?._id, this.selectedActivity?._id, activity_name, activity_description)
+      .pipe(
+        map((res: any) => {
+          if (res && res.success) {
+            alert(res.details);
+            return true;
+          } else {
+            alert('Error updating organization.');
+            return false;
+          }
+        })
+      );
   }
 
   @ViewChild('inputNoActive', { static: false }) inputNoActive!: ElementRef;
