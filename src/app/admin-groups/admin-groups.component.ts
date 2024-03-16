@@ -129,15 +129,22 @@ export class AdminGroupsComponent implements OnInit {
       if(this.selectedGroup){
         this.inputName.nativeElement.value = this.selectedGroup.name;
         this.inputDescription.nativeElement.value = this.selectedGroup.description;
+        this.loadSchedules();
       }else{
         this.inputName.nativeElement.value = '';
         this.inputDescription.nativeElement.value = '';
+        this.rows = [];
+        this.days = [false, false, false, false, false, false, false];
+        this.result = [];
       }
     }else{
       this.inputName.nativeElement.value = '';
       this.inputDescription.nativeElement.value = '';
       this.groups = [];
       this.selectedGroup = undefined;
+      this.rows = [];
+      this.days = [false, false, false, false, false, false, false];
+      this.result = [];
     }
     
   }
@@ -210,9 +217,13 @@ export class AdminGroupsComponent implements OnInit {
     if(this.selectedGroup){
       this.inputName.nativeElement.value = this.selectedGroup.name;
       this.inputDescription.nativeElement.value = this.selectedGroup.description;
+      this.loadSchedules();
     }else{
       this.inputName.nativeElement.value = '';
       this.inputDescription.nativeElement.value = '';
+      this.rows = [];
+      this.days = [false, false, false, false, false, false, false];
+      this.result = [];
     }
   }
 
