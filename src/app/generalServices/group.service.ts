@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Activity, Group, Organization } from '../interfaces/interface';
-import { Observable } from 'rxjs';
+import { Activity, Group, Member, Organization } from '../interfaces/interface';
+import { Observable, catchError, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -55,24 +55,25 @@ export class GroupService {
     }
   }
 
-  async postGroup(group: Group, organizationId: string, activityId: string): Promise<boolean> {
-    try {
+  postGroup(organizationId: string, activityId: string, name: string, description: string, privacy: string, members: Array<Member>): Observable<any> {
       const body = {
-        name: group.name,
-        description: group.description,
-        members: group.members,
-        events: group.events,
-        privacy: group.privacy,
-        schedules: group.schedules,
-        organizationId: organizationId,
-        activityId: activityId
+        name: name,
+        description: description,
+        members: members,
+        privacy: privacy,
       }
-      const response: any = await this.httpClient.post(`http://localhost:3001/api/groups`, body ).toPromise();
-      return response.status === 200;
-    } catch (error) {
-      console.error('Error al crear el grupo:', error);
-      return false;
+      return this.httpClient.post<any>(`http://localhost:3001/api/groups/${organizationId}/${activityId}`, body).pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError((error) => {
+          console.error('Error al realizar la solicitud de añadir la organización:', error);
+          return of(undefined);
+        })
+      );
     }
-  }
+
+
 
 }
+

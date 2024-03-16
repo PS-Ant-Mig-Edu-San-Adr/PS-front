@@ -2,9 +2,8 @@ export interface Activity {
     _id: any;
     name: string;
     description: string;
-    groups: [];
-    members: [];
-    roles: [],
+    groups: Group[];
+    members: Member[];
     privacy: string;
 }
 
