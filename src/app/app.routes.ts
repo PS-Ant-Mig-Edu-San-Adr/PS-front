@@ -13,6 +13,7 @@ import {CalendarPageComponent} from './calendar-page/calendar-page.component';
 import {ActivitiesComponent} from './activities/activities.component';
 import {NotAvailablePageComponent} from "./not-available-page/not-available-page.component"
 import {authGuard} from "./generalServices/auth-service/auth.guard";
+import {MiniCalendarComponent} from "./mini-calendar/mini-calendar.component";
 
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'organizations', component: OrganizationsComponent},
   {path: 'schedules', component: SchedulesComponent},
+  {path: 'minicalendar', component: MiniCalendarComponent},
   // ------------- Rutas protegidas -------------
   {path: 'admin', component: AdminAddEventComponent, canActivate: [authGuard]},
   {path: 'adminOrganizations', component: AdminOrganizationsComponent, canActivate: [authGuard]},
