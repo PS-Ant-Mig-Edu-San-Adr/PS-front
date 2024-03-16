@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, of } from 'rxjs';
-import { Organization } from '../interfaces/interface';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {catchError, map, Observable, of} from 'rxjs';
+import {Organization} from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,17 @@ export class OrganizationService {
 
   // Método para obtener una organización por su ID
   getOrganizationById(id: string): Observable<Organization> {
-    return this.http.get<Organization>(`${this.apiUrl}/organizaciones/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/organizaciones/byId/${id}`).pipe(
+      catchError(error => {
+        console.error("Error al obtener la organización por su ID:", error);
+        return of(undefined);
+      }),
+      map(response => {
+        if (response && response.success) {
+         return response.organizacion;
+        }
+      })
+    );
   }
 
   // Método para obtener una o más organizaciones por su nombre

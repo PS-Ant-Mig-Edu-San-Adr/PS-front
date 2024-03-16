@@ -22,6 +22,7 @@ h1 {
     margin-bottom: 40px;
     font-weight: 900;
     color: #504136;
+    font-size: x-large;
 }
 
 .organization-activity-header {
@@ -48,6 +49,14 @@ h1 {
     gap: 30px;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 40vh;
+}
+
+.organization-not-found {
+  margin: 100px auto; /* Ajusta el margen superior e inferior para centrarlo verticalmente */
+  width: 80%; /* Define el ancho del div */
+  text-align: center; /* Centra el texto horizontalmente */
+  padding: 20px; /* Agrega relleno para que el contenido no esté pegado a los bordes */
+
 }
 
 .activity {
@@ -93,6 +102,13 @@ h1 {
     padding: 10px;
     width: 70%;
 }
+
+.no-activities-message {
+  color: gray;
+  font-style: italic;
+  font-size: large;
+}
+
 
 .schedule-button {
     width: 100%;

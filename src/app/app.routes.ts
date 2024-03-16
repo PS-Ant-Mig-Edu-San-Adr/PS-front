@@ -32,6 +32,7 @@ export const routes: Routes = [
   {path: 'perfilInfo', component: PerfilInfoComponent},
   {path: 'perfilNotifications', component: PerfilNotificationsComponent},
   {path: 'calendar', component: CalendarPageComponent},
-  {path: 'activities', component: ActivitiesComponent},
+  {path: 'activities', component: ActivitiesComponent}, // Si no se añade un parametro de ID
+  {path: 'activities/:id', component: ActivitiesComponent}, // Añadir un parámetro de ID
   {path: 'notAvailable', component: NotAvailablePageComponent}
 ];

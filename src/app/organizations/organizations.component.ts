@@ -8,11 +8,12 @@ import {RegisterComponent} from '../register/register.component';
 import {AuthService} from "../generalServices/auth-service/auth.service";
 import {Organization} from "../interfaces/interface";
 import {OrganizationService} from "../generalServices/organization.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-organizations',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent],
+  imports: [CommonModule, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, RouterLink],
   providers: [SharedPopupsService],
   templateUrl: './organizations.component.html',
   styleUrl: './organizations.component.css'

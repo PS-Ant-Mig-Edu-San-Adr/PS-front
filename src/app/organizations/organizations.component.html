@@ -12,8 +12,9 @@
       </div>
       <div class="grid-organizations">
         <ng-container *ngFor="let organization of shownOrganizations">
-          <a href="/activities">
+
             <div class="organization">
+              <a [routerLink]="['/activities', organization._id]">
               <div class="content-organization">
                 <h1>{{ organization.name }}</h1>
                 <h2>Descripción</h2>
@@ -24,8 +25,9 @@
               <div class="img-organization">
                 <img [src]="organization.imageUrl" alt="">
               </div>
+              </a>
             </div>
-          </a>
+
         </ng-container>
       </div>
     </div>
