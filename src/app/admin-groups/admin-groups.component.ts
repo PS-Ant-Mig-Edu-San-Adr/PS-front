@@ -179,7 +179,7 @@ export class AdminGroupsComponent implements OnInit {
       alert('Please log in before modifying.');
       return;
     }
-
+/* 
     this.groupService.putGroup(userData.result).subscribe((res: any) => {
       if (res) {
         alert(res.details);
@@ -188,7 +188,7 @@ export class AdminGroupsComponent implements OnInit {
       }
     })
 
-
+*/
 
   }
 }
