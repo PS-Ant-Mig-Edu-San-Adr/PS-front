@@ -8,8 +8,8 @@ export interface Activity {
 }
 
 export interface Member {
+  _id: any;
   name: string | String;
-  _id: string;
   email: string | String;
   role: string;
   username: string | String;
@@ -34,7 +34,7 @@ export interface User {
   email: String,
   username: String
   passwordHash: String,
-  creationDate: String,
+  creationDate?: String,
   timeZone: String,
   preferredLanguage: String,
   notificationSettings: String,
@@ -50,23 +50,23 @@ export interface Recordatorio {
   startDate: Date;
   endDate: Date;
   description?: string;
-  type?: string;
-  color?: string;
-  repeat?: string;
+  type: string;
+  color: string;
+  repeat: string;
 }
 
 export interface Evento {
   _id: any;
   title: string;
   startDate: Date;
-  endDate: Date ;
-  description?: string;
+  endDate: Date;
+  description: string;
   location?: string;
-  type?: string;
-  color?: string;
-  repeat?: string;
+  type: string;
+  color: string;
+  repeat: string;
   notes?: string;
-  status?: string;
+  status: string;
   attachments?: string;
   group?: number;
 }
@@ -75,18 +75,14 @@ export interface Calendar {
   _id: any;
   userID: any;
   privacy: string;
-  events?: Evento[];
-  reminders?: Recordatorio[];
-}
-
-export interface Time {
-  startTime: Date;
-  endTime: Date;
+  events: Evento[];
+  reminders: Recordatorio[];
 }
 
 export interface Schedule {
-  days: any[];
-  times: Time[];
+  startTime: Date;
+  endTime: Date;
+  day: String;
 }
 
 
@@ -95,7 +91,7 @@ export interface Group {
   name: string;
   description: string;
   members: Member[];
-  events?: Evento[];
+  events: Evento[];
   privacy: string;
-  schedules?: any[];
+  schedules: Schedule[];
 }
