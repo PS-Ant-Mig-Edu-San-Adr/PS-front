@@ -10,48 +10,60 @@
                 <div class="content">
                     <app-admin-buttons [active]="active"></app-admin-buttons>
                     <div class="admin-content">
-                        <div class="event-filter">
-                            <div class="filter">
-                                <p><strong>ORGANIZACIONES</strong></p>
-                                <select name="organizations" id=""></select>
-                            </div>
-                            <div class="filter">
-                                <p><strong>ACTIVIDADES</strong></p>
-                                <select name="activities" id=""></select>
-                            </div>
-                            <div class="filter">
-                                <p><strong>GRUPOS</strong></p>
-                                <select name="groups" id=""></select>
-                            </div>
+                      <div class="event-filter">
+                        <div class="filter">
+                          <p><strong>ORGANIZACIONES</strong></p>
+                          <select #selectOrgElement (change)="loadActivity(selectOrgElement)">
+                            <option *ngFor="let organization of organizations" [value]="organization.name">
+                              {{ organization.name }}
+                            </option>
+                          </select>
                         </div>
+                        <div class="filter">
+                          <p><strong>ACTIVIDADES</strong></p>
+                          <select #selectActivityElement (change)="loadGroup(selectActivityElement)">
+                            <option *ngFor="let activity of activities" [ngClass]="activity.name">
+                              {{ activity.name }}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="filter">
+                          <p><strong>GRUPOS</strong></p>
+                          <select #selectGroupElement (change)="loadGroupInfo(selectGroupElement)">
+                            <option *ngFor="let group of groups" [ngClass]="group.name">
+                              {{ group.name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
                         <div class="event-description">
                             <div class="event-data">
                                 <p>Grupos Añadidos</p>
-                                <input type="text" name="added-groups" id=""  placeholder="Escriba el id de los grupos">
+                                <input type="text" name="added-groups" id="added-groups"   disabled>
                             </div>
                             <div class="event-data">
                                 <p>Titulo</p>
-                                <input type="text" name="event-title" id=""  placeholder="ej.: Examen Asignatura">
+                                <input type="text" name="event-title"   placeholder="ej.: Examen Asignatura">
                             </div>
                             <div class="event-data">
                                 <p>Descripción</p>
-                                <input type="text" name="event-description" id=""  placeholder="ej.: ...">
+                                <input type="text" name="event-description"   placeholder="ej.: ...">
                             </div>
                             <div class="event-data">
                                 <p>Inicio</p>
-                                <input type="datetime-local" name="event-start-date" id="">
+                                <input type="datetime-local" name="event-start-date" >
                             </div>
                             <div class="event-data">
                                 <p>Final</p>
-                                <input type="datetime-local" name="event-end-date" id="">
+                                <input type="datetime-local" name="event-end-date" >
                             </div>
                             <div class="event-data">
                                 <p>Ubicación</p>
-                                <input type="text" name="event-location" id=""  placeholder="ej.: Facultad de Ingeniería. Lab2-2">
+                                <input type="text" name="event-location"   placeholder="ej.: Facultad de Ingeniería. Lab2-2">
                             </div>
                             <div class="event-data">
                                 <p>Notas</p>
-                                <input type="text" name="event-notes" id=""  placeholder="ej.: Traer bolígrafo">
+                                <input type="text" name="event-notes"   placeholder="ej.: Traer bolígrafo">
                             </div>
                             <div class="event-data">
                                 <p>Adjuntar fichero</p>
@@ -75,8 +87,8 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button>Añadir Grupo</button>
-                    <button (click)="onAddGroupClick()">Enviar</button>
+                    <button (click) = onAddGroupClick()>Añadir Grupo</button>
+                    <button (click)="onSendClick()">Enviar</button>
                 </div>
             </div>
         </div>
@@ -86,7 +98,7 @@
         // Obtener elementos del DOM
         const fileInput = document.getElementById('file-input');
         const fileNameInput = document.getElementById('file-name');
-    
+
         // Agregar evento change al control de entrada de archivos
         fileInput.addEventListener('change', function() {
             const files = fileInput.files; // Obtener los archivos seleccionados
