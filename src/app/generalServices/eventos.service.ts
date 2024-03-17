@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Evento } from '../interfaces/interface';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Evento, Group} from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventosService {
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+  }
 
   async getEventos(username: string): Promise<Evento[]> {
     try {
@@ -36,6 +37,32 @@ export class EventosService {
     } catch (error) {
       console.error('Error al obtener los recordatorios:', error);
       return [];
+    }
+  }
+
+  // Método para agregar un evento con sus datos y un array de grupos
+  async addEvent(eventData: Evento, groups: Group[]): Promise<boolean> {
+    try {
+
+      // Luego, para cada grupo en el array de grupos, realizamos una solicitud para asociar el evento con el grupo
+      for (const group of groups) {
+        // Realizamos una solicitud para asociar el evento con el grupo actual
+        const addEventToGroupResponse: any = await this.httpClient.post(`http://localhost:3001/api/eventos/grupo/${group._id}`, eventData).toPromise();
+
+        console.log("addEventToGroupResponse", addEventToGroupResponse);
+        // Verificamos si la solicitud para asociar el evento con el grupo fue exitosa
+        if (!addEventToGroupResponse.success) {
+          // Si no fue exitosa, mostramos un mensaje de error y retornamos false
+          console.error('Error al asociar el evento con el grupo:', addEventToGroupResponse.message);
+          return false;
+        }
+      }
+        // Si todas las asociaciones con grupos fueron exitosas, retornamos true
+        return true;
+    } catch (error) {
+      // Si se produce un error durante el proceso, mostramos un mensaje de error y retornamos false
+      console.error('Error al agregar el evento:', error);
+      return false;
     }
   }
 

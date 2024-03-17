@@ -40,16 +40,6 @@
     position: relative;
 }
 
-.event-filter > *:nth-child(3) {
-    position: absolute;
-    right: 0;
-}
-
-.event-filter > *:nth-child(2) {
-    position: absolute;
-    left: 0;
-    right: 0;
-}
 
 .filter {
     text-align: center;
@@ -59,7 +49,7 @@
 .filter select {
     margin-top: 8px;
     width: 200px;
-    height: 30px;
+    height: fit-content;
 }
 
 .event-description {
@@ -74,7 +64,7 @@
     display: flex;
     flex-direction: row;
     gap: 100px;
-    width: 30%; 
+    width: fit-content;
     align-items: center;
 }
 
