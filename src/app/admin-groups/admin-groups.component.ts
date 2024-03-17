@@ -89,7 +89,7 @@ export class AdminGroupsComponent implements OnInit {
   }
 
   manageMembers() {
-    this.manageMembersService.openManageMembersPopup();
+    if (this.selectedOrganization && this.selectedActivity && this.selectedGroup) this.manageMembersService.openManageMembersPopup();
   }
 
   getData(){

@@ -4,8 +4,10 @@ import { ManageMembersService } from './manage-members-pop-up.component.service'
 import { AuthService } from '../generalServices/auth-service/auth.service';
 import { SessionStorageService } from 'angular-web-storage';
 import { FormsModule } from '@angular/forms';
-import { Member, Organization, User } from '../interfaces/interface';
+import { Activity, Group, Member, Organization, User } from '../interfaces/interface';
 import { OrganizationService } from '../generalServices/organization.service';
+import { ActivityService } from '../generalServices/activity.service';
+import { GroupService } from '../generalServices/group.service';
 
 @Component({
   selector: 'app-manage-members-pop-up',
@@ -17,7 +19,8 @@ import { OrganizationService } from '../generalServices/organization.service';
 
 export class ManageMembersPopUpComponent {
   constructor(private manageMembersService: ManageMembersService, private authService: AuthService, 
-    private sessionStorage: SessionStorageService, private organizationService: OrganizationService) {}
+    private sessionStorage: SessionStorageService, private organizationService: OrganizationService,
+    private activityService: ActivityService, private groupService: GroupService) {}
   @ViewChild('inputUserName', { static: false }) inputUsername!: ElementRef<HTMLInputElement>;
   @ViewChild('namesDropdown', { static: false }) namesDropdown!: ElementRef<HTMLSelectElement>;
   @ViewChild('icono', { static: false }) icono!: ElementRef<HTMLElement>;
@@ -25,10 +28,21 @@ export class ManageMembersPopUpComponent {
   users: User[] = [];
   username: string = '';
   inputUser: User | null = null;
+  usersAdded: Member[] = [];
+
   @Input() organization: Organization | undefined;
+  @Input() activity: Activity | undefined;
+  @Input() group: Group | undefined;
 
   ngOnInit() {
     this.username = this.sessionStorage.get('username');
+    if(this.organization && !this.activity && !this.group){
+      this.usersAdded = this.organization.members;
+    }else if(this.activity && this.organization && !this.group){
+      this.usersAdded = this.activity.members;
+    }else if(this.group && this.activity && this.organization){
+      this.usersAdded = this.group.members;
+    }
   }
 
   closeManageMembersPopup() {
@@ -37,7 +51,6 @@ export class ManageMembersPopUpComponent {
 
   async filterNames() {
     const filter = this.inputUsername.nativeElement.value.toUpperCase();
-    console.log(this.organization);
 
     if(this.inputUser){
       this.inputUser = null;
@@ -96,7 +109,7 @@ export class ManageMembersPopUpComponent {
   }
   
   addUser() {
-    if (this.organization) {
+    if (this.organization || this.activity || this.group) {
       const newMember: Member = {
         name: this.inputUser?.fullName || '',
         _id: this.inputUser?._id || '',
@@ -105,26 +118,26 @@ export class ManageMembersPopUpComponent {
         username: this.inputUser?.username || ''
       };
     
-      this.organization.members.push(newMember);
+      this.usersAdded.push(newMember);
+      
       this.modifyMembers();
     }
   }
   
   removeUser() {
-    if (this.organization) {
-      this.organization.members = this.organization.members.filter(member => member.username !== this.inputUser?.username);
-    }
+    this.usersAdded = this.usersAdded.filter(member => member.username !== this.inputUser?.username);
 
     this.modifyMembers();
   }
 
   modifyMembers() {
-    if (this.organization) {
-      
-      const body = {
-        members: this.organization.members
-      };
 
+    const body = {
+      members: this.usersAdded
+    };
+
+    if (this.organization && !this.activity && !this.group) {
+      
       this.organizationService.putOrganization(this.organization, body).subscribe((res) => {
         if (res) {
           console.log('Usuario añadido');
@@ -132,28 +145,40 @@ export class ManageMembersPopUpComponent {
           console.log('Error al añadir usuario');
         }
       });
+    } else if (this.activity && this.organization && !this.group) {
+
+      this.activityService.updateMembersActivity(this.organization?._id, this.activity?._id, body).subscribe((res) => {
+        if (res) {
+          console.log('Usuario añadido');
+        } else {
+          console.log('Error al añadir usuario');
+        }
+      });
+    } else {
+      if (this.group && this.activity && this.organization) {
+
+        this.groupService.putGroupMembers(this.organization._id, this.activity._id, this.group._id, body).subscribe((res) => {
+          if (res) {
+            console.log('Usuario añadido');
+          } else {
+            console.log('Error al añadir usuario');
+          }
+        });
+      }
     }
   }
 
   changeRole(member: Member, RolSelect: any) {
-    console.log(member);
     member.role = RolSelect.target.value;
-  
     this.modifyMembers();
   }
 
-  checkIfUserIsAdmin(user: User | Member){
-    if(this.organization){
-      return this.organization.members.filter(member => member.username === user.username)[0].role === 'admin';
-    }
-    return false;
+  checkIfUserIsAdmin(user: User | Member) : boolean{
+    return this.usersAdded.filter(member => member.username === user.username)[0].role === 'admin';
   
   }
 
-  checkOrganizationMembership(user: User){
-    if(this.organization){
-      return this.organization.members.filter(member => member.username === user.username).length > 0;
-    }
-    return false;
+  checkOrganizationMembership(user: User) : boolean{
+    return this.usersAdded.filter(member => member.username === user.username).length > 0;
   }
 }

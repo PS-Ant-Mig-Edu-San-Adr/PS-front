@@ -85,7 +85,7 @@ export interface Time {
 }
 
 export interface Schedule {
-  days: any[]; // Aquí deberías definir el tipo correcto para los días (por ejemplo: string[])
+  days: any[];
   times: Time[];
 }
 
@@ -94,9 +94,8 @@ export interface Group {
   _id: any;
   name: string;
   description: string;
-  members?: any[];
-  events?: any[];
-  roles?: any[];
+  members: Member[];
+  events?: Evento[];
   privacy: string;
   schedules?: any[];
 }

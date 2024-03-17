@@ -1,7 +1,7 @@
 <div>
     <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
     <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
-    <app-manage-members-pop-up *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
+    <app-manage-members-pop-up [organization]="selectedOrganization" [activity]="selectedActivity" [group]="selectedGroup" *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
     <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <app-header></app-header>
 

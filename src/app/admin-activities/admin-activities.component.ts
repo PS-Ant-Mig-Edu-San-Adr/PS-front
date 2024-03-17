@@ -65,11 +65,12 @@ export class AdminActivitiesComponent implements  OnInit {
   }
 
   GroupAddPopup(){
-    this.addGroup.openGroupAddPopup();
+    if(this.selectedOrganization && this.selectedActivity) this.addGroup.openGroupAddPopup();
   }
 
   manageMembers() {
-    this.manageMembersService.openManageMembersPopup();
+    if(this.selectedOrganization && this.selectedActivity) this.manageMembersService.openManageMembersPopup();
+    
   }
 
   getData(){
@@ -100,6 +101,10 @@ export class AdminActivitiesComponent implements  OnInit {
         this.inputName.nativeElement.value = selectedAct.name;
         this.inputDescription.nativeElement.value = selectedAct.description;
         this.selectedActivity = selectedAct;
+    }else{
+      this.inputName.nativeElement.value = "";
+      this.inputDescription.nativeElement.value = "";
+      this.selectedActivity = undefined;
     }
   }
 
