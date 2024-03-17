@@ -53,16 +53,29 @@
 }
 
 .long {
-    grid-row: span 15;
+    grid-row: span 20;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     text-align: center;
+    background-color: #50413655;
+    color: rgba(0, 0, 0, 0.657);
 }
 
 .short {
     height: 9vw;
-    grid-row: span 1;
+    grid-row: span 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(95, 158, 160, 0.201);
+    color: #504136;
+}
+
+.long img{
+    object-fit: cover;
+    margin: 20px;
+
 }
 
 .card-header {
@@ -74,10 +87,8 @@
 
 .card-body {
     padding: 10px 5px;
-    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     text-align: center;
 }
 
@@ -93,21 +104,6 @@
     display: block;
     padding: 20px 20px 20px 20px;
     border-radius: 40px;
-}
-
-.home-cards-grid > :nth-child(1) {
-    background-color: #504136ab;
-    color: white;
-}
-
-.home-cards-grid > :nth-child(2), .home-cards-grid > :nth-child(4) {
-    background-color: rgba(95, 158, 160, 0.201);
-    color: #504136;
-}
-
-.home-cards-grid > :nth-child(3) {
-    background-color: #50413655;
-    color: white;
 }
 
 .home-stats{
