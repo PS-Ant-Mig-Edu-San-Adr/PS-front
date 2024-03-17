@@ -59,7 +59,7 @@ export interface Evento {
   _id: any;
   title: string;
   startDate: Date;
-  endDate: Date;
+  endDate: Date ;
   description?: string;
   location?: string;
   type?: string;

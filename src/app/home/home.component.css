@@ -49,7 +49,6 @@
     z-index: 10;
     transform: scale(1.05);
     transition: filter 0.5s ease, transform 0.3s ease, z-index 0s;
-    border: 2px solid black;
 }
 
 .long {
@@ -191,12 +190,12 @@
 
 @media screen and (min-width: 1500px) {
     .card-header {
-        font-weight: 900; 
-        font-size: x-large; 
+        font-weight: 900;
+        font-size: x-large;
     }
 
     .card-body {
-        font-weight: 600; 
-        font-size: larger; 
+        font-weight: 600;
+        font-size: larger;
     }
 }

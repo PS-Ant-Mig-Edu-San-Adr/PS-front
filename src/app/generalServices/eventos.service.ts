@@ -30,6 +30,7 @@ export class EventosService {
           attachments: event.attachments,
           group: event.group
         }));
+
         return eventos;
       } else {
         return [];
@@ -41,7 +42,7 @@ export class EventosService {
   }
 
   // Método para agregar un evento con sus datos y un array de grupos
-  async addEvent(eventData: Evento, groups: Group[]): Promise<boolean> {
+  async addEvent(eventData: any, groups: Group[]): Promise<boolean> {
     try {
 
       // Luego, para cada grupo en el array de grupos, realizamos una solicitud para asociar el evento con el grupo

@@ -97,6 +97,7 @@ export class CalendarComponent implements OnInit {
     const eventos = await this.eventoService.getEventos(this.username);
     const recordatorios = await this.recordatorioService.getRecordatorios(this.username);
     this.eventos = [...eventos, ...recordatorios];
+    console.log('eventos', this.eventos);
   }
 
   diaDelMesEnSemanaActual(diaDeLaSemana: number) {
@@ -125,10 +126,6 @@ export class CalendarComponent implements OnInit {
          fecha1.getMonth() === fecha2.getMonth() &&
          fecha1.getFullYear() === fecha2.getFullYear();
     };
-
-
-
-
 
     switch (vista) {
       case 'dia':

@@ -1,6 +1,9 @@
 // admin-event-data-collector.ts
+
+import {eventTupleToStore} from "@fullcalendar/core/internal";
+
 export class AdminEventDataCollector {
-  static collectEventData(): any {
+  static collectEventData() {
 
     // Get references to HTML elements
     const eventAddedGroups = document.querySelector('input[name="added-groups"]') as HTMLInputElement;
@@ -14,17 +17,18 @@ export class AdminEventDataCollector {
     const selectRepeat = document.querySelector('select[name="event-repeat"]') as HTMLSelectElement;
 
     // Collect the data
-    const eventData = {
+    const eventData  = {
       addedGroups: eventAddedGroups?.value,
       title: eventTitle?.value,
       description: eventDescription?.value,
-      start: eventStart?.value,
-      end: eventEnd?.value,
+      startDate: eventStart?.value,
+      endDate: eventEnd?.value,
       location: eventLocation?.value,
       notes: eventNotes?.value,
-      attachFile: eventAttachFile?.value,
+      attachments: eventAttachFile?.value,
       repeat: selectRepeat?.value
     };
+
 
     console.log('Event Data:', eventData);
 
@@ -38,7 +42,7 @@ export class AdminEventDataCollector {
   private static validateFormFields(eventData: any): boolean {
     // Check if any required field is missing
     return !(!eventData || !eventData.addedGroups || !eventData.title || !eventData.description ||
-      !eventData.start || !eventData.end || !eventData.location);
+      !eventData.startDate || !eventData.endDate || !eventData.location || !eventData.repeat);
 
   }
 

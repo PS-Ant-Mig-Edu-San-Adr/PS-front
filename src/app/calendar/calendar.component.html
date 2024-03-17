@@ -28,14 +28,14 @@
                   <a (click)="showDetailsFunction(evento)">{{ evento.title }}</a>
                   <div *ngIf="evento.type === 'recordatorio'" class="evento-buttons">
                     <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
-                    <button (click)="editReminderFunction(evento)"><i class="fas fa-pencil-alt"></i></button>
+                    <button (click)="editReminderFunction(evento )"><i class="fas fa-pencil-alt"></i></button>
                   </div>
                 </div>
               </ng-container>
             </div>
           </div>
         </div>
-          
+
 
         <div *ngIf="vistaActual === 'semana'" class="vista-semana">
           <div class="fila fila-dias-semana">
@@ -48,7 +48,7 @@
               <div class="contenido">
                 <button class="dia-button" (click)="addReminderFunction({dia: i, hora: hora, type: 'semana'})"><i class="fas fa-plus"></i></button>
                 <ng-container *ngFor="let evento of eventos">
-                  <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', diaDelMesEnSemanaActual(i))"> 
+                  <div class="evento" [style.background-color]="evento.color" *ngIf="seMuestraEvento(evento, hora, 'semana', diaDelMesEnSemanaActual(i))">
                     <a (click)="showDetailsFunction(evento)">{{ evento.title }}</a>
                     <div *ngIf="evento.type === 'recordatorio'" class="evento-buttons">
                       <button (click)="eliminarEvento(evento)"><i class="fas fa-trash"></i></button>
@@ -60,10 +60,10 @@
             </ng-container>
           </div>
         </div>
-          
-          
-          
-          
+
+
+
+
         <div *ngIf="vistaActual === 'mes'" class="dias">
           <div *ngFor="let dia of diasMes" [ngClass]="dia.type" class="dia">
             <div class="dia-container">
@@ -81,8 +81,8 @@
             </ng-container>
           </div>
         </div>
-          
-          
+
+
 
     </div>
 </div>
