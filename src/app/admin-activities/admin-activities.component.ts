@@ -11,11 +11,16 @@ import {ManageMembersPopUpComponent} from '../manage-members-pop-up/manage-membe
 import {GroupAddPopUpComponent} from '../group-add-pop-up/group-add-pop-up.component';
 import {GroupAddPopUpService} from '../group-add-pop-up/group-add-pop-up.service';
 import {AuthService} from "../generalServices/auth-service/auth.service";
-import { Activity, Organization, User } from '../interfaces/interface';
-import { OrganizationService } from '../generalServices/organization.service';
-import { SessionStorageService } from 'angular-web-storage';
-import { ActivityService } from '../generalServices/activity.service';
-import { Observable, map, of } from 'rxjs';
+import {Activity, Organization, User} from '../interfaces/interface';
+import {OrganizationService} from '../generalServices/organization.service';
+import {SessionStorageService} from 'angular-web-storage';
+import {ActivityService} from '../generalServices/activity.service';
+import {Observable, map, of} from 'rxjs';
+
+
+interface OrganizationActivityMap {
+  [organizationId: string]: Activity[];
+}
 
 @Component({
   selector: 'app-admin-activities',
@@ -25,19 +30,23 @@ import { Observable, map, of } from 'rxjs';
   templateUrl: './admin-activities.component.html',
   styleUrl: './admin-activities.component.css'
 })
-export class AdminActivitiesComponent implements  OnInit {
+export class AdminActivitiesComponent implements OnInit {
   constructor(public addGroup: GroupAddPopUpService, protected authService: AuthService,
               public manageMembersService: ManageMembersService, public sharedService: SharedPopupsService,
               private organizationService: OrganizationService,
               private sessionStorageService: SessionStorageService,
-              private activityService: ActivityService) {}
+              private activityService: ActivityService) {
+  }
+
   active: number = 3;
   organizations: Organization[] = [];
   activities: Activity[] = [];
   selectedOrganization: Organization | undefined = undefined;
   selectedActivity: Activity | undefined = undefined;
   user: User | undefined = undefined;
-  
+  shownActivitiesAndOrganizations: OrganizationActivityMap = {};
+
+
   @ViewChild('inputName', {static: false}) inputName!: ElementRef<HTMLInputElement>;
   @ViewChild('inputDescription', {static: false}) inputDescription!: ElementRef<HTMLTextAreaElement>;
 
@@ -46,14 +55,16 @@ export class AdminActivitiesComponent implements  OnInit {
 
     this.getData();
 
+    console.log("ShownActivitiesAndOrganizations: ", this.shownActivitiesAndOrganizations);
+
     this.authService.getUser(this.sessionStorageService.get("username")).subscribe((user: User | undefined) => {
       this.user = user;
     });
 
-    this.sharedService.authService.isLoginOpen$() .subscribe((success: boolean) => {
+    this.sharedService.authService.isLoginOpen$().subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
-    this.sharedService.authService.isRegisterOpen$() .subscribe((success: boolean) => {
+    this.sharedService.authService.isRegisterOpen$().subscribe((success: boolean) => {
       this.sharedService.toggleWrapperContainerStyles(success);
     });
     this.sharedService.manageMembersService.isOpen$.subscribe((success: boolean) => {
@@ -64,67 +75,75 @@ export class AdminActivitiesComponent implements  OnInit {
     });
   }
 
-  GroupAddPopup(){
-    if(this.selectedOrganization && this.selectedActivity) this.addGroup.openGroupAddPopup();
+  GroupAddPopup() {
+    if (this.selectedOrganization && this.selectedActivity) this.addGroup.openGroupAddPopup();
   }
 
   manageMembers() {
-    if(this.selectedOrganization && this.selectedActivity) this.manageMembersService.openManageMembersPopup();
-    
+    if (this.selectedOrganization && this.selectedActivity) this.manageMembersService.openManageMembersPopup();
+
   }
 
-  getData(){
-    this.organizationService.getOrganizationsByUsername(this.sessionStorageService.get("username")).subscribe(data => {
-      this.organizations = data.organizations;
-      this.activities = this.organizations[0].activities;
-      this.selectedActivity = this.activities[0];
-      this.inputName.nativeElement.value = this.activities[0].name;
-      this.inputDescription.nativeElement.value = this.activities[0].description;
-      this.selectedOrganization = this.organizations[0];
+  getData() {
+    this.activityService.getActivitiesByUsername(this.sessionStorageService.get("username")).subscribe(activities => {
+      activities.forEach((activity: Activity) => {
+        this.organizationService.getOrganizationById(activity.parentOrganization).subscribe((organization: Organization) => {
+          this.organizations.push(organization);
+          this.shownActivitiesAndOrganizations.hasOwnProperty(organization._id) ? this.shownActivitiesAndOrganizations[organization._id].push(activity) :  this.shownActivitiesAndOrganizations[organization._id] = [activity];
+
+          this.activities = this.shownActivitiesAndOrganizations[this.organizations[0]._id];
+
+          this.selectedActivity = this.activities[0];
+          this.inputName.nativeElement.value = this.activities[0].name;
+          this.inputDescription.nativeElement.value = this.activities[0].description;
+          this.selectedOrganization = this.organizations[0];
+
+        });
+      });
     });
   }
 
-  loadActivity(selectElement: HTMLSelectElement){
+  loadActivity(selectElement: HTMLSelectElement) {
     const selectedIndex_org = selectElement.selectedIndex;
     const selectedOrg = this.organizations[selectedIndex_org];
-    this.activities = selectedOrg.activities;
+    this.activities = this.shownActivitiesAndOrganizations[selectedOrg._id];
     this.inputName.nativeElement.value = this.activities[0].name;
     this.inputDescription.nativeElement.value = this.activities[0].description;
     this.selectedOrganization = selectedOrg;
     this.selectedActivity = this.selectedOrganization.activities[0];
   }
 
-  loadActivityInfo(selectElement: HTMLSelectElement){
+  loadActivityInfo(selectElement: HTMLSelectElement) {
     const selectedActName = selectElement.value;
     const selectedAct = this.activities.find((activity: Activity) => activity.name === selectedActName);
     if (selectedAct) {
-        this.inputName.nativeElement.value = selectedAct.name;
-        this.inputDescription.nativeElement.value = selectedAct.description;
-        this.selectedActivity = selectedAct;
-    }else{
+      this.inputName.nativeElement.value = selectedAct.name;
+      this.inputDescription.nativeElement.value = selectedAct.description;
+      this.selectedActivity = selectedAct;
+    } else {
       this.inputName.nativeElement.value = "";
       this.inputDescription.nativeElement.value = "";
       this.selectedActivity = undefined;
     }
   }
 
-  checkEmpty(): boolean{
-    if(!this.inputName.nativeElement.value){
+  checkEmpty(): boolean {
+    if (!this.inputName.nativeElement.value) {
       alert("Por favor, inserte un título para la actividad.");
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
-  SaveChanges(){
-    if(!this.checkEmpty()){
+  SaveChanges() {
+    if (!this.checkEmpty()) {
       const activity = this.activities.find((activity: Activity) => activity.name === this.inputName.nativeElement.value);
-      if(activity){
+      if (activity) {
         alert("La actividad ya existe");
-      }else {
+      } else {
         this.putActivity().subscribe(result => {
-          if(result) this.getData();
+          if (result) this.getData();
         });
       }
     }
@@ -133,7 +152,7 @@ export class AdminActivitiesComponent implements  OnInit {
   putActivity(): Observable<boolean> {
     const activity_name = this.inputName.nativeElement.value as string;
     const activity_description = this.inputDescription.nativeElement.value as string;
-  
+
     return this.activityService.updateActivity(this.selectedOrganization?._id, this.selectedActivity?._id, activity_name, activity_description)
       .pipe(
         map((res: any) => {
@@ -148,7 +167,8 @@ export class AdminActivitiesComponent implements  OnInit {
       );
   }
 
-  @ViewChild('inputNoActive', { static: false }) inputNoActive!: ElementRef;
+  @ViewChild('inputNoActive', {static: false}) inputNoActive!: ElementRef;
+
   toggleEditMode(inputElement: HTMLInputElement) {
     if (inputElement) {
       const inputId = inputElement.getAttribute('class');

@@ -93,7 +93,28 @@ export class ActivityService {
         return of(undefined);
       })
     );
-    
+
   }
 
+  getActivitiesByUsername(username: any): Observable<Activity[]> {
+    return this.http.get<any>(`${this.apiUrl}/activities/${username}`).pipe(
+      map((response: any) => {
+        if (response && response.success && response.activities) {
+          // Mapear la respuesta a un array de Activity
+          return response.activities.map((activity: any) => ({
+            _id: activity._id,
+            parentOrganization: activity.parentOrganization,
+            name: activity.name,
+            description: activity.description,
+            groups: activity.groups,
+            members: activity.members,
+            privacy: activity.privacy
+          }));
+        } else {
+          // Si no se encontraron actividades, devolver un array vacío
+          return [];
+        }
+      })
+    );
+  }
 }

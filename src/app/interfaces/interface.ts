@@ -1,5 +1,6 @@
 export interface Activity {
     _id: any;
+    parentOrganization: any;
     name: string;
     description: string;
     groups: Group[];
