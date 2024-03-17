@@ -36,6 +36,8 @@ export class AdminAddEventComponent implements OnInit {
               private sessionStorageService: SessionStorageService) {
   }
 
+  @Input() fileName: string = '';
+
   organizations: Organization[] = [];
   activities: Activity[] = [];
   groups: Group[] = [];
@@ -43,7 +45,6 @@ export class AdminAddEventComponent implements OnInit {
   selectedActivity: Activity | undefined = undefined;
   selectedGroup: Group | undefined = undefined;
   active: number = 0;
-  // Nueva propiedad para almacenar los grupos seleccionados con la estructura completa
   selectedGroupsData: Group[] = [];
 
   ngOnInit() {
@@ -108,25 +109,22 @@ export class AdminAddEventComponent implements OnInit {
 
 
   onSendClick(): void {
-    // Collect event data
+
     const eventData = AdminEventDataCollector.collectEventData();
 
-    // Check if all required fields are filled
-    if (!eventData) {
-      alert('Please complete all required fields.');
-      return;
+
+    if (!eventData.result) {
+      alert(eventData.details);
     }
 
-    // Define the username and the URL for the POST request
     const username = this.sessionStorageService.get('username');
     if (!username) {
       alert('Please log in before adding an event.');
       return;
     }
 
-    console.log("EventData:", eventData, " Username:", username);
 
-    this.eventsService.addEvent(eventData, this.selectedGroupsData).then((success: boolean) => {
+    this.eventsService.addEvent(eventData.result, this.selectedGroupsData).then((success: boolean) => {
       if (success) {
         alert('Event successfully added.');
       } else {
@@ -134,7 +132,6 @@ export class AdminAddEventComponent implements OnInit {
       }
     });
   }
-  @Input() fileName: string = '';
 
 
   onFileSelected(event: any) {
@@ -153,39 +150,34 @@ export class AdminAddEventComponent implements OnInit {
   }
 
   private isValidFileType(file: File): boolean {
-    const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']; // Tipos MIME para PDF y DOCX
+    const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     return allowedTypes.includes(file.type);
   }
 
   onAddGroupClick() {
-    // Verificar si se ha seleccionado un grupo
+
     if (!this.selectedGroup || !this.selectedOrganization || !this.selectedActivity) {
       alert('Por favor, seleccione una organización, una actividad y un grupo antes de añadirlo.');
       return;
     }
 
-    // Obtener el elemento div "Grupos Añadidos"
     const addedGroupsInput = document.getElementById('added-groups') as HTMLInputElement;
 
-    // Obtener el nombre del grupo seleccionado
     const OrganizationName = this.selectedOrganization.name;
     const activityName = this.selectedActivity.name;
     const groupName = this.selectedGroup.name;
 
-    // Verificar si el grupo ya ha sido añadido
     if (addedGroupsInput.value.includes(OrganizationName + '_' + activityName + '_' + groupName)) {
       alert('El grupo seleccionado ya ha sido añadido.');
       return;
     }
 
-    // Agregar el grupo al array de grupos seleccionados
     this.selectedGroupsData.push(this.selectedGroup);
 
-    // Agregar el nombre del grupo al input "Grupos Añadidos"
-    if (addedGroupsInput.value) { // Verificar si ya hay algún texto
-      addedGroupsInput.value += ", " + OrganizationName + '_' + activityName + '_' + groupName; // Agregar coma antes del nuevo grupo
+    if (addedGroupsInput.value) {
+      addedGroupsInput.value += ", " + OrganizationName + '_' + activityName + '_' + groupName;
     } else {
-      addedGroupsInput.value = OrganizationName + '_' + activityName + '_' + groupName; // Agregar el nombre del grupo sin coma
+      addedGroupsInput.value = OrganizationName + '_' + activityName + '_' + groupName;
     }
 
   }
