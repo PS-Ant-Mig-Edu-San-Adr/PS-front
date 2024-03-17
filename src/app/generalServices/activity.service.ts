@@ -117,4 +117,17 @@ export class ActivityService {
       })
     );
   }
+
+  getActivityById(organizationId: string, activityId: string): Observable<Activity> {
+    return this.http.get<any>(`${this.apiUrl}/activities/${organizationId}/${activityId}`).pipe(
+      map((response: any) => {
+        if (response && response.success && response.activity) {
+          return response.activity;
+        } else {
+          return undefined;
+        }
+      })
+    );
+  }
+
 }

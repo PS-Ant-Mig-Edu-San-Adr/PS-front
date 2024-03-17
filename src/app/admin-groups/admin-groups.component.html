@@ -17,15 +17,15 @@
                                 <select #selectOrgElement (change)="loadActivity(selectOrgElement)">
                                     <option *ngFor="let organization of organizations" [value]="organization.name">
                                         {{ organization.name }}
-                                    </option>                                
+                                    </option>
                                 </select>
                             </div>
                             <div class="filter">
                                 <p><strong>ACTIVIDADES</strong></p>
                                 <select #selectActivityElement (change)="loadGroup(selectActivityElement)">
-                                    <option *ngFor="let activity of activities" [ngClass]="activity.name">
+                                    <option *ngFor="let activity of shownActivities" [ngClass]="activity.name">
                                         {{ activity.name }}
-                                    </option>    
+                                    </option>
                                 </select>
                             </div>
                             <div class="filter">
@@ -33,7 +33,7 @@
                                 <select #selectGroupElement (change)="loadGroupInfo(selectGroupElement)">
                                     <option *ngFor="let group of groups" [ngClass]="group.name">
                                         {{ group.name }}
-                                    </option>    
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -85,8 +85,8 @@
                                                 <td class="checkbox-cell" (click)="updateTable($event, i)" id="viernes" [class.checked]="result[i].dias[4]"></td>
                                                 <td class="checkbox-cell" (click)="updateTable($event, i)" id="sabado" [class.checked]="result[i].dias[5]"></td>
                                                 <td class="checkbox-cell" (click)="updateTable($event, i)" id="domingo" [class.checked]="result[i].dias[6]"></td>
-                                                
-                                                                                    
+
+
                                                 <td class="checkbox-cell" (click)="deleteRow(i)" id="delete-row">
                                                     <div>
                                                         <i class="fa fa-minus"></i>
@@ -95,10 +95,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    
+
                                     <div class="add-row"><i class="fa fa-minus"></i><i class="fa fa-plus" (click)="addRow()"></i></div>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>

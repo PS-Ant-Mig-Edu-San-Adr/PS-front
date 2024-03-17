@@ -88,6 +88,8 @@ export interface Schedule {
 
 
 export interface Group {
+  parentOrganization: any;
+  parentActivity: any;
   _id: any;
   name: string;
   description: string;

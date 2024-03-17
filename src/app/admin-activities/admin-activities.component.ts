@@ -93,10 +93,10 @@ export class AdminActivitiesComponent implements OnInit {
 
           this.activities = this.shownActivitiesAndOrganizations[this.organizations[0]._id];
 
+          this.selectedOrganization = this.organizations[0];
           this.selectedActivity = this.activities[0];
           this.inputName.nativeElement.value = this.activities[0].name;
           this.inputDescription.nativeElement.value = this.activities[0].description;
-          this.selectedOrganization = this.organizations[0];
 
         });
       });

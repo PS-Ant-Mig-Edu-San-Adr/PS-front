@@ -34,7 +34,7 @@ export class GroupService {
       return false;
     }
   }
-  
+
   putGroup(description: string, schedules:any, name: string, organizationId: string, activityId: string, groupId: string): Observable<any> {
 
     const body = {
@@ -46,7 +46,7 @@ export class GroupService {
       map((res: any) => {
         console.log(res);
         return res;
-        
+
       }),
       catchError((error) => {
         console.error('Error al realizar la solicitud de modificar la organización:', error);
@@ -61,7 +61,7 @@ export class GroupService {
       map((res: any) => {
         console.log(res);
         return res;
-        
+
       }),
       catchError((error) => {
         console.error('Error al realizar la solicitud de modificar la organización:', error);
@@ -89,6 +89,30 @@ export class GroupService {
     }
 
 
+  getGroupsByUsername(username: any): Observable<Group[]> {
+    return this.httpClient.get(`http://localhost:3001/api/groups/${username}`).pipe(
+      map((res: any) => {
+        if (res && res.success && res.groups) {
+          return res.groups.map((group: any) => {
+            return {
+              parentOrganization: group.parentOrganization,
+              parentActivity: group.parentActivity,
+              _id: group._id,
+              name: group.name,
+              description: group.description,
+              members: group.members,
+              events: group.events,
+              privacy: group.privacy,
+              schedules: group.schedules
+            };
+          });
+        } else {
+          // Si no se encontraron actividades, devolver un array vacío
+          return [];
+        }
+      })
+    );
+  }
+
 
 }
-
