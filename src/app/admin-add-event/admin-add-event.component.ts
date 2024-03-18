@@ -115,6 +115,7 @@ export class AdminAddEventComponent implements OnInit {
 
     if (!eventData.result) {
       alert(eventData.details);
+      return;
     }
 
     const username = this.sessionStorageService.get('username');
