@@ -1,113 +1,113 @@
 <div>
-    <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
-    <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
-    <app-manage-members-pop-up [organization]="selectedOrganization" [activity]="selectedActivity" [group]="selectedGroup" *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
-    <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
-        <app-header></app-header>
+  <app-login *ngIf="authService.isLoginOpen$()  | async"></app-login>
+  <app-register *ngIf="authService.isRegisterOpen$()  | async"></app-register>
+  <app-manage-members-pop-up [organization]="selectedOrganization" [activity]="selectedActivity" [group]="selectedGroup" *ngIf="manageMembersService.isOpen$ | async"></app-manage-members-pop-up>
+  <div id="wrapper-container" style="display: flex; flex-direction: column; min-height: 100vh;">
+    <app-header></app-header>
 
-        <div class="admin-container">
-            <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
-            <div class="admin-add-event-content-container">
-                <div class="content">
-                    <app-admin-buttons [active]="active"></app-admin-buttons>
-                    <div class="admin-content">
-                        <div class="event-filter">
-                            <div class="filter">
-                                <p><strong>ORGANIZACIONES</strong></p>
-                                <select #selectOrgElement (change)="loadActivity(selectOrgElement)">
-                                    <option *ngFor="let organization of organizations" [value]="organization.name">
-                                        {{ organization.name }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="filter">
-                                <p><strong>ACTIVIDADES</strong></p>
-                                <select #selectActivityElement (change)="loadGroup(selectActivityElement)">
-                                    <option *ngFor="let activity of shownActivities" [ngClass]="activity.name">
-                                        {{ activity.name }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="filter">
-                                <p><strong>GRUPOS</strong></p>
-                                <select #selectGroupElement (change)="loadGroupInfo(selectGroupElement)">
-                                    <option *ngFor="let group of groups" [ngClass]="group.name">
-                                        {{ group.name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="event-description">
-                            <div class="event-data">
-                                <p>Titulo</p>
-                                <div class="input-container">
-                                    <input type="text" name="" class="noactive" id="input-titulo" #inputName placeholder="ej.: Producción de Software" readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputName)"></i>
-                                </div>
-                            </div>
-                            <div class="event-data">
-                                <p>Descripción</p>
-                                <div class="input-container">
-                                    <input type="text" name=""  class="noactive"  id="input-descripcion"  #inputDescription placeholder="ej.: ..." readonly>
-                                    <i class="fa fa-pencil" (click)="toggleEditMode(inputDescription)"></i>
-                                </div>
-                            </div>
-                            <div class="event-data-horario">
-                                <p>Horario</p>
-                                <br>
-                                <div class="table-container">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Horas</th>
-                                                <th>Lunes</th>
-                                                <th>Martes</th>
-                                                <th>Miércoles</th>
-                                                <th>Jueves</th>
-                                                <th>Viernes</th>
-                                                <th>Sábado</th>
-                                                <th>Domingo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let row of rows; let i = index">
-                                                <th>
-                                                    <div class="time-interval-input">
-                                                        <input type="time" name="hora_inicio_{{i}}" [(ngModel)]="row.startTime">
-                                                        <p>-</p>
-                                                        <input type="time" name="hora_fin_{{i}}" [(ngModel)]="row.endTime">
-                                                    </div>
-                                                </th>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="lunes" [class.checked]="result[i].dias[0]"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="martes" [class.checked]="result[i].dias[1]"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="miercoles" [class.checked]="result[i].dias[2]"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="jueves" [class.checked]="result[i].dias[3]"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="viernes" [class.checked]="result[i].dias[4]"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="sabado" [class.checked]="result[i].dias[5]"></td>
-                                                <td class="checkbox-cell" (click)="updateTable($event, i)" id="domingo" [class.checked]="result[i].dias[6]"></td>
-
-
-                                                <td class="checkbox-cell" (click)="deleteRow(i)" id="delete-row">
-                                                    <div>
-                                                        <i class="fa fa-minus"></i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <div class="add-row"><i class="fa fa-minus"></i><i class="fa fa-plus" (click)="addRow()"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="buttons">
-                    <button (click)="manageMembers()">Gestionar miembros</button>
-                    <button (click)="putGroup()">Guardar</button>
-                </div>
+    <div class="admin-container">
+      <h1>PLATAFORMA DE ADMINISTRACIÓN</h1>
+      <div class="admin-add-event-content-container">
+        <div class="content">
+          <app-admin-buttons [active]="active"></app-admin-buttons>
+          <div class="admin-content">
+            <div class="event-filter">
+              <div class="filter">
+                <p><strong>ORGANIZACIONES</strong></p>
+                <select #selectOrgElement (change)="loadActivity(selectOrgElement)">
+                  <option *ngFor="let organization of organizations" [value]="organization.name">
+                    {{ organization.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="filter">
+                <p><strong>ACTIVIDADES</strong></p>
+                <select #selectActivityElement (change)="loadGroup(selectActivityElement)">
+                  <option *ngFor="let activity of activities" [ngClass]="activity.name">
+                    {{ activity.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="filter">
+                <p><strong>GRUPOS</strong></p>
+                <select #selectGroupElement (change)="loadGroupInfo(selectGroupElement)">
+                  <option *ngFor="let group of groups" [ngClass]="group.name">
+                    {{ group.name }}
+                  </option>
+                </select>
+              </div>
             </div>
+            <div class="event-description">
+              <div class="event-data">
+                <p>Titulo</p>
+                <div class="input-container">
+                  <input type="text" name="" class="noactive" id="input-titulo" #inputName placeholder="ej.: Producción de Software" readonly>
+                  <i class="fa fa-pencil" (click)="toggleEditMode(inputName)"></i>
+                </div>
+              </div>
+              <div class="event-data">
+                <p>Descripción</p>
+                <div class="input-container">
+                  <input type="text" name=""  class="noactive"  id="input-descripcion"  #inputDescription placeholder="ej.: ..." readonly>
+                  <i class="fa fa-pencil" (click)="toggleEditMode(inputDescription)"></i>
+                </div>
+              </div>
+              <div class="event-data-horario">
+                <p>Horario</p>
+                <br>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                    <tr>
+                      <th>Horas</th>
+                      <th>Lunes</th>
+                      <th>Martes</th>
+                      <th>Miércoles</th>
+                      <th>Jueves</th>
+                      <th>Viernes</th>
+                      <th>Sábado</th>
+                      <th>Domingo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let row of rows; let i = index">
+                      <th>
+                        <div class="time-interval-input">
+                          <input type="time" name="hora_inicio_{{i}}" [(ngModel)]="row.startTime">
+                          <p>-</p>
+                          <input type="time" name="hora_fin_{{i}}" [(ngModel)]="row.endTime">
+                        </div>
+                      </th>
+                      <td class="checkbox-cell" (click)="updateTable($event, i)" id="lunes" [class.checked]="result[i].dias[0]"></td>
+                      <td class="checkbox-cell" (click)="updateTable($event, i)" id="martes" [class.checked]="result[i].dias[1]"></td>
+                      <td class="checkbox-cell" (click)="updateTable($event, i)" id="miercoles" [class.checked]="result[i].dias[2]"></td>
+                      <td class="checkbox-cell" (click)="updateTable($event, i)" id="jueves" [class.checked]="result[i].dias[3]"></td>
+                      <td class="checkbox-cell" (click)="updateTable($event, i)" id="viernes" [class.checked]="result[i].dias[4]"></td>
+                      <td class="checkbox-cell" (click)="updateTable($event, i)" id="sabado" [class.checked]="result[i].dias[5]"></td>
+                      <td class="checkbox-cell" (click)="updateTable($event, i)" id="domingo" [class.checked]="result[i].dias[6]"></td>
+
+
+                      <td class="checkbox-cell" (click)="deleteRow(i)" id="delete-row">
+                        <div>
+                          <i class="fa fa-minus"></i>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="add-row"><i class="fa fa-minus"></i><i class="fa fa-plus" (click)="addRow()"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <app-footer></app-footer>
+        <div class="buttons">
+          <button (click)="manageMembers()">Gestionar miembros</button>
+          <button (click)="putGroup()">Guardar</button>
+        </div>
+      </div>
     </div>
+    <app-footer></app-footer>
+  </div>
 </div>
