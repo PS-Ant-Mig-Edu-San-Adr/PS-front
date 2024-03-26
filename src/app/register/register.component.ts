@@ -60,10 +60,10 @@ export class RegisterComponent {
       const confirmPassword = confirmPasswordElement.value;
       const username = usernameElement.value;
 
-      if (!await this.authService.checkUsername(username)) {
-        alert('El nombre de usuario introducido ya existe.');
-        return;
-      }
+      // if (!await this.authService.checkUsername(username)) {
+      //   alert('El nombre de usuario introducido ya existe.');
+      //   return;
+      // }
 
       if (!this.verifyEmail(email)) {
         alert('El correo electrónico introducido no es válido.');

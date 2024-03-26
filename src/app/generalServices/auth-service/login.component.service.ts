@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {SessionStorageService} from "angular-web-storage";
 import {User} from '../../interfaces/interface';
+import { em } from '@fullcalendar/core/internal-common';
 
 
 @Injectable({
@@ -49,16 +50,16 @@ export class LoginService {
   }
 
   login(email: string, password: string) {
-    this.httpClient.post<any>('http://localhost:3001/api/login', {email, password}).subscribe(
+    this.httpClient.post<any>('http://localhost:3001/api/users/login', {email, password}).subscribe(
       (res) => {
-        if (res.status === 200) {
+        if (res.success) {
           this.closeLoginPopup();
           this.sessionStorageService.set('token', res.token);
-          this.sessionStorageService.set('name', res.user.fullName);
-          this.sessionStorageService.set('username', res.user.username);
-          this.sessionStorageService.set('profilePict', res.user.avatar);
-          this.sessionStorageService.set('id', res.user._id);
-          this.sessionStorageService.set('email', res.user.email);
+          this.sessionStorageService.set('name', res.result.fullName);
+          this.sessionStorageService.set('username', res.result.username);
+          this.sessionStorageService.set('profilePict', res.result.avatar);
+          this.sessionStorageService.set('id', res.result.id);
+          this.sessionStorageService.set('email', res.result.email);
 
           this.loginStatusSubject.next(true);
           this.loginObjectSubject.next(res.user);

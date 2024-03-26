@@ -32,7 +32,8 @@ export class AuthService {
   }
 
   register(email: string, password: string, firstName: string, lastName: string, username: string) {
-    this.registerService.register(email, password, firstName, lastName, username);
+    const fullName = `${firstName} ${lastName}`;
+    this.registerService.register(username, email, password, fullName);
   }
 
 

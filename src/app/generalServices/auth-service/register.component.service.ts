@@ -60,14 +60,16 @@ export class RegisterService {
     this.isOpenSubject.next(false);
   }
 
-  register(email: string, password: string, firstName: string, lastName: string, username: string) {
-    this.httpClient.post<any>('http://localhost:3001/api/register', { email, password, firstName, lastName, username }).subscribe(
+  register(username : string, email: string, passwordHash: string, fullName: string) {
+    console.log('Registering user:', username, email, passwordHash, fullName);
+    this.httpClient.post<any>('http://localhost:3001/api/users/register', {username, email, passwordHash, fullName}).subscribe(
       (res) => {
-        if (res.status === 200) {
+        if (res.success) {
           this.closeRegisterPopup();
-          this.sessionStorageService.set('token', res.token); // Almacenar el token en sessionStorage
-          this.sessionStorageService.set('username', res.user.username); // Almacenar el nombre de usuario en sessionStorage
-          this.sessionStorageService.set('profilePict', res.user.avatar); // Almacenar la imagen de perfil en sessionStorage
+          this.sessionStorageService.set('token', res.token);
+          this.sessionStorageService.set('username', res.result.username);
+          this.sessionStorageService.set('profilePict', res.result.avatar);
+          this.sessionStorageService.set('id', res.result.id);
           this.registerStatusSubject.next(true);
           this.registerObjectSubject.next(res.user);
         } else {
