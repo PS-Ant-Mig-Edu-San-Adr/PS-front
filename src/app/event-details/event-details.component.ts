@@ -45,9 +45,9 @@ export class EventDetailsComponent implements OnChanges{
   }
 
   loadReminderData(reminder: Recordatorio) {
-    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.startDate.toString(), reminder.endDate.toString(), reminder.repeat).inicio;
-    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.endDate.toString(), reminder.endDate.toString(), reminder.repeat).fin;
-    this.selectedRepeat = reminder.repeat ?? 'Ninguno';
+    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.start_date.toString(), reminder.end_date.toString(), reminder.repeat).inicio;
+    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.end_date.toString(), reminder.end_date.toString(), reminder.repeat).fin;
+    this.selectedRepeat = reminder.repeat ?? 'ninguno';
     this.selectedTitle = reminder.title;
     this.selectedColor = reminder.color ?? 'red';
     this.selectedDescription = reminder.description ?? '';
@@ -55,10 +55,10 @@ export class EventDetailsComponent implements OnChanges{
   }
 
   loadEventData(event: Evento) {
-    this.selectedDateStart = this.formatDateToDateTimeLocal(event.startDate.toString(), event.endDate.toString(), event.repeat).inicio;
+    this.selectedDateStart = this.formatDateToDateTimeLocal(event.start_date.toString(), event.end_date.toString(), event.repeat).inicio;
     console.log(this.selectedDateStart);
-    this.selectedDateEnd = this.formatDateToDateTimeLocal(event.endDate.toString(), event.startDate.toString(), event.repeat).fin;
-    this.selectedRepeat = event.repeat ?? 'Ninguno';
+    this.selectedDateEnd = this.formatDateToDateTimeLocal(event.end_date.toString(), event.start_date.toString(), event.repeat).fin;
+    this.selectedRepeat = event.repeat ?? 'ninguno';
     this.selectedTitle = event.title;
     this.selectedColor = event.color ?? 'red';
     this.selectedDescription = event.description ?? '';
@@ -69,9 +69,9 @@ export class EventDetailsComponent implements OnChanges{
   }
 
 
-  formatDateToDateTimeLocal(startDate: string, endDate: string, repetir: string | undefined) : { inicio: string, fin: string } {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+  formatDateToDateTimeLocal(start_date: string, end_date: string, repetir: string | undefined) : { inicio: string, fin: string } {
+    const start = new Date(start_date);
+    const end = new Date(end_date);
 
     const dayStart = start.getDate();
     const monthStart = start.toLocaleString('es-ES', { month: 'long' });
@@ -89,22 +89,22 @@ export class EventDetailsComponent implements OnChanges{
     let fin = `${dayEnd} de ${monthEnd} de ${yearEnd} a las ${hourEnd}:${minuteEnd}`;
 
     switch (repetir) {
-        case 'Ninguno':
+        case 'ninguno':
             break;
-        case 'Diario':
+        case 'diario':
             inicio = `Diariamente desde las ${hourStart}:${minuteStart}`;
             fin = `hasta las ${hourEnd}:${minuteEnd}`;
             break;
-        case 'Semanal':
-            inicio = `Semanalmente desde el ${start.toLocaleString('es-ES', { weekday: 'long' })} a las ${hourStart}:${minuteStart}`;
+        case 'semanal':
+            inicio = `semanalmente desde el ${start.toLocaleString('es-ES', { weekday: 'long' })} a las ${hourStart}:${minuteStart}`;
             fin = `hasta el ${end.toLocaleString('es-ES', { weekday: 'long' })} a las ${hourEnd}:${minuteEnd}`;
             break;
-        case 'Mensual':
-            inicio = `Mensualmente desde el día ${dayStart} a las ${hourStart}:${minuteStart}`;
+        case 'mensual':
+            inicio = `mensualmente desde el día ${dayStart} a las ${hourStart}:${minuteStart}`;
             fin = `hasta el día ${dayEnd} a las ${hourEnd}:${minuteEnd}`;
             break;
-        case 'Anual':
-            inicio = `Anualmente desde el ${dayStart} de ${monthStart} a las ${hourStart}:${minuteStart}`;
+        case 'anual':
+            inicio = `anualmente desde el ${dayStart} de ${monthStart} a las ${hourStart}:${minuteStart}`;
             fin = `hasta el ${dayEnd} de ${monthEnd} a las ${hourEnd}:${minuteEnd}`;
             break;
         default:

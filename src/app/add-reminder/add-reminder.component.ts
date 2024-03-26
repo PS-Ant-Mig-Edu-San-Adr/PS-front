@@ -52,9 +52,9 @@ export class AddReminderComponent implements OnInit, OnDestroy{
   }
 
   loadReminderData(reminder: Recordatorio) {
-    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.startDate.toString());
-    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.endDate.toString());
-    this.selectedRepeat = reminder.repeat ?? 'Ninguno';
+    this.selectedDateStart = this.formatDateToDateTimeLocal(reminder.start_date.toString());
+    this.selectedDateEnd = this.formatDateToDateTimeLocal(reminder.end_date.toString());
+    this.selectedRepeat = reminder.repeat ?? 'ninguno';
     this.selectedTitle = reminder.title;
     this.selectedColor = reminder.color ?? 'red';
     this.selectedDescription = reminder.description ?? '';
@@ -69,6 +69,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
   }
 
   formatDateToDateTimeLocal(dateString: string): string {
+    console.log(dateString);
     const date = new Date(dateString);
     return formatDate(date, 'yyyy-MM-ddTHH:mm', this.locale);
   }
@@ -124,28 +125,28 @@ export class AddReminderComponent implements OnInit, OnDestroy{
     const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
 
        
-    if (this.selectedRepeat === 'Diario') {
+    if (this.selectedRepeat === 'diario') {
       const startDay = new Date(selectedDateStart.value).getDate();
       const endDay = new Date(selectedDateEnd.value).getDate();
       if (startDay !== endDay) {
         alert('Las fechas deben estar en el mismo día si el recordatorio es diario');
         return false;
       }
-    } else if (this.selectedRepeat === 'Semanal') {
+    } else if (this.selectedRepeat === 'semanal') {
       const startWeek = this.getWeek(new Date(selectedDateStart.value));
       const endWeek = this.getWeek(new Date(selectedDateEnd.value));
       if (startWeek !== endWeek) {
         alert('Las fechas deben estar en la misma semana si el recordatorio es semanal');
         return false;
       }
-    } else if (this.selectedRepeat === 'Mensual') {
+    } else if (this.selectedRepeat === 'mensual') {
       const startMonth = new Date(selectedDateStart.value).getMonth();
       const endMonth = new Date(selectedDateEnd.value).getMonth();
       if (startMonth !== endMonth) {
         alert('Las fechas deben estar en el mismo mes si el recordatorio es mensual');
         return false;
       }
-    } else if (this.selectedRepeat === 'Anual') {
+    } else if (this.selectedRepeat === 'anual') {
       const startYear = new Date(selectedDateStart.value).getFullYear();
       const endYear = new Date(selectedDateEnd.value).getFullYear();
       if (startYear !== endYear) {
@@ -171,7 +172,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
 
 
   updateReminder() {
-    if (this.checkContent() && this.checkDate() && this.sessionStorageService.get('username')){
+    if (this.checkContent() && this.checkDate() && this.sessionStorageService.get('id')){
       const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
       const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
       const selectedRepeat = document.getElementById('input-repeat') as HTMLInputElement;
@@ -186,15 +187,14 @@ export class AddReminderComponent implements OnInit, OnDestroy{
         selectedTitle.value,
         selectedColor.value,
         selectedDescription?.value || '',
-        this.sessionStorageService.get('username'),
-        this.recordatorio?._id || ''
+        this.sessionStorageService.get('id')
       );
       this.closeAddReminderPopup();
     }
   }
 
   addReminder() {
-    if (this.checkContent() && this.sessionStorageService.get('username') && this.checkDate()) {
+    if (this.checkContent() && this.sessionStorageService.get('id') && this.checkDate()) {
       const selectedDateStart = document.getElementById('input-start-date') as HTMLInputElement;
       const selectedDateEnd = document.getElementById('input-end-date') as HTMLInputElement;
       const selectedRepeat = document.getElementById('input-repeat') as HTMLInputElement;
@@ -209,7 +209,7 @@ export class AddReminderComponent implements OnInit, OnDestroy{
         selectedTitle.value,
         selectedColor.value,
         selectedDescription?.value || '',
-        this.sessionStorageService.get('username')
+        this.sessionStorageService.get('id')
       );
       this.closeAddReminderPopup();
     } else {

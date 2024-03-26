@@ -4,8 +4,8 @@
         <span>{{ mesActualNombre }} {{ anoActual }}</span>
         <div class="flecha" (click)="cambiarMes(1)"><i class="fas fa-arrow-right"></i></div>
         <div class="selector-vista">
-            <button [class.active]="vistaActual === 'mes'" (click)="cambiarVista('mes')">Vista Mensual</button>
-            <button [class.active]="vistaActual === 'semana'" (click)="cambiarVista('semana')">Vista Semanal</button>
+            <button [class.active]="vistaActual === 'mes'" (click)="cambiarVista('mes')">Vista mensual</button>
+            <button [class.active]="vistaActual === 'semana'" (click)="cambiarVista('semana')">Vista semanal</button>
             <button [class.active]="vistaActual === 'dia'" (click)="cambiarVista('dia')">Vista Diaria</button>
         </div>
     </div>

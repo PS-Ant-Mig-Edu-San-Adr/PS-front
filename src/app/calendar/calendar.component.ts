@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Evento, Recordatorio} from '../interfaces/interface';
+import {Evento, Group, Recordatorio} from '../interfaces/interface';
 import {RecordatorioService} from '../generalServices/recordatorio.service';
 import {AddReminderService} from '../add-reminder/add-reminder.component.service';
 import {EventosService} from '../generalServices/eventos.service';
@@ -42,7 +42,8 @@ export class CalendarComponent implements OnInit {
   nombresMeses: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   vistaActual: string = 'mes';
   fechaActual: Date = new Date();
-  username: string = '';
+  userId: string = '';
+  userGroups: Group[] = [];
 
   eventos: (Recordatorio | Evento)[] = [];
 
@@ -53,30 +54,36 @@ export class CalendarComponent implements OnInit {
     this.calculateDaysForCalendar();
     this.inicializarHoras();
 
-    this.username = this.sessionStorageService.get('username') || '';
+    this.userId = this.sessionStorageService.get('id') || '';
 
-    if (this.username !== '') {
+    if (this.userId !== '') {
       await this.actualizarEventos();
     }
 
     this.authService.loginStatus$()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.username = this.sessionStorageService.get('username');
-        this.actualizarEventos();
+        this.userId = this.sessionStorageService.get('id');
+        if (this.userId) {
+          this.actualizarEventos();
+        }
       });
 
     this.authService.registerStatus$()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.username = this.sessionStorageService.get('username');
-        this.actualizarEventos();
+        this.userId = this.sessionStorageService.get('id');
+        if (this.userId) {
+          this.actualizarEventos();
+        }
       });
 
-    this.addReminderService.reminderAdded$.
-      pipe(takeUntil(this.unsubscribe$))
+    this.addReminderService.reminderAdded$
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        this.actualizarEventos();
+        if (this.userId) {
+          this.actualizarEventos();
+        }
       });
   }
 
@@ -94,10 +101,10 @@ export class CalendarComponent implements OnInit {
   }
 
   async actualizarEventos(): Promise<void> {
-    const eventos = await this.eventoService.getEventos(this.username);
-    const recordatorios = await this.recordatorioService.getRecordatorios(this.username);
-    this.eventos = [...eventos, ...recordatorios];
-    console.log('eventos', this.eventos);
+    // const eventos = await this.eventoService.getEventos(this.userId);
+    const recordatorios = await this.recordatorioService.getRecordatorios(this.userId);
+    // this.eventos = [...eventos, ...recordatorios];
+    this.eventos = recordatorios;
   }
 
   diaDelMesEnSemanaActual(diaDeLaSemana: number) {
@@ -114,8 +121,8 @@ export class CalendarComponent implements OnInit {
 
 
   seMuestraEvento(evento: (Recordatorio | Evento), tiempo: any, vista: string, diaIndex?: number): boolean {
-    const eventoInicio: Date = evento.startDate;
-    const eventoFin: Date = evento.endDate;
+    const eventoInicio: Date = evento.start_date;
+    const eventoFin: Date = evento.end_date;
     const hoy = new Date();
     const eventoHora = eventoInicio.getHours();
     let horaString;
@@ -134,11 +141,11 @@ export class CalendarComponent implements OnInit {
         const diaSemanaHoy = hoy.getDay();
         const fechaSeleccionadaDia = new Date(this.anoActual, this.mesActual, monthDay, hoy.getHours(), hoy.getMinutes(), hoy.getSeconds());
         fechaSeleccionadaDia.setMinutes(fechaSeleccionadaDia.getMinutes() + 2);
-        if ((evento.repeat === 'Diario' && fechaSeleccionadaDia >= hoy)||
-            (evento.repeat === 'Ninguno' && esMismoDia(eventoInicio, hoy)) ||
-            (evento.repeat === 'Semanal' && diaSemanaEvento === diaSemanaHoy && fechaSeleccionadaDia >= hoy) ||
-            (evento.repeat === 'Mensual' && eventoInicio.getDate() === hoy.getDate() && fechaSeleccionadaDia >= hoy) ||
-            (evento.repeat === 'Anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate()) && fechaSeleccionadaDia >= hoy) {
+        if ((evento.repeat === 'diario' && fechaSeleccionadaDia >= hoy)||
+            (evento.repeat === 'ninguno' && esMismoDia(eventoInicio, hoy)) ||
+            (evento.repeat === 'semanal' && diaSemanaEvento === diaSemanaHoy && fechaSeleccionadaDia >= hoy) ||
+            (evento.repeat === 'mensual' && eventoInicio.getDate() === hoy.getDate() && fechaSeleccionadaDia >= hoy) ||
+            (evento.repeat === 'anual' && eventoInicio.getMonth() === hoy.getMonth() && eventoInicio.getDate() === hoy.getDate()) && fechaSeleccionadaDia >= hoy) {
           return eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1
         }else{
           return false;
@@ -168,20 +175,20 @@ export class CalendarComponent implements OnInit {
           };
 
           switch (evento.repeat) {
-            case 'Diario':
+            case 'diario':
               return eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1 && fechaSeleccionadaSemana >= hoy;
 
-            case 'Semanal':
+            case 'semanal':
               console.log(fechaSeleccionadaSemana, hoy);
               return eventoInicioDia === fechaSeleccionadaDiaSemana && fechaSeleccionadaSemana >= hoy && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
 
-            case 'Mensual':
+            case 'mensual':
               return eventoInicioDia === fechaSeleccionadaDiaSemana && eventoInicio.getDate() === this.fechaActual.getDate() && fechaSeleccionadaSemana >= hoy && esEventoEnSemanaActual(eventoInicio) && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
 
-            case 'Anual':
+            case 'anual':
               return eventoInicioDia === fechaSeleccionadaDiaSemana && eventoInicio.getMonth() === this.fechaActual.getMonth() && fechaSeleccionadaSemana >= hoy && eventoInicio.getDate() === this.fechaActual.getDate() && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1;
 
-            case 'Ninguno':
+            case 'ninguno':
               return eventoInicio.getDate() >= primerDiaSemana && eventoInicio.getDate() <= ultimoDiaSemana && eventoHora >= parseInt(horaString, 10) && eventoHora <= parseInt(horaString, 10) + 1 && eventoInicioDia === fechaSeleccionadaDiaSemana;
 
             default:
@@ -194,20 +201,20 @@ export class CalendarComponent implements OnInit {
             const fechaSeleccionada = new Date(this.anoActual, this.mesActual, tiempo.value, 23, 59);
 
             switch (evento.repeat) {
-              case 'Diario':
+              case 'diario':
                 return tiempo.type === 'normal' && fechaSeleccionada >= hoy;
 
-              case 'Semanal':
+              case 'semanal':
                 const diaCasilla = new Date(this.anoActual, this.mesActual, tiempo.value).getDay();
                 return diaCasilla === eventoInicio.getDay() && fechaSeleccionada >= hoy && tiempo.type === 'normal';
 
-              case 'Mensual':
+              case 'mensual':
                 return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && tiempo.type === 'normal';
 
-              case 'Anual':
+              case 'anual':
                 return diaDelMesEvento === tiempo.value && fechaSeleccionada >= hoy && mesEvento === this.mesActual && tiempo.type === 'normal';
 
-              case 'Ninguno':
+              case 'ninguno':
                 return diaDelMesEvento === tiempo.value && mesEvento === this.mesActual && añoEvento === this.anoActual && tiempo.type === 'normal';
 
               default:
@@ -287,10 +294,10 @@ export class CalendarComponent implements OnInit {
 
   eliminarEvento(evento: Recordatorio | Evento): void {
     if(evento.type === 'evento'){
-      this.eventoService.deleteEvento(this.username, evento._id);
+      this.eventoService.deleteEvento(this.userId, evento._id);
     }else if(evento.type === 'recordatorio'){
       console.log('evento', evento);
-      this.recordatorioService.deleteRecordatorio(this.username, evento._id);
+      this.recordatorioService.deleteRecordatorio(evento._id);
     }
     this.eventos = this.eventos.filter(e => e._id !== evento._id);
   }

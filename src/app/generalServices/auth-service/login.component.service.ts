@@ -62,7 +62,7 @@ export class LoginService {
           this.sessionStorageService.set('email', res.result.email);
 
           this.loginStatusSubject.next(true);
-          this.loginObjectSubject.next(res.user);
+          this.loginObjectSubject.next(res.result);
         } else {
           this.loginStatusSubject.next(false);
           alert('Error al loggearse: ' + res.details);

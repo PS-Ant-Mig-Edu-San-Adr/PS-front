@@ -34,21 +34,21 @@ export class AddReminderService {
     this.dateSubject.next(undefined);
   }
 
-  updateReminder(selectedDateStart: string, selectedDateEnd: string, selectedRepeat: string, selectedTitle: string, selectedColor: string, selectedDescription: string, username: string, id: string) {
+  updateReminder(selectedDateStart: string, selectedDateEnd: string, selectedRepeat: string, selectedTitle: string, selectedColor: string, selectedDescription: string, id: string) {
     const body = {
-      selectedDateStart,
-      selectedDateEnd,
-      selectedRepeat,
-      selectedTitle,
-      selectedColor,
-      selectedDescription,
+      title: selectedTitle,
+      description: selectedDescription,
+      start_date: selectedDateStart,
+      end_date: selectedDateEnd,
+      color: selectedColor,
+      repeat: selectedRepeat,
     };
 
     this.httpClient
-      .put<any>(`http://localhost:3001/api/recordatorios/${username}/${id}`, body)
+      .put<any>(`http://localhost:3001/api/reminders/${id}`, body)
       .subscribe(
         (res) => {
-          if (res.status === 200) {
+          if (res.success) {
             this.closeAddReminderPopup();
             this.reminderAddedSubject.next(true);
             setTimeout(() => this.reminderAddedSubject.next(false), 0);
@@ -63,20 +63,21 @@ export class AddReminderService {
       );
   }
 
-  addReminder(selectedDateStart: string, selectedDateEnd: string, selectedRepeat: string, selectedTitle: string, selectedColor: string, selectedDescription: string ,username: string){
+  addReminder(selectedDateStart: string, selectedDateEnd: string, selectedRepeat: string, selectedTitle: string, selectedColor: string, selectedDescription: string ,user_id: string){
 
     const body = {
-        selectedDateStart,
-        selectedDateEnd,
-        selectedRepeat,
-        selectedTitle,
-        selectedColor,
-        selectedDescription
+        user_id,
+        title: selectedTitle,
+        description: selectedDescription,
+        start_date: selectedDateStart,
+        end_date: selectedDateEnd,
+        color: selectedColor,
+        repeat: selectedRepeat,
     };
 
-    this.httpClient.post<any>(`http://localhost:3001/api/recordatorios/${username}`, body).subscribe(
+    this.httpClient.post<any>(`http://localhost:3001/api/reminders`, body).subscribe(
       (res) => {
-        if (res.status === 201) {
+        if (res.success) {
           this.closeAddReminderPopup();
           this.reminderAddedSubject.next(true);
           setTimeout(() => this.reminderAddedSubject.next(false), 0);

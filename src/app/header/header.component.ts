@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(registerObjectSubscription);
 
-    this.isLoggedIn = this.sessionStorageService.get('token');
+    this.isLoggedIn = this.sessionStorageService.get('id');
     this.profilePict = this.sessionStorageService.get('profilePict');
   }
 

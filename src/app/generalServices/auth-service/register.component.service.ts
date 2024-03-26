@@ -71,7 +71,7 @@ export class RegisterService {
           this.sessionStorageService.set('profilePict', res.result.avatar);
           this.sessionStorageService.set('id', res.result.id);
           this.registerStatusSubject.next(true);
-          this.registerObjectSubject.next(res.user);
+          this.registerObjectSubject.next(res.result);
         } else {
           this.registerStatusSubject.next(false);
           alert('Error al registrar el usuario: ' + res.details);

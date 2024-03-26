@@ -21,8 +21,8 @@ export class AdminEventDataCollector {
       addedGroups: eventAddedGroups?.value,
       title: eventTitle?.value,
       description: eventDescription?.value,
-      startDate: eventStart?.value,
-      endDate: eventEnd?.value,
+      start_date: eventStart?.value,
+      end_date: eventEnd?.value,
       location: eventLocation?.value,
       notes: eventNotes?.value,
       attachments: eventAttachFile?.value,
@@ -44,7 +44,7 @@ export class AdminEventDataCollector {
   private static validateFormFields(eventData: any): boolean {
     // Check if any required field is missing
     return !(!eventData || !eventData.addedGroups || !eventData.title || !eventData.description ||
-      !eventData.startDate || !eventData.endDate || !eventData.location || !eventData.repeat);
+      !eventData.start_date || !eventData.end_date || !eventData.location || !eventData.repeat);
 
   }
 
@@ -65,30 +65,30 @@ export class AdminEventDataCollector {
   }
 
   private static checkDate(eventData: any): any{
-    const selectedDateStart = eventData.startDate;
-    const selectedDateEnd = eventData.endDate;
+    const selectedDateStart = eventData.start_date;
+    const selectedDateEnd = eventData.end_date;
     const selectedRepeat = eventData.repeat;
 
 
-    if (selectedRepeat === 'Diario') {
+    if (selectedRepeat === 'diario') {
       const startDay = new Date(selectedDateStart).getDate();
       const endDay = new Date(selectedDateEnd).getDate();
       if (startDay !== endDay) {
         return {result: false, details: 'Las fechas deben estar en el mismo día si el recordatorio es diario'};
       }
-    } else if (selectedRepeat === 'Semanal') {
+    } else if (selectedRepeat === 'semanal') {
       const startWeek = this.getWeek(new Date(selectedDateStart));
       const endWeek = this.getWeek(new Date(selectedDateEnd));
       if (startWeek !== endWeek) {
         return {result: false, details: 'Las fechas deben estar en la misma semana si el recordatorio es semanal'};
       }
-    } else if (selectedRepeat === 'Mensual') {
+    } else if (selectedRepeat === 'mensual') {
       const startMonth = new Date(selectedDateStart).getMonth();
       const endMonth = new Date(selectedDateEnd).getMonth();
       if (startMonth !== endMonth) {
         return {result: false, details: 'Las fechas deben estar en el mismo mes si el recordatorio es mensual'};
       }
-    } else if (selectedRepeat === 'Anual') {
+    } else if (selectedRepeat === 'anual') {
       const startYear = new Date(selectedDateStart).getFullYear();
       const endYear = new Date(selectedDateEnd).getFullYear();
       if (startYear !== endYear) {

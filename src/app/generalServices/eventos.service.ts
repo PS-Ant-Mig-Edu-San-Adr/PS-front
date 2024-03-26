@@ -10,16 +10,15 @@ export class EventosService {
   constructor(private httpClient: HttpClient) {
   }
 
-  async getEventos(username: string): Promise<Evento[]> {
+  async getEventos(groupId: string): Promise<Evento[]> {
     try {
-      const response: any = await this.httpClient.get(`http://localhost:3001/api/eventos/${username}`).toPromise();
+      const response: any = await this.httpClient.get(`http://localhost:3001/api/groups/${groupId}/events`).toPromise();
       if (response.status === 200) {
-        // Mapear los resultados para que cumplan con la interfaz Recordatorio
         const eventos: Evento[] = response.events.map((event: Evento) => ({
           _id: event._id,
           title: event.title,
-          startDate: new Date(event.startDate),
-          endDate: new Date(event.endDate),
+          start_date: new Date(event.start_date),
+          end_date: new Date(event.end_date),
           description: event.description,
           location: event.location,
           type: "evento",

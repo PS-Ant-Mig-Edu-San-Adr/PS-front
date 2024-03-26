@@ -48,8 +48,8 @@ export interface User {
 export interface Recordatorio {
   _id: any;
   title: string;
-  startDate: Date;
-  endDate: Date;
+  start_date: Date;
+  end_date: Date;
   description?: string;
   type: string;
   color: string;
@@ -59,8 +59,8 @@ export interface Recordatorio {
 export interface Evento {
   _id: any;
   title: string;
-  startDate: Date;
-  endDate: Date;
+  start_date: Date;
+  end_date: Date;
   description: string;
   location?: string;
   type: string;
